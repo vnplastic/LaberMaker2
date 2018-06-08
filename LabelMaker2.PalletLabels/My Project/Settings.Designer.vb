@@ -53,53 +53,6 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LabelMaker\Formats\New")>  _
-        Public ReadOnly Property DocumentPath() As String
-            Get
-                Return CType(Me("DocumentPath"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LabelMaker\Batches\New")>  _
-        Public ReadOnly Property BatchPath() As String
-            Get
-                Return CType(Me("BatchPath"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Program Files (x86)\Seagull\BarTender Suite\bartend.exe")>  _
-        Public ReadOnly Property BartendExe() As String
-            Get
-                Return CType(Me("BartendExe"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("VNData")>  _
-        Public ReadOnly Property DB_ODBC() As String
-            Get
-                Return CType(Me("DB_ODBC"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400"& _ 
-            "BrightonRoad;")>  _
-        Public ReadOnly Property SQLConnString() As String
-            Get
-                Return CType(Me("SQLConnString"),String)
-            End Get
-        End Property
     End Class
 End Namespace
 
@@ -111,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.LaberMaker2.Main.My.MySettings
+        Friend ReadOnly Property Settings() As Global.LabelMaker2.PalletLabels.My.MySettings
             Get
-                Return Global.LaberMaker2.Main.My.MySettings.Default
+                Return Global.LabelMaker2.PalletLabels.My.MySettings.Default
             End Get
         End Property
     End Module

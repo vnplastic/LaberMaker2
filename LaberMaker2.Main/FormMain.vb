@@ -2,14 +2,14 @@
     Dim m_JobTypeId = 0
     Dim m_JobTypeList As New List(Of JobType)
     Dim m_LoadedJobTypes As Dictionary(Of Integer, UserControl) = New Dictionary(Of Integer, UserControl)
-
+#Region "Job Control"
     Private Sub GetJobTypes()
         Dim oConnection As New ADODB.Connection
         Dim oRecordset As New ADODB.Recordset
         Dim SqlStr As String
 
         oConnection.Open("FileDSN=" + My.Settings.DB_ODBC)
-        SqlStr = "SELECT JobTypeId,JobTypeName FROM VNA042TB08_JobType order by JobTypeName DESC"
+        SqlStr = "SELECT JobTypeId,JobTypeName FROM VNA057TB01_JobType order by JobTypeName DESC"
         oRecordset.Open(SqlStr, oConnection)
 
 
@@ -43,7 +43,7 @@
         SetJobButtons()
     End Sub
 
-    Private Function SetJobButtons()
+    Private Sub SetJobButtons()
         Dim oConnection As New ADODB.Connection
         Dim oRecordset As New ADODB.Recordset
         'Dim Sql As New SqlStatement
@@ -51,7 +51,7 @@
 
 
         oConnection.Open("FileDSN=" + My.Settings.DB_ODBC)
-        SqlStr = "SELECT DISTINCT JobTypeId FROM VNA042VW1C_Job_NotPrinted "
+        SqlStr = "SELECT DISTINCT JobTypeId FROM VNA057VW01_Job_Not_Printed "
 
         oRecordset.Open(SqlStr, oConnection, ADODB.CursorTypeEnum.adOpenStatic)
         If oRecordset.State = 1 Then
@@ -65,12 +65,12 @@
                 Loop
             End If
         End If
-    End Function
+    End Sub
 
     Private Sub OnJobTypeChanged(sender As Object, e As EventArgs)
         Dim b As RadioButton = sender
 
-
+        Dim tmpDLL As ILabelProperties
 
         If m_JobTypeId <> b.Tag Then
             m_JobTypeId = b.Tag
@@ -82,7 +82,7 @@
             If SplitContainer1.Panel2.Controls.Count > 0 Then SplitContainer1.Panel2.Controls.RemoveAt(SplitContainer1.Panel2.Controls.Count - 1)
             Select Case m_JobTypeId
                 Case 1
-                    Dim tmpDLL As ILabelProperties = Globals.CreateLabelInstance("LabelMaker2.CartonLabels.dll")
+                    tmpDLL = Globals.CreateLabelInstance("LabelMaker2.CartonLabels.dll")
                     For Each c As Control In SplitContainer1.Panel2.Controls
                         c.Visible = False
                     Next
@@ -95,7 +95,7 @@
 
                 Case 2
 
-                    Dim tmpDLL As ILabelProperties = Globals.CreateLabelInstance("LabelMaker2.PalletLabels.dll")
+                    tmpDLL = Globals.CreateLabelInstance("LabelMaker2.PalletLabels.dll")
                     For Each c As Control In SplitContainer1.Panel2.Controls
                         c.Visible = False
                     Next
@@ -108,7 +108,7 @@
 
 
                 Case 3
-                    Dim tmpDLL As ILabelProperties = Globals.CreateLabelInstance("LabelMaker2.AddressLabels.dll")
+                    tmpDLL = Globals.CreateLabelInstance("LabelMaker2.AddressLabels.dll")
                     For Each c As Control In SplitContainer1.Panel2.Controls
                         c.Visible = False
                     Next
@@ -123,6 +123,7 @@
 
 
             End Select
+            If Not tmpDLL Is Nothing Then tmpDLL.DBConnString = "FileDSN=" + My.Settings.DB_ODBC
             'If m_JobTypeId = 2 Then
             '    Dim tmpDLL As ILabelProperties = Globals.CreateLabelInstance("LabelMaker2.PalletLabels.dll")
             '    For Each c As Control In SplitContainer1.Panel2.Controls
@@ -138,8 +139,13 @@
             'End If
         End If
     End Sub
-
+#End Region
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
         GetJobTypes()
+    End Sub
+
+    Private Sub JobStepsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JobStepsToolStripMenuItem.Click
+        Dim frmSTeps As New FormSteps
+        frmSTeps.Show()
     End Sub
 End Class

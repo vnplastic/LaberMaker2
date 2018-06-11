@@ -49,7 +49,7 @@ Public Module Globals
             'Dim type As Type = assembly.GetType("LabelMaker.AddressLabels.LabelProperties")
             Dim type = types.Where(Function(t) GetType(ILabelProperties).IsAssignableFrom(t)).FirstOrDefault
 
-            Dim instanceofType As ILabelProperties = Activator.CreateInstance(type)
+            Dim instanceofType As ILabelProperties = Activator.CreateInstance(type, "FileDSN=" + My.Settings.DB_ODBC)
             Return instanceofType
 
         Else

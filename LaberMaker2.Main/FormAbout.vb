@@ -17,7 +17,11 @@
         Me.LabelVersion.Text = String.Format("Version {0}", My.Application.Info.Version.ToString)
         Me.LabelCopyright.Text = My.Application.Info.Copyright
         Me.LabelCompanyName.Text = My.Application.Info.CompanyName
-        connString = Globals.ConnString.Substring(0, Globals.ConnString.ToUpper().IndexOf("USER"))
+        If Globals.ConnString.ToUpper().Contains("USER") Then
+            connString = Globals.ConnString.Substring(0, Globals.ConnString.ToUpper().IndexOf("USER"))
+        Else
+            connString = Globals.ConnString
+        End If
         Me.TextBoxDescription.Text = My.Application.Info.Description & vbCrLf & connString
     End Sub
 

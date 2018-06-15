@@ -10,11 +10,11 @@
 
         'grdSteps.Columns.Add("JobStepId", "StepId")
         'Dim jobTypes As List(Of JobType) = dbContext.JobTypes.ToList()
-        'Dim jobSteps As List(Of JobStep) = dbContext.JobSteps.ToList()
+        Dim jobSteps As List(Of JobStep) = dbContext.JobSteps.Include("JobType").ToList()
 
 
 
-        'Dim var = From j In jobSteps Select j.JobType.JobTypeName, j.JobStepName, j.JobStepOrder, j.JobTypeId Order By JobTypeId, JobStepOrder
+        Dim var = From j In jobSteps Select j.JobType.JobTypeName, j.JobStepName, j.JobStepOrder, j.JobTypeId Order By JobTypeId, JobStepOrder
 
         grdSteps.Columns.Add("JobTypeName", "Job Type Name")
         grdSteps.Columns("JobTypeName").DataPropertyName = "JobTypeName"
@@ -29,34 +29,34 @@
         grdSteps.Columns("JobTypeId").DataPropertyName = "JobTypeId"
         grdSteps.Columns("JobTypeId").Visible = False
 
-        oConnection.Open("FileDSN=" + My.Settings.DB_ODBC)
-        SqlStr = "SELECT JobStepId, JobTypeName, JobStepName, JobStepOrder FROM VNA057TB03_Job_Step JOIN VNA057TB01_JobType " _
-            & "ON VNA057TB03_Job_Step.JobTypeId=VNA057TB01_JobType.JobTypeId order by VNA057TB03_Job_Step.JobTypeId,JobStepOrder"
-        oRecordset.Open(SqlStr, oConnection)
+        'oConnection.Open("FileDSN=" + My.Settings.DB_ODBC)
+        'SqlStr = "SELECT JobStepId, JobTypeName, JobStepName, JobStepOrder FROM VNA057TB03_Job_Step JOIN VNA057TB01_JobType " _
+        '    & "ON VNA057TB03_Job_Step.JobTypeId=VNA057TB01_JobType.JobTypeId order by VNA057TB03_Job_Step.JobTypeId,JobStepOrder"
+        'oRecordset.Open(SqlStr, oConnection)
 
 
-        If oRecordset.State = 1 Then
-            If Not (oRecordset.EOF) Then
-                oRecordset.MoveFirst()
-                Do While Not oRecordset.EOF
-                    Dim job As JobStep = New JobStep With {
-                            .JobTypeName = oRecordset.Fields("JobTypeName").Value,
-                            .JobStepId = oRecordset.Fields("JobStepId").Value,
-                            .JobStepName = oRecordset.Fields("JobStepName").Value.ToString(),
-                            .JobStepOrder = oRecordset.Fields("JobStepOrder").Value}
+        'If oRecordset.State = 1 Then
+        '    If Not (oRecordset.EOF) Then
+        '        oRecordset.MoveFirst()
+        '        Do While Not oRecordset.EOF
+        '            Dim job As JobStep = New JobStep With {
+        '                    .JobTypeName = oRecordset.Fields("JobTypeName").Value,
+        '                    .JobStepId = oRecordset.Fields("JobStepId").Value,
+        '                    .JobStepName = oRecordset.Fields("JobStepName").Value.ToString(),
+        '                    .JobStepOrder = oRecordset.Fields("JobStepOrder").Value}
 
-                    jobSteps.Add(job)
+        '            jobSteps.Add(job)
 
-                    'AddHandler btn.CheckedChanged, AddressOf OnJobTypeChanged
-                    oRecordset.MoveNext()
-                Loop
-            End If
-        End If
+        '            'AddHandler btn.CheckedChanged, AddressOf OnJobTypeChanged
+        '            oRecordset.MoveNext()
+        '        Loop
+        '    End If
+        'End If
 
 
-        'jobBindingSource.DataSource = var 'jobSteps
+        jobBindingSource.DataSource = var 'jobSteps
 
-        jobBindingSource.DataSource = jobSteps
+        'jobBindingSource.DataSource = jobSteps
 
         grdSteps.DataSource = jobBindingSource
         grdSteps.Refresh()

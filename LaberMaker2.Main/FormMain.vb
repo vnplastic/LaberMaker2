@@ -1,4 +1,6 @@
-﻿Public Class FormMain
+﻿Imports System.Data.Entity
+
+Public Class FormMain
     Dim m_JobTypeId = 0
     Dim m_JobTypeList As New List(Of JobType)
     Dim m_LoadedJobTypes As Dictionary(Of Integer, UserControl) = New Dictionary(Of Integer, UserControl)
@@ -141,11 +143,17 @@
     End Sub
 #End Region
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
+
         GetJobTypes()
     End Sub
 
     Private Sub JobStepsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JobStepsToolStripMenuItem.Click
         Dim frmSTeps As New FormSteps
         frmSTeps.Show()
+    End Sub
+
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+        Dim frm As New FormAbout
+        frm.Show()
     End Sub
 End Class

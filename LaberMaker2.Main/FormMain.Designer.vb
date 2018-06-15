@@ -26,10 +26,10 @@ Partial Class FormMain
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UtilityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.JobStepsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.JobStepsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -65,6 +65,12 @@ Partial Class FormMain
         Me.UtilityToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.UtilityToolStripMenuItem.Text = "&Utility"
         '
+        'JobStepsToolStripMenuItem
+        '
+        Me.JobStepsToolStripMenuItem.Name = "JobStepsToolStripMenuItem"
+        Me.JobStepsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.JobStepsToolStripMenuItem.Text = "Job Steps"
+        '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
@@ -94,12 +100,6 @@ Partial Class FormMain
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Label Type"
-        '
-        'JobStepsToolStripMenuItem
-        '
-        Me.JobStepsToolStripMenuItem.Name = "JobStepsToolStripMenuItem"
-        Me.JobStepsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.JobStepsToolStripMenuItem.Text = "Job Steps"
         '
         'FormMain
         '

@@ -6,7 +6,9 @@ Public Class JobStep
     Public Property JobStepId As Integer
     'Property JobStepId() As Integer
     Public Property JobTypeId() As Integer
-    Public Property JobTypeName As String 'JobType
+    'Public Property JobTypeName As String 'JobType
+    <ForeignKey("JobTypeId")>
+    Public Property JobType As JobType
 
     Public Property JobStepName() As String
     Public Property JobStepOrder() As Integer

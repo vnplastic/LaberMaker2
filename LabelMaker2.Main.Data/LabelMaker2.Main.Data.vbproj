@@ -4,34 +4,30 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{208A806D-2F00-4378-A85A-96ABABDAAA52}</ProjectGuid>
+    <ProjectGuid>{393165C2-ADEB-4D86-BA74-64EDF9041CC5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <StartupObject>
-    </StartupObject>
-    <RootNamespace>LabelMaker2.PalletLabels</RootNamespace>
-    <AssemblyName>LabelMaker2.PalletLabels</AssemblyName>
+    <RootNamespace>LabelMaker2.Main.Data</RootNamespace>
+    <AssemblyName>LabelMaker2.Main.Data</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\LaberMaker2.Main\bin\Debug\</OutputPath>
-    <DocumentationFile>LabelMaker2.PalletLabels.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>LabelMaker2.Main.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>LabelMaker2.PalletLabels.xml</DocumentationFile>
+    <DocumentationFile>LabelMaker2.Main.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -58,9 +54,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,20 +65,44 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Windows.Forms" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormJobs.Designer.vb">
-      <DependentUpon>FormJobs.vb</DependentUpon>
+    <Compile Include="DataModel1.CustomerJobInfo.vb" />
+    <Compile Include="DataModel1.CustomerJobStep.vb" />
+    <Compile Include="DataModel1.Job.vb" />
+    <Compile Include="DataModel1.JobStep.Generated.vb">
+      <DependentUpon>DataModel1.JobStep.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormJobs.vb">
-      <SubType>UserControl</SubType>
+    <Compile Include="DataModel1.JobStep.vb" />
+    <Compile Include="DataModel1.JobType.Generated.vb">
+      <DependentUpon>DataModel1.JobType.vb</DependentUpon>
     </Compile>
-    <Compile Include="LabelProperties.vb" />
+    <Compile Include="DataModel1.JobType.vb" />
+    <Compile Include="DataModel1.PregeneratedViews.vb" />
+    <Compile Include="DataModel1.VNA057TB02Job.Generated.vb">
+      <DependentUpon>DataModel1.VNA057TB02Job.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.VNA057TB02Job.vb" />
+    <Compile Include="DataModel1.VNA057TB03JobStep.vb" />
+    <Compile Include="DataModel1.VNA057TB04CustomerJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.VNA057TB04CustomerJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.VNA057TB04CustomerJobInfo.vb" />
+    <Compile Include="DataModel1.VNA057TB05CustomerJobStep.Generated.vb">
+      <DependentUpon>DataModel1.VNA057TB05CustomerJobStep.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.VNA057TB05CustomerJobStep.vb" />
+    <Compile Include="DataModel1.VNA057VW01JobNotPrinted.Generated.vb">
+      <DependentUpon>DataModel1.VNA057VW01JobNotPrinted.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.VNA057VW01JobNotPrinted.vb" />
+    <Compile Include="DataModel1.VNA057VW02JobTypeStep.vb" />
+    <Compile Include="DataModel1.VNA057VW02JobTypeStep1.vb" />
+    <Compile Include="DataModel1.VNA057VW03NewSalesOrder.vb" />
+    <Compile Include="DataModel1.VNDataEntities.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -101,12 +118,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Vars.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormJobs.resx">
-      <DependentUpon>FormJobs.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -115,7 +128,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -126,27 +139,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
-      <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
-      <Name>LabelMaker2.Main.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LaberMaker2.Main\LaberMaker2.Main.vbproj">
-      <Project>{1c22793d-007b-4b72-8f14-52447bbf804e}</Project>
-      <Name>LaberMaker2.Main</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="ADODB">
-      <Guid>{B691E011-1797-432E-907A-4D8C69339129}</Guid>
-      <VersionMajor>6</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

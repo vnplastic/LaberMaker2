@@ -58,12 +58,17 @@
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="InteractivePreGeneratedViews, Version=1.0.0.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EFInteractiveViews.1.0.1\lib\net40\InteractivePreGeneratedViews.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -103,7 +108,6 @@
     </Compile>
     <Compile Include="Globals.vb" />
     <Compile Include="Interfaces\ILabelProperties.vb" />
-    <Compile Include="LabelMakerDBContext.vb" />
     <Compile Include="Model\JobStep.vb" />
     <Compile Include="Model\JobType.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -142,6 +146,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="DataModel1.Diagram1.view">
+      <DependentUpon>DataModel1.edml</DependentUpon>
+    </None>
+    <DevartEntityDeploy Include="DataModel1.edml">
+      <Generator>DevartEfGenerator</Generator>
+      <LastGenOutput>DataModel1.info</LastGenOutput>
+    </DevartEntityDeploy>
+    <None Include="DataModel1.edps">
+      <DependentUpon>DataModel1.edml</DependentUpon>
+    </None>
+    <None Include="DataModel1.info">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataModel1.edml</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -168,7 +187,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Entities\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
+      <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
+      <Name>LabelMaker2.Main.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,7 @@ Public Class LabelProperties : Implements ILabelProperties
     Public Sub New(connString As String)
         JobTypeId = 1
         DBConnString = connString
-        Vars.DBConnString = DBConnString
+        Vars.ConnString = DBConnString
         Vars.JobTypeID = JobTypeId
         FormPrint = New FormJobs()
 

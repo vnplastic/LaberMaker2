@@ -29,9 +29,9 @@ Partial Class FormSteps
         'grdSteps
         '
         Me.grdSteps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdSteps.Location = New System.Drawing.Point(-2, 13)
+        Me.grdSteps.Location = New System.Drawing.Point(38, 12)
         Me.grdSteps.Name = "grdSteps"
-        Me.grdSteps.Size = New System.Drawing.Size(486, 154)
+        Me.grdSteps.Size = New System.Drawing.Size(424, 154)
         Me.grdSteps.TabIndex = 0
         '
         'FormSteps

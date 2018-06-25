@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.JobType in the schema.
+    ''' A filtered View of only "SoldTo" customers with their Ids
     ''' </summary>
-    Public partial class JobType 
+    Public partial class CustomerSoldTo 
 
         Public Sub New()
             OnCreated()
@@ -28,32 +28,14 @@ Namespace VNDataModel
         #Region "Primitive Properties"
     
         ''' <summary>
-        ''' There are no comments for JobTypeId in the schema.
+        ''' There are no comments for Id in the schema.
         ''' </summary>
-        Public Overridable Property JobTypeId() As Integer
+        Public Overridable Property Id() As String
     
         ''' <summary>
-        ''' There are no comments for JobTypeName in the schema.
+        ''' There are no comments for Name in the schema.
         ''' </summary>
-        Public Overridable Property JobTypeName() As String
-    
-        ''' <summary>
-        ''' There are no comments for DLLName in the schema.
-        ''' </summary>
-        Public Overridable Property DLLName() As String
-
-        #End Region
-        #Region "Navigation Properties"
-    
-        ''' <summary>
-        ''' There are no comments for JobSteps in the schema.
-        ''' </summary>
-        Public Overridable Property JobSteps() As ICollection(Of JobStep)
-    
-        ''' <summary>
-        ''' There are no comments for CustomerJobInfos in the schema.
-        ''' </summary>
-        Public Overridable Property CustomerJobInfos() As ICollection(Of CustomerJobInfo)
+        Public Overridable Property Name() As String
 
         #End Region
     

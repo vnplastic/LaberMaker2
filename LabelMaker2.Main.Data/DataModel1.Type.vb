@@ -6,6 +6,6 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class VNA057TB02Job
+    Partial Public Class Type
     End Class
 End Namespace

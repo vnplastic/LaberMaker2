@@ -6,6 +6,6 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class VNA057VW03NewSalesOrder
+    Partial Public Class CustomerSoldTo
     End Class
 End Namespace

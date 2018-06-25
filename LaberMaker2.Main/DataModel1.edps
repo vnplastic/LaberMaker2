@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<EntityDeveloper Version="6.2.505.0">
+<EntityDeveloper Version="6.3.525.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="VNDataEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="True" TargetFramework="Net40" DetectTPTInheritance="False" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="false">
     <Connection ConnectionString="Data Source=M4800;Initial Catalog=VNData;Integrated Security=True;Persist Security Info=True" Provider="System.Data.SqlClient" />
     <Generation>
@@ -7,16 +7,24 @@
         <File Name="DataModel1.VNDataEntities.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.JobType.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.JobType.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.VNA057TB02Job.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.VNA057TB02Job.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.Job.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.Job.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.JobStep.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.JobStep.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.VNA057TB04CustomerJobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.VNA057TB04CustomerJobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.VNA057TB05CustomerJobStep.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.VNA057TB05CustomerJobStep.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.VNA057VW01JobNotPrinted.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.VNA057VW01JobNotPrinted.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CustomerJobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CustomerJobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CustomerJobStep.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CustomerJobStep.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CustomerSoldTo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CustomerSoldTo.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.Type.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.Type.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.VNA057TB07TypeCode.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.VNA057TB07TypeCode.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.ViewJobNotPrinted.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.ViewJobNotPrinted.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.TypesWithName.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.TypesWithName.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.PregeneratedViews.vb" Project="LabelMaker2.Main.Data" />
       </GeneratedFiles>
     </Generation>
@@ -37,10 +45,10 @@
     </Diagrams>
     <Templates>
       <Template Name="DbContext" Description="Use this template to generate a strongly-typed DbContext class and persistence ignorant entity classes." Enabled="True" PredefinedTemplateName="Entity DbContext Visual Basic">
-        <ed:Property Name="ValidationFramework" Type="EntityDeveloper.TemplateEngine.ValidationFramework, EntityDeveloper.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="ValidationFramework" Type="EntityDeveloper.TemplateEngine.ValidationFramework, EntityDeveloper.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <ValidationFramework>None</ValidationFramework>
         </ed:Property>
-        <ed:Property Name="ValidationErrorMessages" Type="EntityDeveloper.TemplateEngine.ValidationErrorMessages, EntityDeveloper.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="ValidationErrorMessages" Type="EntityDeveloper.TemplateEngine.ValidationErrorMessages, EntityDeveloper.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <ValidationErrorMessages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
         </ed:Property>
         <ed:Property Name="FilePerClass" Type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -52,14 +60,14 @@
         <ed:Property Name="HeaderTimestampVersionControlTag" Type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <string d6p1:nil="true" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance" />
         </ed:Property>
-        <ed:Property Name="EntitiesOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="EntitiesOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <OutputInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <Project>LabelMaker2.Main.Data</Project>
             <ProjectFolder />
             <DestinationFolder />
           </OutputInfo>
         </ed:Property>
-        <ed:Property Name="ContextOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="ContextOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <OutputInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <Project>LabelMaker2.Main.Data</Project>
             <ProjectFolder />
@@ -87,7 +95,7 @@
         <ed:Property Name="WcfDataContractAttributes" Type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <boolean>false</boolean>
         </ed:Property>
-        <ed:Property Name="WcfDataMemberOnNavigationProperties" Type="EntityDeveloper.WcfDataMemberGenerationBehavior, EntityDeveloper.Orm.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="WcfDataMemberOnNavigationProperties" Type="EntityDeveloper.WcfDataMemberGenerationBehavior, EntityDeveloper.Orm.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <WcfDataMemberGenerationBehavior>All</WcfDataMemberGenerationBehavior>
         </ed:Property>
         <ed:Property Name="EnableWinFormsDataBinding" Type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -99,16 +107,16 @@
         <ed:Property Name="FluentMapping" Type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <boolean>false</boolean>
         </ed:Property>
-        <ed:Property Name="MappingGenerationStrategy" Type="EntityDeveloper.EntityFramework.CodeFirstMappingGenerationStrategy, EntityDeveloper.Orm.EntityFramework, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="MappingGenerationStrategy" Type="EntityDeveloper.EntityFramework.CodeFirstMappingGenerationStrategy, EntityDeveloper.Orm.EntityFramework, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <CodeFirstMappingGenerationStrategy>UseOnModelCreatingMethod</CodeFirstMappingGenerationStrategy>
         </ed:Property>
         <ed:Property Name="DatabaseIndependent" Type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <boolean>false</boolean>
         </ed:Property>
-        <ed:Property Name="DisabledConventions" Type="EntityDeveloper.EntityFramework.CodeFirstConfigurationConvention, EntityDeveloper.Orm.EntityFramework, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="DisabledConventions" Type="EntityDeveloper.EntityFramework.CodeFirstConfigurationConvention, EntityDeveloper.Orm.EntityFramework, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <CodeFirstConfigurationConvention />
         </ed:Property>
-        <ed:Property Name="ConfigurationsOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.2.505.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
+        <ed:Property Name="ConfigurationsOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=6.3.525.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <OutputInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <Project>LabelMaker2.Main.Data</Project>
             <ProjectFolder />

@@ -6,6 +6,6 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class VNA057TB04CustomerJobInfo
+    Partial Public Class ViewJobNotPrinted
     End Class
 End Namespace

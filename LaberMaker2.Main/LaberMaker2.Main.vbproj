@@ -94,6 +94,18 @@
     <Compile Include="FormAbout.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormCustomerProfile.Designer.vb">
+      <DependentUpon>FormCustomerProfile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormCustomerProfile.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormJobSteps.Designer.vb">
+      <DependentUpon>FormJobSteps.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormJobSteps.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormMain.Designer.vb">
       <DependentUpon>FormMain.vb</DependentUpon>
     </Compile>
@@ -130,6 +142,12 @@
   <ItemGroup>
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCustomerProfile.resx">
+      <DependentUpon>FormCustomerProfile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormJobSteps.resx">
+      <DependentUpon>FormJobSteps.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>

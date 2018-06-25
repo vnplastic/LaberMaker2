@@ -37,8 +37,8 @@ Public Class FormMain
     End Sub
 
     Private Sub SetJobButtons()
-        Dim jobs = New List(Of VNA057VW01JobNotPrinted)
-        jobs = ctx.VNA057VW01JobNotPrinteds.ToList()
+        Dim jobs = New List(Of ViewJobNotPrinted)
+        jobs = ctx.ViewJobNotPrinteds.ToList()
         For Each j In jobs
             Dim b As RadioButton = Me.Controls.Find("Button" & j.JobTypeId, True).FirstOrDefault
             b.Enabled = True
@@ -120,6 +120,17 @@ Public Class FormMain
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         Dim frm As New FormAbout
+        frm.Show()
+    End Sub
+
+    Private Sub CustomerProfilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerProfilesToolStripMenuItem.Click
+        Dim frm As New FormCustomerProfile
+        frm.Show()
+    End Sub
+
+    Private Sub CustomerJobInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerJobInfoToolStripMenuItem.Click
+        Dim frm As New FormJobSteps
+
         frm.Show()
     End Sub
 End Class

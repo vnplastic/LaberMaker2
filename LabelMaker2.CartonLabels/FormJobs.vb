@@ -5,11 +5,11 @@ Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class FormJobs
     Dim ctx As VNDataEntities
-    Dim jobs As List(Of VNA057VW01JobNotPrinted)
+    Dim jobs As List(Of ViewJobNotPrinted)
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ctx = New VNDataEntities(Vars.ConnString)
         Dim i As Integer = 0
-        jobs = ctx.VNA057VW01JobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
+        jobs = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
 
         For Each j In jobs
 

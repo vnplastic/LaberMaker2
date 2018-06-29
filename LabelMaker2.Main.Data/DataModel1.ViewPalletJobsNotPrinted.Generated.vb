@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.TypesWithName in the schema.
+    ''' There are no comments for VNDataModel.ViewPalletJobsNotPrinted in the schema.
     ''' </summary>
-    Public partial class TypesWithName 
+    Public partial class ViewPalletJobsNotPrinted 
 
         Public Sub New()
             OnCreated()
@@ -28,29 +28,39 @@ Namespace VNDataModel
         #Region "Primitive Properties"
     
         ''' <summary>
-        ''' There are no comments for TypeCodeId in the schema.
+        ''' There are no comments for JobTypeId in the schema.
         ''' </summary>
-        Public Overridable Property TypeCodeId() As Integer
+        Public Overridable Property JobTypeId() As Integer
     
         ''' <summary>
-        ''' There are no comments for TypeCodeTypeId in the schema.
+        ''' There are no comments for JobId in the schema.
         ''' </summary>
-        Public Overridable Property TypeCodeTypeId() As Integer
+        Public Overridable Property JobId() As Integer
     
         ''' <summary>
-        ''' There are no comments for TypeCode in the schema.
+        ''' There are no comments for KNDY4CustomerC in the schema.
         ''' </summary>
-        Public Overridable Property TypeCode() As String
+        Public Overridable Property KNDY4CustomerC() As String
     
         ''' <summary>
-        ''' There are no comments for TypeCodeName in the schema.
+        ''' There are no comments for CustomerName in the schema.
         ''' </summary>
-        Public Overridable Property TypeCodeName() As String
+        Public Overridable Property CustomerName() As String
     
         ''' <summary>
-        ''' There are no comments for TypeName in the schema.
+        ''' There are no comments for SalesOrder in the schema.
         ''' </summary>
-        Public Overridable Property TypeName() As String
+        Public Overridable Property SalesOrder() As String
+    
+        ''' <summary>
+        ''' There are no comments for SalesOrderName in the schema.
+        ''' </summary>
+        Public Overridable Property SalesOrderName() As String
+    
+        ''' <summary>
+        ''' There are no comments for ShipmentData in the schema.
+        ''' </summary>
+        Public Overridable Property ShipmentData() As Global.System.Nullable(Of System.DateTime)
 
         #End Region
     

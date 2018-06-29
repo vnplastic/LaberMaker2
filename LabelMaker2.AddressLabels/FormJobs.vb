@@ -38,12 +38,30 @@ Public Class FormJobs
         Dim b As RadioButton = sender
         CheckedListBox1.Items.Clear()
 
+
         For Each j In jobs.Where(Function(c) c.KNDY4CustomerC = b.Tag).OrderBy(Function(c) c.JobId).ToList()
-            CheckedListBox1.Items.Add(j.JobId)
+
+            Dim item = CheckedListBox1.Items.Add(j)
+            CheckedListBox1.ValueMember = "JobId"
+            CheckedListBox1.DisplayMember = "SalesOrderName"
         Next
     End Sub
 
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
         Me.ParentForm.Close()
     End Sub
+
+    Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
+        If CanPrint = "OK" Then
+            MessageBox.Show("We'll print here")
+        Else
+            MessageBox.Show("We won't print here")
+        End If
+    End Sub
+
+    Public ReadOnly Property CanPrint As String
+        Get
+            Return "OK"
+        End Get
+    End Property
 End Class

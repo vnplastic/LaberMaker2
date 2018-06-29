@@ -69,37 +69,8 @@ Public Class FormMain
                         m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
                     End If
 
-            '    Case 2
-
-            '        tmpDLL = Globals.CreateLabelInstance("LabelMaker2.PalletLabels.dll")
-            '        For Each c As Control In SplitContainer1.Panel2.Controls
-            '            c.Visible = False
-            '        Next
-            '        If m_LoadedJobTypes.ContainsKey(m_JobTypeId) Then
-            '            SplitContainer1.Panel2.Controls.Add(m_LoadedJobTypes(m_JobTypeId))
-            '        Else
-            '            SplitContainer1.Panel2.Controls.Add(tmpDLL.FormPrint)
-            '            m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
-            '        End If
-
-
-            '    Case 3
-            '        tmpDLL = Globals.CreateLabelInstance("LabelMaker2.AddressLabels.dll")
-            '        For Each c As Control In SplitContainer1.Panel2.Controls
-            '            c.Visible = False
-            '        Next
-            '        If m_LoadedJobTypes.ContainsKey(m_JobTypeId) Then
-            '            SplitContainer1.Panel2.Controls.Add(m_LoadedJobTypes(m_JobTypeId))
-            '        Else
-            '            SplitContainer1.Panel2.Controls.Add(tmpDLL.FormPrint)
-            '            m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
-            '        End If
-            '    Case Else
-
-
-
-            'End Select
             ' If Not tmpDLL Is Nothing Then tmpDLL.DBConnString = "FileDSN=" + My.Settings.DB_ODBC
+
             For Each c As Control In SplitContainer1.Panel2.Controls
                 Debug.Print(c.Name)
             Next

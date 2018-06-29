@@ -8,6 +8,10 @@ Public Class LabelProperties : Implements ILabelProperties
     Public Property FormPrint As UserControl Implements ILabelProperties.FormPrint
     Public Property DBConnString As String Implements ILabelProperties.DBConnString
 
+    Public Function CanPrintJob() As Boolean Implements ILabelProperties.CanPrintJob
+        Return True
+    End Function
+
     Public Sub New(connString As String)
         JobTypeId = 1
         DBConnString = connString

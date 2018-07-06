@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Globals.vb" />
     <Compile Include="Interfaces\ILabelProperties.vb" />
+    <Compile Include="IQueueProcessing.vb" />
     <Compile Include="Model\JobStep.vb" />
     <Compile Include="Model\JobType.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -137,7 +138,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="QueueConsumer.vb" />
+    <Compile Include="Printers.vb" />
+    <Compile Include="QEnum.vb" />
+    <Compile Include="QueueProcessingInternalBase.vb" />
+    <Compile Include="QueueProcessingByXMLBase.vb" />
+    <Compile Include="QueueProcessingByCommandBase.vb" />
     <Compile Include="Settings.vb" />
   </ItemGroup>
   <ItemGroup>

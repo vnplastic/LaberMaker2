@@ -86,6 +86,10 @@
       <DependentUpon>DataModel1.Job.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.Job.vb" />
+    <Compile Include="DataModel1.JobInfo.Generated.vb">
+      <DependentUpon>DataModel1.JobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.JobInfo.vb" />
     <Compile Include="DataModel1.JobStep.Generated.vb">
       <DependentUpon>DataModel1.JobStep.vb</DependentUpon>
     </Compile>
@@ -95,6 +99,10 @@
     </Compile>
     <Compile Include="DataModel1.JobType.vb" />
     <Compile Include="DataModel1.PregeneratedViews.vb" />
+    <Compile Include="DataModel1.Printer.Generated.vb">
+      <DependentUpon>DataModel1.Printer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.Printer.vb" />
     <Compile Include="DataModel1.Type.Generated.vb">
       <DependentUpon>DataModel1.Type.vb</DependentUpon>
     </Compile>

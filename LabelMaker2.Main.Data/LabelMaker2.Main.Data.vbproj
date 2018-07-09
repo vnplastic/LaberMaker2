@@ -119,6 +119,10 @@
       <DependentUpon>DataModel1.ViewPalletJobsNotPrinted.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.ViewPalletJobsNotPrinted.vb" />
+    <Compile Include="DataModel1.ViewPrinter.Generated.vb">
+      <DependentUpon>DataModel1.ViewPrinter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewPrinter.vb" />
     <Compile Include="DataModel1.ViiewPalletJobsNotPrinted.vb" />
     <Compile Include="DataModel1.VNA057TB07TypeCode.Generated.vb">
       <DependentUpon>DataModel1.VNA057TB07TypeCode.vb</DependentUpon>

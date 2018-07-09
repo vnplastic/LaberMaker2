@@ -160,6 +160,8 @@ Public Class QueueProcessingByXMLBase
     End Function
 
 
+    Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
+
     Public Function PrintJob(_job As List(Of JobInfo)) As Boolean Implements IQueueProcessing.PrintJob
         Throw New NotImplementedException
     End Function

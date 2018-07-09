@@ -11,7 +11,7 @@ Module Printers
 
         Result = 0
         erc = QEnum.QueueConsumerErrorCodes.OK
-        Dim printer As Printer = ctx.Printers.Where(Function(c) c.PrinterName = pPrinterName).FirstOrDefault
+        Dim printer As ViewPrinter = ctx.ViewPrinters.Where(Function(c) c.PrinterName = pPrinterName).FirstOrDefault
 
 
         Result = printer.PrinterName
@@ -31,7 +31,7 @@ Module Printers
 
         Result = 0
         erc = QEnum.QueueConsumerErrorCodes.OK
-        Dim printer As Printer = ctx.Printers.Where(Function(c) c.PrinterID = pPrinterId).FirstOrDefault
+        Dim printer As ViewPrinter = ctx.ViewPrinters.Where(Function(c) c.PrinterID = pPrinterId).FirstOrDefault
         Result = printer.PrinterName
         Return Result
     End Function

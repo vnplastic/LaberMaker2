@@ -14,6 +14,7 @@ Public Interface IQueueProcessing
     Property PrinterId() As Long
     Property PrinterName() As String
     Property Status() As Long
+    Property JobStepInfo As JobInfo
 #End Region
     Function PrintJob(_job As List(Of JobInfo)) As Boolean
     Function AttachPrinter(Optional pPrinterId As System.UInt32 = 0, Optional pPrinterName As System.String = "") As Long

@@ -4,11 +4,15 @@ Imports LabelMaker2.Main.Data.VNDataModel
 Public Class FormJobSteps
     Dim ctx As New VNDataEntities
     Dim lst As BindingList(Of CustomerJobInfo)
+    Dim blstStepsIncluded As BindingList(Of JobStep)
+    Dim blstStepsAvailable As BindingList(Of JobStep)
+    Dim icurrentCustJob As Integer
     Dim lstStepsIncluded As List(Of JobStep)
     Dim lstStepsAvailable As List(Of JobStep)
-    Dim icurrentCustJob As Integer
+
     Dim isDirty As Boolean
     Dim currentStep As New CustomerJobStep
+    Dim custJobSteps As New BindingList(Of CustomerJobStep)
     Dim frmLoading As Boolean
 
     Private Sub FormJobSteps_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -81,37 +85,41 @@ Public Class FormJobSteps
 
         Dim iJobType As Integer = lst(e.RowIndex).JobTypeId
         Dim iCustomerInfo As Integer = lst(e.RowIndex).CustomerJobInfoId
-        Dim lstSteps As New List(Of JobStep)
-        lstSteps = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustomerInfo).Select(Function(d) d.JobStep).OrderBy(Function(d) d.JobStepOrder).ToList()
+        ' Dim lstSteps As New List(Of JobStep)
+        lstStepsIncluded = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustomerInfo).Select(Function(d) d.JobStep).OrderBy(Function(d) d.JobStepOrder).ToList()
 
         Dim lst2 As New List(Of Integer)
-        lst2 = lstSteps.Select(Function(d) d.JobStepId).ToList()
-        lstStepsIncluded = New List(Of JobStep)(lstSteps)
+        lst2 = lstStepsIncluded.Select(Function(d) d.JobStepId).ToList()
+        blstStepsIncluded = New BindingList(Of JobStep)(lstStepsIncluded)
         lstStepsAvailable = New List(Of JobStep)(ctx.JobSteps.Where(Function(c) c.JobTypeId = iJobType And Not lst2.Contains(c.JobStepId)).OrderBy(Function(d) d.JobStepOrder).ToList())
-        ' lstStepsAvailable = ctx.CustomerJobSteps.Include("JobStep").Where(Function(c) c.CustomerJobInfoId = i).ToList()
-        'lstCurrentSteps.DataSource = lstStepsIncluded ' New BindingList(Of JobStep)(lstStepsIncluded.Select(Function(c) c.JobStep).ToList())
-        'lstCurrentSteps.DisplayMember = "JobStepName"
-        'lstCurrentSteps.ValueMember = "JobStepOrder"
+        blstStepsAvailable = New BindingList(Of JobStep)(lstStepsAvailable)
 
 
-        'lstAvailableSteps.DataSource = lstStepsAvailable
-        'lstAvailableSteps.DisplayMember = "JobStepName"
-        'lstAvailableSteps.ValueMember = "JobStepOrder"
-        lstCurrentSteps.Items.Clear()
-        lstAvailableSteps.Items.Clear()
-        For Each s In lstStepsIncluded
-            lstCurrentSteps.Items.Add(s)
-            lstCurrentSteps.DisplayMember = "JobStepName"
-            lstCurrentSteps.ValueMember = "JobStepOrder"
 
-        Next
-        lstAvailableSteps.Items.Clear()
-        For Each s In lstStepsAvailable
-            lstAvailableSteps.Items.Add(s)
-            lstAvailableSteps.DisplayMember = "JobStepName"
-            lstAvailableSteps.ValueMember = "JobStepOrder"
 
-        Next
+        lstCurrentSteps.DataSource = blstStepsIncluded ' New BindingList(Of JobStep)(blstStepsIncluded.Select(Function(c) c.JobStep).ToList())
+        lstCurrentSteps.DisplayMember = "JobStepName"
+        lstCurrentSteps.ValueMember = "JobStepOrder"
+
+
+        lstAvailableSteps.DataSource = blstStepsAvailable
+        lstAvailableSteps.DisplayMember = "JobStepName"
+        lstAvailableSteps.ValueMember = "JobStepOrder"
+        'lstCurrentSteps.Items.Clear()
+        'lstAvailableSteps.Items.Clear()
+        'For Each s In blstStepsIncluded
+        '    lstCurrentSteps.Items.Add(s)
+        '    lstCurrentSteps.DisplayMember = "JobStepName"
+        '    lstCurrentSteps.ValueMember = "JobStepOrder"
+
+        'Next
+        'lstAvailableSteps.Items.Clear()
+        'For Each s In blstStepsAvailable
+        '    lstAvailableSteps.Items.Add(s)
+        '    lstAvailableSteps.DisplayMember = "JobStepName"
+        '    lstAvailableSteps.ValueMember = "JobStepOrder"
+
+        'Next
         icurrentCustJob = e.RowIndex
         ClearForm()
     End Sub
@@ -127,31 +135,31 @@ Public Class FormJobSteps
 
     Private Sub btnMoveToCurrent_Click(sender As Object, e As EventArgs) Handles btnMoveToCurrent.Click
         Dim currentAvaialble As JobStep
+
         If lstAvailableSteps.SelectedIndex <> -1 Then
-            currentAvaialble = lstStepsAvailable(lstAvailableSteps.SelectedIndex)
-            lstStepsIncluded.Add(currentAvaialble)
-            lstStepsAvailable.Remove(currentAvaialble)
-            lstCurrentSteps.Items.Clear()
-            lstAvailableSteps.Items.Clear()
-            lstStepsIncluded.Sort(Function(x As JobStep, y As JobStep)
-                                      Return x.JobStepOrder.CompareTo(y.JobStepOrder)
-                                  End Function)
+            currentAvaialble = blstStepsAvailable(lstAvailableSteps.SelectedIndex)
+            If isDirty = True Then
+                If MessageBox.Show("You have not saved the last change in steps, do you wish the save first?", "Save?", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                    isDirty = False
+                    SaveChanges()
+                End If
+            End If
+            blstStepsIncluded.Add(currentAvaialble)
+            blstStepsAvailable.Remove(currentAvaialble)
+            isDirty = True
+
             lstStepsAvailable.Sort(Function(x As JobStep, y As JobStep)
                                        Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                    End Function)
-            For Each s In lstStepsIncluded
-                lstCurrentSteps.Items.Add(s)
-                lstCurrentSteps.DisplayMember = "JobStepName"
-                lstCurrentSteps.ValueMember = "JobStepOrder"
 
-            Next
-            lstAvailableSteps.Items.Clear()
-            For Each s In lstStepsAvailable
-                lstAvailableSteps.Items.Add(s)
-                lstAvailableSteps.DisplayMember = "JobStepName"
-                lstAvailableSteps.ValueMember = "JobStepOrder"
 
-            Next
+            lstStepsIncluded.Sort(Function(x As JobStep, y As JobStep)
+                                      Return x.JobStepOrder.CompareTo(y.JobStepOrder)
+                                  End Function)
+
+            blstStepsAvailable.ResetBindings()
+            blstStepsIncluded.ResetBindings()
+
             'ctx.SaveChanges()
         End If
 
@@ -160,34 +168,20 @@ Public Class FormJobSteps
     Private Sub btnMoveToAvailable_Click(sender As Object, e As EventArgs) Handles btnMoveToAvailable.Click
         Dim currentInclude As JobStep
         If lstCurrentSteps.SelectedIndex <> -1 Then
-            currentInclude = lstStepsIncluded(lstCurrentSteps.SelectedIndex)
-            lstStepsIncluded.Remove(currentInclude)
-            lstStepsAvailable.Add(currentInclude)
+            isDirty = True
+            currentInclude = blstStepsIncluded(lstCurrentSteps.SelectedIndex)
+            blstStepsIncluded.Remove(currentInclude)
+            blstStepsAvailable.Add(currentInclude)
 
-            lstCurrentSteps.Items.Clear()
-            lstAvailableSteps.Items.Clear()
+
             lstStepsIncluded.Sort(Function(x As JobStep, y As JobStep)
                                       Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                   End Function)
             lstStepsAvailable.Sort(Function(x As JobStep, y As JobStep)
                                        Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                    End Function)
-
-            For Each s In lstStepsIncluded
-                lstCurrentSteps.Items.Add(s)
-                lstCurrentSteps.DisplayMember = "JobStepName"
-                lstCurrentSteps.ValueMember = "JobStepOrder"
-
-            Next
-            lstAvailableSteps.Items.Clear()
-            For Each s In lstStepsAvailable
-                lstAvailableSteps.Items.Add(s)
-                lstAvailableSteps.DisplayMember = "JobStepName"
-                lstAvailableSteps.ValueMember = "JobStepOrder"
-
-            Next
-            'ctx.SaveChanges()
-
+            blstStepsAvailable.ResetBindings()
+            blstStepsIncluded.ResetBindings()
 
 
         End If
@@ -202,15 +196,16 @@ Public Class FormJobSteps
             Dim newStep As New CustomerJobStep
             newStep = ctx.CustomerJobSteps.Where(Function(c) c.JobStepId = iJobStepId And
                                                                    c.CustomerJobInfoId = iCustInfoId).FirstOrDefault()
-            If currentStep.CustomerJobStepsId <> newStep.CustomerJobStepsId And isDirty Then
-                SaveChanges()
-            End If
+
             ' lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex)
             If newStep Is Nothing Then 'New Record
                 currentStep = New CustomerJobStep
                 isDirty = True
                 ClearForm()
             Else
+                If currentStep.CustomerJobStepsId <> newStep.CustomerJobStepsId And isDirty Then
+                    SaveChanges()
+                End If
                 If newStep.LabelOrientationId Is Nothing Then cboLabelOrientation.SelectedIndex = -1 Else cboLabelOrientation.SelectedValue = newStep.LabelOrientationId
                 If newStep.DeliveryTypeId Is Nothing Then cboDeliveryType.SelectedIndex = -1 Else cboDeliveryType.SelectedValue = newStep.DeliveryTypeId
                 If newStep.LabelSizeId Is Nothing Then cboLabelSize.SelectedIndex = -1 Else cboLabelSize.SelectedValue = newStep.LabelSizeId

@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.Printer in the schema.
+    ''' There are no comments for VNDataModel.ViewPrinter in the schema.
     ''' </summary>
-    Public partial class Printer 
+    Public partial class ViewPrinter 
 
         Public Sub New()
             OnCreated()
@@ -28,9 +28,44 @@ Namespace VNDataModel
         #Region "Primitive Properties"
     
         ''' <summary>
-        ''' There are no comments for PrinterID in the schema.
+        ''' There are no comments for LabelSizeName in the schema.
         ''' </summary>
-        Public Overridable Property PrinterID() As Integer
+        Public Overridable Property LabelSizeName() As String
+    
+        ''' <summary>
+        ''' There are no comments for LabelSizeCode in the schema.
+        ''' </summary>
+        Public Overridable Property LabelSizeCode() As String
+    
+        ''' <summary>
+        ''' There are no comments for PrinterCompatibilityCode in the schema.
+        ''' </summary>
+        Public Overridable Property PrinterCompatibilityCode() As String
+    
+        ''' <summary>
+        ''' There are no comments for PrinterCompatibilityName in the schema.
+        ''' </summary>
+        Public Overridable Property PrinterCompatibilityName() As String
+    
+        ''' <summary>
+        ''' There are no comments for SourceTypeCode in the schema.
+        ''' </summary>
+        Public Overridable Property SourceTypeCode() As String
+    
+        ''' <summary>
+        ''' There are no comments for SourceTypeName in the schema.
+        ''' </summary>
+        Public Overridable Property SourceTypeName() As String
+    
+        ''' <summary>
+        ''' There are no comments for DeliveryTypeCode in the schema.
+        ''' </summary>
+        Public Overridable Property DeliveryTypeCode() As String
+    
+        ''' <summary>
+        ''' There are no comments for DeliveryTypeName in the schema.
+        ''' </summary>
+        Public Overridable Property DeliveryTypeName() As String
     
         ''' <summary>
         ''' There are no comments for PrinterName in the schema.
@@ -46,6 +81,11 @@ Namespace VNDataModel
         ''' There are no comments for CompatibilityCode in the schema.
         ''' </summary>
         Public Overridable Property CompatibilityCode() As Integer
+    
+        ''' <summary>
+        ''' There are no comments for PrinterID in the schema.
+        ''' </summary>
+        Public Overridable Property PrinterID() As Integer
     
         ''' <summary>
         ''' There are no comments for SupportsSource in the schema.
@@ -81,14 +121,6 @@ Namespace VNDataModel
         ''' There are no comments for Active in the schema.
         ''' </summary>
         Public Overridable Property Active() As Boolean
-
-        #End Region
-        #Region "Navigation Properties"
-    
-        ''' <summary>
-        ''' There are no comments for CustomerJobInfos in the schema.
-        ''' </summary>
-        Public Overridable Property CustomerJobInfos() As ICollection(Of CustomerJobInfo)
 
         #End Region
     

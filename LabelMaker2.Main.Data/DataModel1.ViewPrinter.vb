@@ -6,6 +6,6 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class ViewPrinter
+    Partial Public Class Printer
     End Class
 End Namespace

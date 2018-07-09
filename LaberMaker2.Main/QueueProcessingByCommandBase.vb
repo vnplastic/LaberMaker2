@@ -31,6 +31,7 @@ Public Class QueueProcessingByCommandBase
     Private m_SalesOrderNo As String
     Private m_Cancel As Boolean
     Private ctx As VNDataEntities
+    Dim m_JobStepInfo As JobInfo
 #End Region
     Sub New()
         m_QueueProcessMode = QEnum.QueueProcessMode.CommandLine
@@ -44,22 +45,28 @@ Public Class QueueProcessingByCommandBase
         PrinterName = _job(0).PrinterName
         JobId = _job(0).JobId
 
-        For Each j As JobInfo In _job
-            If Not j.LabelType Is Nothing Then
+        Dim t As List(Of String)
+        t = _job.Where(Function(c) Not c.FormatName Is Nothing).Select(Function(c) c.FormatName).Distinct.ToList()
 
-                TemplateFile = "WALMART__" & GetFormat(j)
-                AddFormat(TemplateFile)
-                Debug.Print(TemplateFile)
-            End If
-            ProcessQueueRecord(JobStepToQType(j.JobStepName))
+        For Each f In t
+            TemplateFile = f
+            AddFormat(TemplateFile)
+            Debug.Print(TemplateFile)
         Next
+        For Each j As JobInfo In _job
+            JobStepInfo = j
+            TemplateFile = JobStepInfo.FormatName
+            ProcessQueueRecord(JobStepToQType(j.JobStepName))
+            Debug.Print(j.JobStepName)
+        Next
+
         Return True
     End Function
-    Function GetFormat(j As JobInfo) As String
-        Dim r As String
-        r = j.LabelTypeCode & j.PrinterCompatibilityCode & j.LabelSizeCode & j.SourceTypeCode & j.DeliveryTypeCode & j.LabelOrientationCode
-        Return r.Replace(" ", "")
-    End Function
+    'Function GetFormat(f As String) As String
+    '    Dim r As String
+    '    r = j.FormatName
+    '    Return r
+    'End Function
     Private Function BTCommandOpen() As Long
         Dim erc As Long
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -943,6 +950,15 @@ Public Class QueueProcessingByCommandBase
         End Get
         Set(value As Long)
             m_TemplateId = value
+        End Set
+    End Property
+    Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
+        Get
+
+            Return m_JobStepInfo
+        End Get
+        Set(value As JobInfo)
+            m_JobStepInfo = value
         End Set
     End Property
 

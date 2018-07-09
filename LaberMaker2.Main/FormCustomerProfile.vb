@@ -9,6 +9,8 @@ Public Class FormCustomerProfile
     Dim lstCust As List(Of LabelMaker2.Main.Data.VNDataModel.CustomerSoldTo) = New List(Of LabelMaker2.Main.Data.VNDataModel.CustomerSoldTo)
     Dim typeBindingSource As New BindingSource
     Dim lstType As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
+    Dim printerBindingSource As New BindingSource
+    Dim lstPrinters As List(Of LabelMaker2.Main.Data.VNDataModel.Printer) = New List(Of LabelMaker2.Main.Data.VNDataModel.Printer)
 
 
     Private Sub FormCustomerProfile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -16,7 +18,8 @@ Public Class FormCustomerProfile
 
 
         '  Dim lst2 As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
-        lst = ctx.CustomerJobInfos.Include("JobType").ToList()
+        lst = ctx.CustomerJobInfos.Include("JobType").Include("Printer").ToList()
+
         custBindingSource.DataSource = lst
         grdCustomerProfiles.ColumnCount = 2
         grdCustomerProfiles.Columns(0).Name = "CustomerName"
@@ -46,14 +49,31 @@ Public Class FormCustomerProfile
 
         'grdCustomerProfiles.Columns(2).ValueMember = "JobType.JobTypeName"
         grdCustomerProfiles.Columns.Add(col)
+        Dim col2 As New DataGridViewComboBoxColumn
+        'lst2 = lst.Select(Function(c) c.JobType).ToList()
+        col2.DataSource = custBindingSource
+        col2.ValueMember = "PrinterId"
+        col2.DisplayMember = "PrinterName"
+        col2.DataPropertyName = "PrinterId"
+        col2.HeaderText = "Printer"
+        col2.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+
+        'grdCustomerProfiles.Columns(2).ValueMember = "JobType.JobTypeName"
+        grdCustomerProfiles.Columns.Add(col2)
         ' grdCustomerProfiles.Columns(2).DataPropertyName = lst(0).JobType.JobTypeName
+
+        grdCustomerProfiles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
 
         grdCustomerProfiles.DataSource = custBindingSource
 
-        lstCust = ctx.CustomerSoldTos.OrderBy(Function(c) c.Name).ToList()
+        lstCust = ctx.CustomerSoldTos.AsNoTracking.OrderBy(Function(c) c.Name).ToList()
         newcustBindingSource.DataSource = lstCust
-        lstType = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
+        lstType = ctx.JobTypes.AsNoTracking.OrderBy(Function(c) c.JobTypeName).ToList()
         typeBindingSource.DataSource = lstType
+
+        lstPrinters = ctx.Printers.AsNoTracking.ToList()
+
+        printerBindingSource.DataSource = lstPrinters
 
         cboCustomer.ValueMember = "Id"
         cboCustomer.DisplayMember = "Name"
@@ -63,6 +83,10 @@ Public Class FormCustomerProfile
         cboJobType.DisplayMember = "JobTypeName"
 
         cboJobType.DataSource = typeBindingSource
+
+        cboPrinter.DataSource = printerBindingSource
+        cboPrinter.ValueMember = "PrinterId"
+        cboPrinter.DisplayMember = "PrinterName"
 
         ClearForm()
 
@@ -112,6 +136,7 @@ Public Class FormCustomerProfile
     Sub ClearForm()
         cboCustomer.SelectedIndex = -1
         cboJobType.SelectedIndex = -1
+        cboPrinter.SelectedIndex = -1
         txtCustomerShortName.Text = ""
     End Sub
 

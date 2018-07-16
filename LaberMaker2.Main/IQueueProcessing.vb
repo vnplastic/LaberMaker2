@@ -5,7 +5,7 @@ Public Interface IQueueProcessing
     Property QueueId() As Long
     Property ProfileId() As Long
     Property JobId() As Long
-    Property BatchId() As Long
+    ' Property BatchId() As Long
     Property LabelId() As Long
     Property LabelType() As Long
     Property CopiesPerLabel() As Long

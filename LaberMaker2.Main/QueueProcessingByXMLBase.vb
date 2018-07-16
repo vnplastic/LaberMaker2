@@ -58,7 +58,7 @@ Public Class QueueProcessingByXMLBase
 
     Private Function BTCommandAdd(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -75,7 +75,7 @@ Public Class QueueProcessingByXMLBase
 
     Private Function BTCommandExecute() As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -274,7 +274,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function BatchAfterPause() As Long Implements IQueueProcessing.BatchAfterPause
         Dim erc As Long
-        Dim CommandStr As System.String
+        'Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -334,7 +334,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function BatchBeforePause() As Long Implements IQueueProcessing.BatchBeforePause
         Dim erc As Long
-        Dim CommandStr As System.String
+        'im CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         ' This process should write the end of the command file, close the command file and cause it to be printed.
@@ -457,7 +457,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function JobAfterPause() As Long Implements IQueueProcessing.JobAfterPause
         Dim erc As Long
-        Dim CommandStr As System.String
+        'Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         ' This process should write the end of the command file, close the command file and cause it to be printed.
@@ -510,7 +510,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function JobBeforePause() As Long Implements IQueueProcessing.JobBeforePause
         Dim erc As Long
-        Dim CommandStr As System.String
+        'Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         ' This process should write the end of the command file, close the command file and cause it to be printed.
@@ -523,7 +523,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function JobEnd() As Long Implements IQueueProcessing.JobEnd
         Dim erc As Long
-        Dim CommandStr As System.String
+        'Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         ' This process should write the end of the command file, close the command file and cause it to be printed.
@@ -547,7 +547,7 @@ Public Class QueueProcessingByXMLBase
 
     Public Function JobStart() As Long Implements IQueueProcessing.JobStart
         Dim erc As Long
-        Dim CommandStr As System.String
+        'Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         ' This process should create the command file, open it, and write the file header.
@@ -737,7 +737,7 @@ Public Class QueueProcessingByXMLBase
     End Function
 
     Private Sub CancelJob()
-        Dim erc As Long
+        ' Dim erc As Long
 
         'erc = RunSql("DELETE FROM VNA042TB07_Queue WHERE JobId=" & Strings.Format(m_JobId, "0") & " AND Status < 2")
     End Sub
@@ -941,14 +941,14 @@ Public Class QueueProcessingByXMLBase
         Return erc
     End Function
 #Region "Properties"
-    Public Property BatchId As Long Implements IQueueProcessing.BatchId
-        Get
-            Return m_BatchId
-        End Get
-        Set(value As Long)
-            m_BatchId = value
-        End Set
-    End Property
+    'Public Property BatchId As Long Implements IQueueProcessing.BatchId
+    '    Get
+    '        Return m_BatchId
+    '    End Get
+    '    Set(value As Long)
+    '        m_BatchId = value
+    '    End Set
+    'End Property
 
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get

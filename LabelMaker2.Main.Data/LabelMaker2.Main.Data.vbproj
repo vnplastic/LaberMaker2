@@ -129,6 +129,7 @@
     </Compile>
     <Compile Include="DataModel1.VNA057TB07TypeCode.vb" />
     <Compile Include="DataModel1.VNA057VW01JobNotPrinted.vb" />
+    <Compile Include="DataModel1.VNA057VW06JobInfo.vb" />
     <Compile Include="DataModel1.VNDataEntities.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

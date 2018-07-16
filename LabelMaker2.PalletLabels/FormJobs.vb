@@ -61,11 +61,13 @@ Public Class FormJobs
                 If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
                     If CheckedListBox1.Items(Ix - 1).SalesOrderName.ToString.Contains("**") Then
                         Dim so As String
-                        so = jobs.Find(Function(c) c.SalesOrderName = CheckedListBox1.Items(Ix - 1).SalesOrderName).SalesOrderName
+                        Dim i As Integer
+                        i = Ix - 1
+                        so = jobs.Find(Function(c) c.SalesOrderName = CheckedListBox1.Items(i).SalesOrderName).SalesOrderName
                         so = so.Replace("**", "")
                         If _
                             MessageBox.Show(
-                                "This order " & so &
+                                "This order: " & so &
                                 " does not have a shipment date, the label may not be correct", "Proceed?",
                                 MessageBoxButtons.YesNo) = DialogResult.No Then
                             Return "No Shipment"
@@ -81,7 +83,18 @@ Public Class FormJobs
 
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
         If CanPrint = "OK" Then
-            MessageBox.Show("We'll print here")
+            Dim Q As New QueueProcessingByCommand()
+
+            Dim j As List(Of JobInfo)
+            Dim ji As ViewPalletJobsNotPrinted
+            For Ix = 1 To CheckedListBox1.Items.Count
+                If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
+                    ji = CheckedListBox1.Items(Ix - 1)
+                    j = ctx.JobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                    Q.PrintJob(j)
+                    MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                End If
+            Next
         Else
             MessageBox.Show("We won't print here")
         End If

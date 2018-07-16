@@ -37,7 +37,7 @@ Public Class QueueProcessingInternalBase
 
     Private Function BTCommandOpen() As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -53,7 +53,7 @@ Public Class QueueProcessingInternalBase
 
     Private Function BTCommandAdd(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -63,7 +63,7 @@ Public Class QueueProcessingInternalBase
 
     Private Function BTCommandExecute() As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -73,7 +73,7 @@ Public Class QueueProcessingInternalBase
 
     Private Function BTCommandClose() As Long
         Dim erc As Long
-        Dim CommandStr As String
+        'Dim CommandStr As String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -619,7 +619,7 @@ Public Class QueueProcessingInternalBase
     End Function
 
     Private Sub CancelJob()
-        Dim erc As Long
+        'Dim erc As Long
 
         '  erc = RunSql("DELETE FROM VNA042TB07_Queue WHERE JobId=" & Strings.Format(m_JobId, "0") & " AND Status < 2")
     End Sub
@@ -823,14 +823,14 @@ Public Class QueueProcessingInternalBase
         Return erc
     End Function
 #Region "Properties"
-    Public Property BatchId As Long Implements IQueueProcessing.BatchId
-        Get
-            Return m_BatchId
-        End Get
-        Set(value As Long)
-            m_BatchId = value
-        End Set
-    End Property
+    'Public Property BatchId As Long Implements IQueueProcessing.BatchId
+    '    Get
+    '        Return m_BatchId
+    '    End Get
+    '    Set(value As Long)
+    '        m_BatchId = value
+    '    End Set
+    'End Property
 
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get

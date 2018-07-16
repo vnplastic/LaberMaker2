@@ -114,6 +114,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="QueueProcessingByCommand.vb" />
     <Compile Include="Vars.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +142,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.CartonLabels\LabelMaker2.CartonLabels.vbproj">
+      <Project>{E3CC480A-3BAE-4986-A86E-36924A44F1BD}</Project>
+      <Name>LabelMaker2.CartonLabels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
       <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
       <Name>LabelMaker2.Main.Data</Name>

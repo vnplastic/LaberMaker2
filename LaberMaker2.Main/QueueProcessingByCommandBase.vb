@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 
 Imports System.Data.SqlClient
+Imports System.IO
 Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class QueueProcessingByCommandBase
@@ -9,7 +10,7 @@ Public Class QueueProcessingByCommandBase
     Private m_QueueId As Long
     Private m_ProfileId As Long
     Private m_JobId As Long
-    Private m_BatchId As Long
+    '  Private m_BatchId As Long
     Private m_LabelId As Long
     Private m_LabelType As Long
     Private m_CopiesPerLabel As Long
@@ -112,11 +113,11 @@ Public Class QueueProcessingByCommandBase
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe & " /CLOSE"
         Dim args As String() = Environment.GetCommandLineArgs
-                If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then
+        If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then
 
-                Else
-                    Shell(CommandStr, AppWinStyle.MinimizedNoFocus, False, -1)
-                End If
+        Else
+            Shell(CommandStr, AppWinStyle.MinimizedNoFocus, False, -1)
+        End If
         Return erc
     End Function
 
@@ -160,9 +161,10 @@ Public Class QueueProcessingByCommandBase
         Result = ""
 
         For Each WorkFile In
-            My.Computer.FileSystem.GetFiles(AppSettings.DocumentPath,
-                                            Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly,
-                                            pTemplateFile & "_*.btw")
+            Directory.GetFiles(AppSettings.DocumentPath, pTemplateFile & "_*.btw", SearchOption.TopDirectoryOnly)
+            'My.Computer.FileSystem.GetFiles(AppSettings.DocumentPath,
+            '                                Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly,
+            '                                pTemplateFile & "_*.btw")
             If WorkFile > Result Then
                 Result = WorkFile
             End If
@@ -170,9 +172,10 @@ Public Class QueueProcessingByCommandBase
 
         If Len(Result) = 0 Then
             For Each WorkFile In
-                My.Computer.FileSystem.GetFiles(AppSettings.DocumentPath,
-                                                Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly,
-                                                "_DEFAULT" & Mid(pTemplateFile, 9) & "_*.btw")
+                Directory.GetFiles(AppSettings.DocumentPath, "_DEFAULT" & Mid(pTemplateFile, 9) & "_*.btw", SearchOption.TopDirectoryOnly)
+                'My.Computer.FileSystem.GetFiles(AppSettings.DocumentPath,
+                '                                Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly,
+                '                                "_DEFAULT" & Mid(pTemplateFile, 9) & "_*.btw")
                 If WorkFile > Result Then
                     Result = WorkFile
                 End If
@@ -252,7 +255,7 @@ Public Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -267,7 +270,7 @@ Public Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -281,7 +284,7 @@ Public Class QueueProcessingByCommandBase
         Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
-        CommandStr = $"Batch {Format(m_BatchId, "0")} has finished printing on {m_PrinterName}. Click OK to continue."
+        CommandStr = $"Batch {Format(m_JobId, "0")} has finished printing on {m_PrinterName}. Click OK to continue."
         PauseWithMessage(CommandStr)
         Return erc
     End Function
@@ -292,7 +295,7 @@ Public Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -304,7 +307,7 @@ Public Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{Format(m_BatchId, "0")}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{Format(m_JobId, "0")}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -318,7 +321,7 @@ Public Class QueueProcessingByCommandBase
         Dim CommandStr As System.String
 
         erc = QEnum.QueueConsumerErrorCodes.OK
-        CommandStr = $"Batch { Format(m_BatchId, "0")} is ready to print on {m_PrinterName}. Click OK to continue."
+        CommandStr = $"Batch { Format(m_JobId, "0")} is ready to print on {m_PrinterName}. Click OK to continue."
         PauseWithMessage(CommandStr) 'ResolveMacros(CommandStr))
         'erc = BTCommandAdd(CommandStr)
         Return erc
@@ -374,7 +377,7 @@ Public Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
         vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -512,11 +515,11 @@ Public Class QueueProcessingByCommandBase
                          & "      </QueryPrompt>" & vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
+                         & $"        <Value>{Format(m_JobId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         End If
         CommandStr = m_BTExe &
-                    $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                    $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -536,11 +539,11 @@ Public Class QueueProcessingByCommandBase
                          & "      </QueryPrompt>" & vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
+                         & $"        <Value>{Format(m_JobId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         End If
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_BatchId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -640,14 +643,14 @@ Public Class QueueProcessingByCommandBase
         'erc = RunSql("DELETE FROM VNA042TB07_Queue WHERE JobId=" & Strings.Format(m_JobId, "0") & " AND Status < 2")
     End Sub
     Public Function WriteRecord() As Long Implements IQueueProcessing.WriteRecord
-        'Dim erc As Long
+        Dim erc As Long
         ''Dim Ix As Long
         'Dim SqlConnection As New ADODB.Connection
         'Dim SqlProc As New ADODB.Command
         ''Dim SqlStr As System.String
         'Dim ResultSet As New ADODB.Recordset
 
-        'erc = QEnum.QueueConsumerErrorCodes.OK
+        erc = QEnum.QueueConsumerErrorCodes.OK
         'SqlConnection.ConnectionString = "FileDSN=" + My.Settings.DB_ODBC
         'SqlConnection.Open()
         'SqlProc.ActiveConnection = SqlConnection
@@ -656,8 +659,7 @@ Public Class QueueProcessingByCommandBase
         '                      Format(m_QueueId, "0")
         'SqlProc.Execute()
 
-
-        'Return erc
+        Return erc
     End Function
 
     Public Function WriteStatusComplete() As Long Implements IQueueProcessing.WriteStatusComplete
@@ -708,13 +710,13 @@ Public Class QueueProcessingByCommandBase
     End Function
 
     Public Function ReadRecord() As Long Implements IQueueProcessing.ReadRecord
-        'Dim erc As Long
+        Dim erc As Long
         ''Dim Ix As Long
         'Dim SqlConnection As New ADODB.Connection
         'Dim SqlProc As New ADODB.Command
         'Dim ResultSet As New ADODB.Recordset
 
-        'erc = QEnum.QueueConsumerErrorCodes.OK
+        erc = QEnum.QueueConsumerErrorCodes.OK
         'SqlConnection.ConnectionString = "FileDSN=" + My.Settings.DB_ODBC
         'SqlConnection.Open()
         'SqlProc.ActiveConnection = SqlConnection
@@ -753,7 +755,7 @@ Public Class QueueProcessingByCommandBase
 
         'ResultSet.Close()
 
-        'Return erc
+        Return erc
     End Function
 
     Public Function ReadRecordByQueueId(pQueueId As Long) As Long Implements IQueueProcessing.ReadRecordByQueueId
@@ -839,14 +841,14 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 #Region "Properties"
-    Public Property BatchId As Long Implements IQueueProcessing.BatchId
-        Get
-            Return m_BatchId
-        End Get
-        Set(value As Long)
-            m_BatchId = value
-        End Set
-    End Property
+    'Public Property BatchId As Long Implements IQueueProcessing.BatchId
+    '    Get
+    '        Return m_BatchId
+    '    End Get
+    '    Set(value As Long)
+    '        m_BatchId = value
+    '    End Set
+    'End Property
 
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get

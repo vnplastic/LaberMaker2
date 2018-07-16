@@ -29,10 +29,10 @@
         <File Name="DataModel1.ViewPalletJobsNotPrinted.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.ViewPrinter.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.ViewPrinter.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.JobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.JobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.Printer.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.Printer.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.JobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.JobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.PregeneratedViews.vb" Project="LabelMaker2.Main.Data" />
       </GeneratedFiles>
     </Generation>

@@ -25,6 +25,8 @@ Partial Class FormCustomerProfile
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.grdCustomerProfiles = New System.Windows.Forms.DataGridView()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.cboPrinter = New System.Windows.Forms.ComboBox()
         Me.txtCustName = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtCustomerShortName = New System.Windows.Forms.TextBox()
@@ -35,8 +37,6 @@ Partial Class FormCustomerProfile
         Me.cboCustomer = New System.Windows.Forms.ComboBox()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnAdd = New System.Windows.Forms.Button()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.cboPrinter = New System.Windows.Forms.ComboBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -103,6 +103,23 @@ Partial Class FormCustomerProfile
         Me.SplitContainer2.Size = New System.Drawing.Size(583, 273)
         Me.SplitContainer2.SplitterDistance = 221
         Me.SplitContainer2.TabIndex = 0
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(63, 176)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(37, 13)
+        Me.Label5.TabIndex = 10
+        Me.Label5.Text = "Printer"
+        '
+        'cboPrinter
+        '
+        Me.cboPrinter.FormattingEnabled = True
+        Me.cboPrinter.Location = New System.Drawing.Point(136, 176)
+        Me.cboPrinter.Name = "cboPrinter"
+        Me.cboPrinter.Size = New System.Drawing.Size(278, 21)
+        Me.cboPrinter.TabIndex = 9
         '
         'txtCustName
         '
@@ -191,23 +208,6 @@ Partial Class FormCustomerProfile
         Me.btnAdd.TabIndex = 0
         Me.btnAdd.Text = "Add Profile"
         Me.btnAdd.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(63, 176)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(37, 13)
-        Me.Label5.TabIndex = 10
-        Me.Label5.Text = "Printer"
-        '
-        'cboPrinter
-        '
-        Me.cboPrinter.FormattingEnabled = True
-        Me.cboPrinter.Location = New System.Drawing.Point(136, 176)
-        Me.cboPrinter.Name = "cboPrinter"
-        Me.cboPrinter.Size = New System.Drawing.Size(278, 21)
-        Me.cboPrinter.TabIndex = 9
         '
         'FormCustomerProfile
         '

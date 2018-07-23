@@ -11,6 +11,7 @@ Public Class FormCustomerProfile
     Dim lstType As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
     Dim printerBindingSource As New BindingSource
     Dim lstPrinters As List(Of LabelMaker2.Main.Data.VNDataModel.Printer) = New List(Of LabelMaker2.Main.Data.VNDataModel.Printer)
+    Dim bAddMode As Boolean = False
 
 
     Private Sub FormCustomerProfile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -66,12 +67,12 @@ Public Class FormCustomerProfile
 
         grdCustomerProfiles.DataSource = custBindingSource
 
-        lstCust = ctx.CustomerSoldTos.AsNoTracking.OrderBy(Function(c) c.Name).ToList()
+        lstCust = ctx.CustomerSoldTos.OrderBy(Function(c) c.Name).ToList()
         newcustBindingSource.DataSource = lstCust
-        lstType = ctx.JobTypes.AsNoTracking.OrderBy(Function(c) c.JobTypeName).ToList()
+        lstType = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
         typeBindingSource.DataSource = lstType
 
-        lstPrinters = ctx.Printers.AsNoTracking.ToList()
+        lstPrinters = ctx.Printers.ToList()
 
         printerBindingSource.DataSource = lstPrinters
 
@@ -94,6 +95,7 @@ Public Class FormCustomerProfile
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         ClearForm()
+        bAddMode = True
     End Sub
 
     Private Sub cboCustomer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCustomer.SelectedIndexChanged
@@ -124,20 +126,31 @@ Public Class FormCustomerProfile
         cust.KNDY4CustomerC1 = cboCustomer.SelectedValue '"a1B36000001hoHbEAI"
         cust.CustomerName = txtCustName.Text '"Wal-Mart Stores Inc."
         cust.CustomerShortName = txtCustomerShortName.Text
-        'lst.Add(cust)
-        ctx.CustomerJobInfos.Add(cust)
-        lst.Add(cust)
+        If bAddMode Then
+            Dim custExists As Int16
+            custExists = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust.KNDY4CustomerC1 And c.JobTypeId = cust.JobTypeId).Count
+            If custExists = 0 Then
+                lst.Add(cust)
+                ctx.CustomerJobInfos.Add(cust)
+            Else
+                MessageBox.Show("A record with this customer and JobType already exists", "Error")
+                Return
+            End If
+        End If
+        ctx.SaveChanges()
         custBindingSource.ResetBindings(False)
         ' grdCustomerProfiles.Refresh()
 
-        ctx.SaveChanges()
+
         ClearForm()
+        bAddMode = False
     End Sub
     Sub ClearForm()
         cboCustomer.SelectedIndex = -1
         cboJobType.SelectedIndex = -1
         cboPrinter.SelectedIndex = -1
         txtCustomerShortName.Text = ""
+        grdCustomerProfiles.Rows(0).Selected = True
     End Sub
 
     Private Sub grdCustomerProfiles_UserDeletedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdCustomerProfiles.UserDeletedRow
@@ -156,5 +169,17 @@ Public Class FormCustomerProfile
         ctx.SaveChanges()
         custBindingSource.ResetBindings(False)
 
+    End Sub
+
+    Private Sub grdCustomerProfiles_SelectionChanged(sender As Object, e As EventArgs) Handles grdCustomerProfiles.SelectionChanged
+        Dim s As DataGridView = TryCast(sender, DataGridView)
+        If s.SelectedRows.Count > 0 Then
+            Dim t As CustomerJobInfo = TryCast(s.SelectedRows(0).DataBoundItem, CustomerJobInfo)
+            cboCustomer.SelectedIndex = cboCustomer.FindString(t.CustomerName)
+            cboJobType.SelectedIndex = cboJobType.FindString(t.JobTypeName)
+            cboPrinter.SelectedIndex = If(t.PrinterName Is Nothing, -1, cboPrinter.FindString(t.PrinterName))
+            txtCustomerShortName.Text = If(t.CustomerShortName = Nothing, "", t.CustomerShortName)
+            'cboCustomer.SelectedText = t.CustomerName
+        End If
     End Sub
 End Class

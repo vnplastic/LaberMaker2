@@ -1,5 +1,6 @@
 ﻿Imports System.Data.Entity
 Imports LabelMaker2.Main.Data.VNDataModel
+Imports NLog
 
 Public Class FormMain
     Dim m_JobTypeId = 0
@@ -7,17 +8,18 @@ Public Class FormMain
     Dim m_LoadedJobTypes As Dictionary(Of Integer, UserControl) = New Dictionary(Of Integer, UserControl)
     Dim ctx As VNDataEntities
     Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
+    Dim log As Logger
 #Region "Job Control"
     Private Sub GetJobTypes()
-
-        jobTypes = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
-        For Each j In jobTypes
-            Dim job As JobType = New JobType With {
+        Try
+            jobTypes = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
+            For Each j In jobTypes
+                Dim job As JobType = New JobType With {
                     .JobTypeId = j.JobTypeId,
                     .JobTypeName = j.JobTypeName}
 
-            m_JobTypeList.Add(job)
-            Dim btn As New RadioButton With {
+                m_JobTypeList.Add(job)
+                Dim btn As New RadioButton With {
                     .Name = "Button" + j.JobTypeId.ToString(),
                     .Text = j.JobTypeName,
                     .Dock = DockStyle.Top,
@@ -26,14 +28,17 @@ Public Class FormMain
                     .Appearance = Appearance.Button,
                     .TextAlign = ContentAlignment.MiddleCenter,
                     .Enabled = False}
-            GroupBox1.Controls.Add(btn)
-            AddHandler btn.CheckedChanged, AddressOf OnJobTypeChanged
-        Next
-        If jobTypes.Count > 0 Then
-            Dim b As RadioButton = Me.Controls.Find("Button1", True).FirstOrDefault
-            b.Select()
-            SetJobButtons()
-        End If
+                GroupBox1.Controls.Add(btn)
+                AddHandler btn.CheckedChanged, AddressOf OnJobTypeChanged
+            Next
+            If jobTypes.Count > 0 Then
+                Dim b As RadioButton = Me.Controls.Find("Button1", True).FirstOrDefault
+                b.Select()
+                SetJobButtons()
+            End If
+        Catch
+
+        End Try
     End Sub
 
     Private Sub SetJobButtons()

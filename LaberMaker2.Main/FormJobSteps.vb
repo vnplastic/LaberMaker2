@@ -82,6 +82,7 @@ Public Class FormJobSteps
 
     Private Sub grdCustomerJobInfo_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles grdCustomerJobInfo.RowEnter
         ' MessageBox.Show(lst(e.RowIndex).CustomerShortName)
+        frmLoading = True
 
         Dim iJobType As Integer = lst(e.RowIndex).JobTypeId
         Dim iCustomerInfo As Integer = lst(e.RowIndex).CustomerJobInfoId
@@ -122,6 +123,7 @@ Public Class FormJobSteps
         'Next
         icurrentCustJob = e.RowIndex
         ClearForm()
+        frmLoading = False
     End Sub
 
     Private Sub ClearForm()
@@ -135,18 +137,15 @@ Public Class FormJobSteps
 
     Private Sub btnMoveToCurrent_Click(sender As Object, e As EventArgs) Handles btnMoveToCurrent.Click
         Dim currentAvaialble As JobStep
+        Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
 
         If lstAvailableSteps.SelectedIndex <> -1 Then
+            frmLoading = True
             currentAvaialble = blstStepsAvailable(lstAvailableSteps.SelectedIndex)
-            If isDirty = True Then
-                If MessageBox.Show("You have not saved the last change in steps, do you wish the save first?", "Save?", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                    isDirty = False
-                    SaveChanges()
-                End If
-            End If
+
             blstStepsIncluded.Add(currentAvaialble)
             blstStepsAvailable.Remove(currentAvaialble)
-            isDirty = True
+            ' isDirty = True
 
             lstStepsAvailable.Sort(Function(x As JobStep, y As JobStep)
                                        Return x.JobStepOrder.CompareTo(y.JobStepOrder)
@@ -159,16 +158,26 @@ Public Class FormJobSteps
 
             blstStepsAvailable.ResetBindings()
             blstStepsIncluded.ResetBindings()
+            lstCurrentSteps.SelectedIndex = lstCurrentSteps.FindString(currentAvaialble.JobStepName)
+            Dim changedStep = New CustomerJobStep
+            changedStep.JobStepId = currentAvaialble.JobStepId
+            changedStep.CustomerJobInfoId = iCustInfoId
+            ctx.CustomerJobSteps.Add(changedStep)
+            ' ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentAvaialble.JobStepId)
 
-            'ctx.SaveChanges()
+            ctx.SaveChanges()
+            isDirty = False
         End If
-
+        frmLoading = False
     End Sub
 
     Private Sub btnMoveToAvailable_Click(sender As Object, e As EventArgs) Handles btnMoveToAvailable.Click
         Dim currentInclude As JobStep
+        Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
         If lstCurrentSteps.SelectedIndex <> -1 Then
-            isDirty = True
+            frmLoading = True
+
+            'isDirty = True
             currentInclude = blstStepsIncluded(lstCurrentSteps.SelectedIndex)
             blstStepsIncluded.Remove(currentInclude)
             blstStepsAvailable.Add(currentInclude)
@@ -182,30 +191,32 @@ Public Class FormJobSteps
                                    End Function)
             blstStepsAvailable.ResetBindings()
             blstStepsIncluded.ResetBindings()
-
-
+            Dim changedStep = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentInclude.JobStepId)
+            ctx.CustomerJobSteps.Remove(changedStep)
+            ctx.SaveChanges()
+            isDirty = False
         End If
+        frmLoading = False
     End Sub
 
     Private Sub lstCurrentSteps_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCurrentSteps.SelectedIndexChanged
+        If frmLoading = False Then
+            If isDirty = True Then
+                If MessageBox.Show("You have not saved the last change in steps, do you wish the save first?", "Save?", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 
-        If lstCurrentSteps.SelectedIndex <> -1 Then
-
-            Dim iJobStepId As Integer = lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex).JobStepId
-            Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
-            Dim newStep As New CustomerJobStep
-            newStep = ctx.CustomerJobSteps.Where(Function(c) c.JobStepId = iJobStepId And
-                                                                   c.CustomerJobInfoId = iCustInfoId).FirstOrDefault()
-
-            ' lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex)
-            If newStep Is Nothing Then 'New Record
-                currentStep = New CustomerJobStep
-                isDirty = True
-                ClearForm()
-            Else
-                If currentStep.CustomerJobStepsId <> newStep.CustomerJobStepsId And isDirty Then
                     SaveChanges()
                 End If
+                isDirty = False
+            End If
+            If lstCurrentSteps.SelectedIndex <> -1 Then
+
+                Dim iJobStepId As Integer = lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex).JobStepId
+                Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
+                Dim newStep As New CustomerJobStep
+                newStep = ctx.CustomerJobSteps.Where(Function(c) c.JobStepId = iJobStepId And
+                                                                       c.CustomerJobInfoId = iCustInfoId).FirstOrDefault()
+
+
                 If newStep.LabelOrientationId Is Nothing Then cboLabelOrientation.SelectedIndex = -1 Else cboLabelOrientation.SelectedValue = newStep.LabelOrientationId
                 If newStep.DeliveryTypeId Is Nothing Then cboDeliveryType.SelectedIndex = -1 Else cboDeliveryType.SelectedValue = newStep.DeliveryTypeId
                 If newStep.LabelSizeId Is Nothing Then cboLabelSize.SelectedIndex = -1 Else cboLabelSize.SelectedValue = newStep.LabelSizeId
@@ -220,6 +231,8 @@ Public Class FormJobSteps
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         SaveChanges()
+
+        'ctx.SaveChanges()
     End Sub
 
 
@@ -228,22 +241,37 @@ Public Class FormJobSteps
     End Sub
     Private Sub SaveChanges()
         Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
-        currentStep.LabelOrientationId = cboLabelOrientation.SelectedValue
-        currentStep.DeliveryTypeId = cboDeliveryType.SelectedValue
-        currentStep.LabelSizeId = cboLabelSize.SelectedValue
-        currentStep.PrinterCompatibilityID = cboPrinterCompatibility.SelectedValue
-        currentStep.SourceTypeId = cboSourceType.SelectedValue
-        currentStep.LabelCount = numLabelCount.Value
-        currentStep.CustomerJobInfoId = iCustInfoId
-        currentStep.JobStepId = lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex).JobStepId
-        Dim original = ctx.CustomerJobSteps.Find(currentStep.CustomerJobStepsId)
-        If Not original Is Nothing Then
-            ctx.Entry(original).CurrentValues.SetValues(currentStep)
-            ctx.SaveChanges()
-        Else
-            ctx.CustomerJobSteps.Add(currentStep)
-            ctx.SaveChanges()
+        ' Dim original = ctx.CustomerJobSteps.Find(iCustInfoId)
+        Dim original = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentStep.JobStepId).FirstOrDefault
 
+        If isDirty = True Then
+            If Not original Is Nothing Then
+                ' ctx.Entry(original).CurrentValues.SetValues(currentStep)
+                original.LabelOrientationId = cboLabelOrientation.SelectedValue
+                original.DeliveryTypeId = cboDeliveryType.SelectedValue
+                original.LabelSizeId = cboLabelSize.SelectedValue
+                original.PrinterCompatibilityID = cboPrinterCompatibility.SelectedValue
+                original.SourceTypeId = cboSourceType.SelectedValue
+                original.LabelCount = numLabelCount.Value
+
+                ctx.SaveChanges()
+                'Else
+                '    currentStep.LabelOrientationId = cboLabelOrientation.SelectedValue
+                'currentStep.DeliveryTypeId = cboDeliveryType.SelectedValue
+                'currentStep.LabelSizeId = cboLabelSize.SelectedValue
+                'currentStep.PrinterCompatibilityID = cboPrinterCompatibility.SelectedValue
+                'currentStep.SourceTypeId = cboSourceType.SelectedValue
+                'currentStep.LabelCount = numLabelCount.Value
+                'currentStep.CustomerJobInfoId = iCustInfoId
+                'currentStep.JobStepId = lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex).JobStepId
+
+                'Dim original = ctx.CustomerJobSteps.Where(Function(c) c.JobStepId = currentStep.JobStepId And c.CustomerJobInfoId = iCustInfoId).FirstOrDefault
+
+
+                '    ctx.CustomerJobSteps.Add(currentStep)
+                'ctx.SaveChanges()
+
+            End If
         End If
 
         'isDirty = ctx.CustomerJobSteps

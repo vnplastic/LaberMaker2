@@ -191,7 +191,7 @@ Public Class FormJobSteps
                                    End Function)
             blstStepsAvailable.ResetBindings()
             blstStepsIncluded.ResetBindings()
-            Dim changedStep = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentInclude.JobStepId)
+            Dim changedStep = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentInclude.JobStepId).FirstOrDefault
             ctx.CustomerJobSteps.Remove(changedStep)
             ctx.SaveChanges()
             isDirty = False

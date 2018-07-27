@@ -6,9 +6,12 @@ Imports LabelMaker2.Main.Data.VNDataModel
 Public Class FormJobs
     Dim ctx As VNDataEntities
     Dim jobs As List(Of ViewPalletJobsNotPrinted)
+    Dim log As NLog.Logger
 
 
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        log = NLog.LogManager.GetCurrentClassLogger
+        log.Trace("Pallet Label Module Starting Up")
         ctx = New VNDataEntities(Vars.ConnString)
         Dim i As Integer = 0
         jobs = ctx.ViewPalletJobsNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
@@ -83,20 +86,27 @@ Public Class FormJobs
 
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
         If CanPrint = "OK" Then
-            Dim Q As New QueueProcessingByCommand()
+            Try
+                Dim Q As New QueueProcessingByCommand()
 
-            Dim j As List(Of JobInfo)
-            Dim ji As ViewPalletJobsNotPrinted
-            For Ix = 1 To CheckedListBox1.Items.Count
-                If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
-                    ji = CheckedListBox1.Items(Ix - 1)
-                    j = ctx.JobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                    Q.PrintJob(j)
-                    MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
-                End If
-            Next
+                Dim j As List(Of PalletJobInfo)
+                Dim ji As ViewPalletJobsNotPrinted
+                For Ix = 1 To CheckedListBox1.Items.Count
+                    If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
+                        ji = CheckedListBox1.Items(Ix - 1)
+                        j = ctx.PalletJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                        Q.PrintJob(j)
+                        MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                    End If
+                Next
+            Catch ex As Exception
+                log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
+                MessageBox.Show("An error occurred trying to print labels", "Error")
+            End Try
         Else
-            MessageBox.Show("We won't print here")
+                MessageBox.Show("We won't print here")
+
         End If
+
     End Sub
 End Class

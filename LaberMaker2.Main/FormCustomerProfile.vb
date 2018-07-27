@@ -126,6 +126,7 @@ Public Class FormCustomerProfile
         cust.KNDY4CustomerC1 = cboCustomer.SelectedValue '"a1B36000001hoHbEAI"
         cust.CustomerName = txtCustName.Text '"Wal-Mart Stores Inc."
         cust.CustomerShortName = txtCustomerShortName.Text
+        'ToDo: Need to fix printer name issue
         If bAddMode Then
             Dim custExists As Int16
             custExists = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust.KNDY4CustomerC1 And c.JobTypeId = cust.JobTypeId).Count

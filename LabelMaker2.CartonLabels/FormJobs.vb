@@ -7,9 +7,12 @@ Public Class FormJobs
     Dim ctx As VNDataEntities
     Dim jobs As List(Of ViewJobNotPrinted)
     Dim q As New QueueProcessingByCommand
+    Dim log As NLog.Logger
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ctx = New VNDataEntities(Vars.ConnString)
+        log = NLog.LogManager.GetCurrentClassLogger
         Dim i As Integer = 0
+        log.Trace("Carton Label Module Starting Up.....")
         jobs = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
 
         For Each j In jobs
@@ -51,19 +54,24 @@ Public Class FormJobs
     End Sub
 
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
-        If CanPrint = "OK" Then
-            Dim Q As New QueueProcessingByCommand()
+        'If CanPrint = "OK" Then
+        Try
+                Dim Q As New QueueProcessingByCommand()
 
-            Dim j As List(Of JobInfo)
-            Dim ji As ViewJobNotPrinted
-            For Ix = 1 To CheckedListBox1.Items.Count
-                If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
-                    ji = CheckedListBox1.Items(Ix - 1)
-                    j = ctx.JobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                    Q.PrintJob(j)
-                    MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
-                End If
-            Next
+                Dim j As List(Of CartonJobInfo)
+                Dim ji As ViewJobNotPrinted
+                For Ix = 1 To CheckedListBox1.Items.Count
+                    If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
+                        ji = CheckedListBox1.Items(Ix - 1)
+                        j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                        Q.PrintJob(j)
+                        MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                    End If
+                Next
+            Catch ex As Exception
+                log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
+                MessageBox.Show("An error occurred trying to print labels", "Error")
+            End Try
         Else
             MessageBox.Show("We won't print here")
         End If

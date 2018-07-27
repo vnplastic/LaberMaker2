@@ -47,7 +47,7 @@ Public Class QueueProcessingByCommandBase
         JobId = _job(0).JobId
 
         Dim t As List(Of String)
-        t = _job.Where(Function(c) Not c.FormatName Is Nothing).Select(Function(c) c.FormatName).Distinct.ToList()
+        t = _job.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
 
         For Each f In t
             TemplateFile = f

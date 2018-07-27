@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.JobInfo in the schema.
+    ''' There are no comments for VNDataModel.PalletJobInfo in the schema.
     ''' </summary>
-    Public partial class JobInfo 
+    Public partial class PalletJobInfo 
 
         Public Sub New()
             OnCreated()

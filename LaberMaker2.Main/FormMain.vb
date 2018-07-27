@@ -12,7 +12,7 @@ Public Class FormMain
 #Region "Job Control"
     Private Sub GetJobTypes()
         Try
-            jobTypes = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
+            jobTypes = ctx.JobTypes.OrderByDescending(Function(c) c.JobTypeName).ToList()
             For Each j In jobTypes
                 Dim job As JobType = New JobType With {
                     .JobTypeId = j.JobTypeId,
@@ -42,10 +42,11 @@ Public Class FormMain
     End Sub
 
     Private Sub SetJobButtons()
-        Dim jobs = New List(Of ViewJobNotPrinted)
-        jobs = ctx.ViewJobNotPrinteds.ToList()
+        ' Dim jobs = New List(Of ViewJobNotPrinted)
+        Dim jobs = New List(Of Integer)
+        jobs = ctx.ViewJobNotPrinteds.Select(Function(c) c.JobTypeId).Distinct().ToList()
         For Each j In jobs
-            Dim b As RadioButton = Me.Controls.Find("Button" & j.JobTypeId, True).FirstOrDefault
+            Dim b As RadioButton = Me.Controls.Find("Button" & j, True).FirstOrDefault
             b.Enabled = True
         Next
     End Sub
@@ -56,36 +57,49 @@ Public Class FormMain
         Dim tmpDLL As ILabelProperties
 
         If m_JobTypeId <> b.Tag Then
-            m_JobTypeId = b.Tag
-            instanceDll = jobTypes.Where(Function(c) c.JobTypeId = m_JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
-            If SplitContainer1.Panel2.Controls.Count > 0 Then SplitContainer1.Panel2.Controls.RemoveAt(SplitContainer1.Panel2.Controls.Count - 1)
-            tmpDLL = Globals.CreateLabelInstance(instanceDll)
-            'Select Case m_JobTypeId
-            '    Case 1
+            Try
+                m_JobTypeId = b.Tag
+                instanceDll = jobTypes.Where(Function(c) c.JobTypeId = m_JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                If SplitContainer1.Panel2.Controls.Count > 0 Then SplitContainer1.Panel2.Controls.RemoveAt(SplitContainer1.Panel2.Controls.Count - 1)
+                tmpDLL = Globals.CreateLabelInstance(instanceDll)
+                'Select Case m_JobTypeId
+                '    Case 1
 
-            '        tmpDLL = Globals.CreateLabelInstance("LabelMaker2.CartonLabels.dll")
-            For Each c As Control In SplitContainer1.Panel2.Controls
-                        c.Visible = False
-                    Next
-                    If m_LoadedJobTypes.ContainsKey(m_JobTypeId) Then
-                        SplitContainer1.Panel2.Controls.Add(m_LoadedJobTypes(m_JobTypeId))
-                    Else
-                        SplitContainer1.Panel2.Controls.Add(tmpDLL.FormPrint)
-                        m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
-                    End If
+                '        tmpDLL = Globals.CreateLabelInstance("LabelMaker2.CartonLabels.dll")
+                For Each c As Control In SplitContainer1.Panel2.Controls
+                    c.Visible = False
+                Next
+                If m_LoadedJobTypes.ContainsKey(m_JobTypeId) Then
+                    SplitContainer1.Panel2.Controls.Add(m_LoadedJobTypes(m_JobTypeId))
+                Else
+                    SplitContainer1.Panel2.Controls.Add(tmpDLL.FormPrint)
+                    m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
+                End If
 
-            ' If Not tmpDLL Is Nothing Then tmpDLL.DBConnString = "FileDSN=" + My.Settings.DB_ODBC
+                ' If Not tmpDLL Is Nothing Then tmpDLL.DBConnString = "FileDSN=" + My.Settings.DB_ODBC
 
-            For Each c As Control In SplitContainer1.Panel2.Controls
-                Debug.Print(c.Name)
-            Next
+                For Each c As Control In SplitContainer1.Panel2.Controls
+                    Debug.Print(c.Name)
+                Next
+            Catch ex As Exception
+                MessageBox.Show("A serious error occurred when loading Job Types", "Error")
+                log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+
         End If
     End Sub
 #End Region
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim conn As String = Globals.GetEFConnectionString
-        ctx = New VNDataEntities(conn)
-        GetJobTypes()
+        log = NLog.LogManager.GetCurrentClassLogger
+        log.Trace("LabelMaker2 starting up")
+        Try
+            ctx = New VNDataEntities(conn)
+            GetJobTypes()
+        Catch ex As Exception
+            MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
+            log.Debug(ex.Message & vbCrLf & ex.StackTrace)
+        End Try
 
     End Sub
 

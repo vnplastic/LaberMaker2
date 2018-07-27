@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.JobInfo in the schema.
+    ''' There are no comments for VNDataModel.VNA057VWA3AddressJobInfo in the schema.
     ''' </summary>
-    Public partial class JobInfo 
+    Public partial class VNA057VWA3AddressJobInfo 
 
         Public Sub New()
             OnCreated()

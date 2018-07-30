@@ -160,9 +160,9 @@ Public Class QueueProcessingByXMLBase
     End Function
 
 
-    Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
+    ' Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
 
-    Public Function PrintJob(_job As List(Of JobInfo)) As Boolean Implements IQueueProcessing.PrintJob
+    Public Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
         Throw New NotImplementedException
     End Function
 
@@ -949,7 +949,14 @@ Public Class QueueProcessingByXMLBase
     '        m_BatchId = value
     '    End Set
     'End Property
-
+    Public Property BTExe As String Implements IQueueProcessing.BTExe
+        Get
+            Return m_BTExe
+        End Get
+        Set(value As String)
+            m_BTExe = value
+        End Set
+    End Property
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get
             Return m_CopiesPerLabel

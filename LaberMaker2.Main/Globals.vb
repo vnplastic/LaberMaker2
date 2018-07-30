@@ -5,10 +5,21 @@ Imports IniParser
 Imports IniParser.Model
 
 Public Module Globals
-
+    Private _logger As NLog.Logger
     Public ReadOnly Property ConnString() As String
         Get
             Return GetConnString()
+        End Get
+
+    End Property
+    Public ReadOnly Property Logger() As NLog.Logger
+        Get
+            If _logger Is Nothing Then
+                Return NLog.LogManager.GetCurrentClassLogger
+            Else
+                Return _logger
+            End If
+
         End Get
 
     End Property

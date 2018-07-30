@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.PalletJobInfo in the schema.
+    ''' There are no comments for VNDataModel.CartonJobLineInfo in the schema.
     ''' </summary>
-    Public partial class PalletJobInfo 
+    Public partial class CartonJobLineInfo 
 
         Public Sub New()
             OnCreated()
@@ -181,6 +181,56 @@ Namespace VNDataModel
         ''' There are no comments for PalletLabelCount in the schema.
         ''' </summary>
         Public Overridable Property PalletLabelCount() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerPrintName in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerPrintName() As String
+    
+        ''' <summary>
+        ''' There are no comments for LabelCount in the schema.
+        ''' </summary>
+        Public Overridable Property LabelCount() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for LabelPerLine in the schema.
+        ''' </summary>
+        Public Overridable Property LabelPerLine() As Global.System.Nullable(Of Boolean)
+    
+        ''' <summary>
+        ''' There are no comments for LineNo in the schema.
+        ''' </summary>
+        Public Overridable Property LineNo() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for LineCartonCount in the schema.
+        ''' </summary>
+        Public Overridable Property LineCartonCount() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for NextUniqueLabelNo in the schema.
+        ''' </summary>
+        Public Overridable Property NextUniqueLabelNo() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerJobInfoId in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerJobInfoId() As Integer
+    
+        ''' <summary>
+        ''' There are no comments for SOId in the schema.
+        ''' </summary>
+        Public Overridable Property SOId() As String
+    
+        ''' <summary>
+        ''' There are no comments for CustomerStockNumber in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerStockNumber() As String
+    
+        ''' <summary>
+        ''' There are no comments for VNDesc in the schema.
+        ''' </summary>
+        Public Overridable Property VNDesc() As String
 
         #End Region
     

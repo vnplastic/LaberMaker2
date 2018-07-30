@@ -4,7 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports LabelMaker2.Main.Data.VNDataModel
 
-Public Class QueueProcessingByCommandBase
+Public MustInherit Class QueueProcessingByCommandBase
     Implements IQueueProcessing
 #Region "Fields"
     Private m_QueueId As Long
@@ -32,7 +32,7 @@ Public Class QueueProcessingByCommandBase
     Private m_SalesOrderNo As String
     Private m_Cancel As Boolean
     Private ctx As VNDataEntities
-    Dim m_JobStepInfo As JobInfo
+    'Dim m_JobStepInfo As T
 #End Region
     Sub New()
         m_QueueProcessMode = QEnum.QueueProcessMode.CommandLine
@@ -41,34 +41,14 @@ Public Class QueueProcessingByCommandBase
 
     End Sub
 
-    Public Function PrintJob(_job As List(Of JobInfo)) As Boolean Implements IQueueProcessing.PrintJob
+    Public MustOverride Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
 
-        PrinterName = _job(0).PrinterName
-        JobId = _job(0).JobId
-
-        Dim t As List(Of String)
-        t = _job.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
-
-        For Each f In t
-            TemplateFile = f
-            AddFormat(TemplateFile)
-            Debug.Print(TemplateFile)
-        Next
-        For Each j As JobInfo In _job
-            JobStepInfo = j
-            TemplateFile = JobStepInfo.FormatName
-            ProcessQueueRecord(JobStepToQType(j.JobStepName))
-            Debug.Print(j.JobStepName)
-        Next
-
-        Return True
-    End Function
     'Function GetFormat(f As String) As String
     '    Dim r As String
     '    r = j.FormatName
     '    Return r
     'End Function
-    Private Function BTCommandOpen() As Long
+    Function BTCommandOpen() As Long
         Dim erc As Long
         erc = QEnum.QueueConsumerErrorCodes.OK
 
@@ -82,7 +62,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function BTCommandAdd(ByVal pCommandStr As System.String) As Long
+    Function BTCommandAdd(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
         Dim CommandStr As String
 
@@ -106,7 +86,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function BTCommandExecute() As Long
+    Function BTCommandExecute() As Long
         Dim erc As Long
         Dim CommandStr As String
 
@@ -121,7 +101,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function BTCommandClose() As Long
+    Function BTCommandClose() As Long
         Dim erc As Long
         erc = QEnum.QueueConsumerErrorCodes.OK
         FileClose(m_BTCommandHandle)
@@ -129,7 +109,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function ProcessBatchCommand(ByVal pCommandStr As System.String) As Long
+    Function ProcessBatchCommand(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
 
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -137,7 +117,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function ProcessLineCommand(ByVal pCommandStr As System.String) As Long
+    Function ProcessLineCommand(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
 
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -145,7 +125,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function ProcessInternalCommand(ByVal pCommandStr As System.String) As Long
+    Function ProcessInternalCommand(ByVal pCommandStr As System.String) As Long
         Dim erc As Long
 
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -153,7 +133,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function GetFormatFileNameFromTemplateFile(ByVal pTemplateFile As String) As String
+    Function GetFormatFileNameFromTemplateFile(ByVal pTemplateFile As String) As String
         Dim Result As String
         Dim WorkFile As String
         Dim AppSettings As New My.MySettings
@@ -185,10 +165,11 @@ Public Class QueueProcessingByCommandBase
         Return Result
     End Function
 
-    Private Function GetFormatFileName() As String
+    Function GetFormatFileName() As String
         Return GetFormatFileNameFromTemplateFile(m_TemplateFile)
 
     End Function
+
 
 
 
@@ -451,7 +432,7 @@ Public Class QueueProcessingByCommandBase
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = $"Job {Format(m_JobId, "0")} is ready to print on {m_PrinterName}. Click OK to continue."
         CommandStr = $"Order {m_SalesOrderNo} is ready to print on {m_PrinterName}. Click OK to continue."
-                PauseWithMessage(CommandStr)
+        PauseWithMessage(CommandStr)
         Return erc
     End Function
 
@@ -487,7 +468,7 @@ Public Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Private Function IsBatchSerialized() As Boolean
+    Function IsBatchSerialized() As Boolean
         Dim erc As Long
 
         Dim Result As Boolean
@@ -524,7 +505,7 @@ Public Class QueueProcessingByCommandBase
         erc = BTCommandAdd(CommandStr)
         Return erc
     End Function
-    Public Function Labels() As Long Implements IQueueProcessing.Labels
+    Public Overridable Function Labels() As Long Implements IQueueProcessing.Labels
         Dim erc As Long
         Dim CommandStr As System.String
         Dim PrintByLabel As Boolean       ' True=Print by Label, False=Print by Batch
@@ -954,15 +935,23 @@ Public Class QueueProcessingByCommandBase
             m_TemplateId = value
         End Set
     End Property
-    Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
+    Public Property BTExe As String Implements IQueueProcessing.BTExe
         Get
-
-            Return m_JobStepInfo
+            Return m_BTExe
         End Get
-        Set(value As JobInfo)
-            m_JobStepInfo = value
+        Set(value As String)
+            m_BTExe = value
         End Set
     End Property
+    'Public Property JobStepInfo As T Implements IQueueProcessing.JobStepInfo
+    '    Get
+
+    '        Return m_JobStepInfo
+    '    End Get
+    '    Set(value As T)
+    '        m_JobStepInfo = value
+    '    End Set
+    'End Property
 
     Public JobStepToQType As Dictionary(Of String, QEnum.QueueLabelType) = New Dictionary(Of String, QEnum.QueueLabelType) From
         {

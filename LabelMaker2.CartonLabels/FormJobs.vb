@@ -10,7 +10,7 @@ Public Class FormJobs
     Dim log As NLog.Logger
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ctx = New VNDataEntities(Vars.ConnString)
-        log = NLog.LogManager.GetCurrentClassLogger
+        log = Globals.Logger
         Dim i As Integer = 0
         log.Trace("Carton Label Module Starting Up.....")
         jobs = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
@@ -54,18 +54,22 @@ Public Class FormJobs
     End Sub
 
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
-        'If CanPrint = "OK" Then
-        Try
+        If CanPrint = "OK" Then
+            Try
                 Dim Q As New QueueProcessingByCommand()
 
-                Dim j As List(Of CartonJobInfo)
+                Dim j As New JobToProcess()
                 Dim ji As ViewJobNotPrinted
                 For Ix = 1 To CheckedListBox1.Items.Count
                     If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
                         ji = CheckedListBox1.Items(Ix - 1)
-                        j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                        Q.PrintJob(j)
-                        MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                        ' Dim jTemp As JobToProcess
+                        j.JobId = ji.JobId
+                        j.SalesOrder = ji.SalesOrderName
+
+                        'j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                        Q.PrintJob(j, ctx)
+                        MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                     End If
                 Next
             Catch ex As Exception

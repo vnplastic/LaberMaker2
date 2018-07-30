@@ -70,10 +70,18 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel1.AddressJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.AddressJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.AddressJobInfo.vb" />
     <Compile Include="DataModel1.CartonJobInfo.Generated.vb">
       <DependentUpon>DataModel1.CartonJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.CartonJobInfo.vb" />
+    <Compile Include="DataModel1.CartonJobLineInfo.Generated.vb">
+      <DependentUpon>DataModel1.CartonJobLineInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.CartonJobLineInfo.vb" />
     <Compile Include="DataModel1.CustomerJobInfo.Generated.vb">
       <DependentUpon>DataModel1.CustomerJobInfo.vb</DependentUpon>
     </Compile>
@@ -140,9 +148,6 @@
     <Compile Include="DataModel1.VNA057VW06JobInfo.vb" />
     <Compile Include="DataModel1.VNA057VWA1CartonJobInfo.vb" />
     <Compile Include="DataModel1.VNA057VWA2PalletJobInfo.vb" />
-    <Compile Include="DataModel1.VNA057VWA3AddressJobInfo.Generated.vb">
-      <DependentUpon>DataModel1.VNA057VWA3AddressJobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.VNA057VWA3AddressJobInfo.vb" />
     <Compile Include="DataModel1.VNDataEntities.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

@@ -12,9 +12,12 @@ Public Class FormCustomerProfile
     Dim printerBindingSource As New BindingSource
     Dim lstPrinters As List(Of LabelMaker2.Main.Data.VNDataModel.Printer) = New List(Of LabelMaker2.Main.Data.VNDataModel.Printer)
     Dim bAddMode As Boolean = False
+    Dim log As NLog.Logger
 
 
     Private Sub FormCustomerProfile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        log = NLog.LogManager.GetLogger("Logfile")
+        log.Trace("Customer Profile Form Starting Up....")
         grdCustomerProfiles.AutoGenerateColumns = False
 
 

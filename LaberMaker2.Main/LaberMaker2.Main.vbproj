@@ -128,6 +128,7 @@
     <Compile Include="Interfaces\ILabelProperties.vb" />
     <Compile Include="IQueueProcessing.vb" />
     <Compile Include="Model\JobStep.vb" />
+    <Compile Include="Model\JobsToProcess.vb" />
     <Compile Include="Model\JobType.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

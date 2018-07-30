@@ -89,14 +89,19 @@ Public Class FormJobs
             Try
                 Dim Q As New QueueProcessingByCommand()
 
-                Dim j As List(Of PalletJobInfo)
-                Dim ji As ViewPalletJobsNotPrinted
+
+                Dim j As JobToProcess
+                Dim ji As ViewJobNotPrinted
                 For Ix = 1 To CheckedListBox1.Items.Count
                     If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
                         ji = CheckedListBox1.Items(Ix - 1)
-                        j = ctx.PalletJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                        Q.PrintJob(j)
-                        MessageBox.Show("We'll print " & j.Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                        ' Dim jTemp As JobToProcess
+                        j.JobId = ji.JobId
+                        j.SalesOrder = ji.SalesOrderName
+
+                        'j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                        Q.PrintJob(j, ctx)
+                        MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                     End If
                 Next
             Catch ex As Exception

@@ -2,7 +2,7 @@
 
 Imports LabelMaker2.Main.Data.VNDataModel
 
-Public Class QueueProcessingInternalBase
+Public MustInherit Class QueueProcessingInternalBase
     Implements IQueueProcessing
 #Region "Fields"
     Private m_QueueId As Long
@@ -35,6 +35,7 @@ Public Class QueueProcessingInternalBase
         m_Cancel = False
     End Sub
 
+    Public MustOverride Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
     Private Function BTCommandOpen() As Long
         Dim erc As Long
         'Dim CommandStr As String
@@ -140,11 +141,10 @@ Public Class QueueProcessingInternalBase
     End Function
 
 
-    Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
+    '   Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
 
-    Public Function PrintJob(_job As List(Of JobInfo)) As Boolean Implements IQueueProcessing.PrintJob
-        Throw New NotImplementedException
-    End Function
+
+
 
     ''' <summary>
     ''' Attach a printer to this QueueConsumer to begin processing
@@ -211,7 +211,7 @@ Public Class QueueProcessingInternalBase
 
 
         CommandStr = ""
-                erc = BTCommandAdd(CommandStr)
+        erc = BTCommandAdd(CommandStr)
 
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
         End If
@@ -831,7 +831,14 @@ Public Class QueueProcessingInternalBase
     '        m_BatchId = value
     '    End Set
     'End Property
-
+    Public Property BTExe As String Implements IQueueProcessing.BTExe
+        Get
+            Return m_BTExe
+        End Get
+        Set(value As String)
+            m_BTExe = value
+        End Set
+    End Property
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get
             Return m_CopiesPerLabel

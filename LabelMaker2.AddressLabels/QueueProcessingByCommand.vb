@@ -1,8 +1,9 @@
-﻿Imports LabelMaker2.Main.Data.VNDataModel
+﻿Imports LabelMaker2.Infrastructure
+Imports LabelMaker2.Main.Data.VNDataModel
 Imports LaberMaker2.Main
 
 Public Class QueueProcessingByCommand
-    Inherits LaberMaker2.Main.QueueProcessingByCommandBase
+    Inherits QueueProcessingByCommandBase
     Sub New()
         MyBase.New()
     End Sub

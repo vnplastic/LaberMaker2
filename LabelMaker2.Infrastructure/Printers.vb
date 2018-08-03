@@ -24,9 +24,9 @@ Module Printers
         Dim ctx = New VNDataEntities(conn)
         Dim Result As System.String
 
-        Dim SqlConnection As New ADODB.Connection
-        Dim SqlProc As New ADODB.Command
-        Dim ResultSet As New ADODB.Recordset
+        'Dim SqlConnection As New ADODB.Connection
+        'Dim SqlProc As New ADODB.Command
+        'Dim ResultSet As New ADODB.Recordset
         Dim erc As Long
 
         Result = 0

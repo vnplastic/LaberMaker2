@@ -1,13 +1,15 @@
-﻿Imports LabelMaker2.Main.Data.VNDataModel
-Imports LaberMaker2.Main
+﻿Imports LabelMaker2.Infrastructure
+Imports LabelMaker2.Main.Data.VNDataModel
+
 
 Public Class QueueProcessingByCommand
-    Inherits LaberMaker2.Main.QueueProcessingByCommandBase
+    Inherits QueueProcessingByCommandBase
     Dim ctx As VNDataEntities
     Private m_JobStepInfo As CartonJobInfo
     Private m_JobStepLineInfo As CartonJobLineInfo
     Private m_UniqueLabelId As Integer
     Private m_LineJob As Boolean
+
 
     Sub New()
         MyBase.New()
@@ -19,12 +21,14 @@ Public Class QueueProcessingByCommand
         Dim currentCartonCount As Integer
         j = ctx.CartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).FirstOrDefault
         If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
+        Dim custInfo As CustomerJobInfo
+        custInfo = ctx.CustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
 
         PrinterName = j.PrinterName
         JobId = _job.JobId
         ' j = ctx.CartonJobInfos.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
         If j.LabelPerLine = True Then
-            m_LineJob = True
+            LineJob = True
             Dim cJob As List(Of CartonJobLineInfo)
             cJob = ctx.CartonJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
 
@@ -42,16 +46,21 @@ Public Class QueueProcessingByCommand
                 TemplateFile = JobStepLineInfo.FormatName
                 ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Debug.Print(jInfo.JobStepName)
-                If jInfo.JobStepName = "Label" Then m_UniqueLabelId = m_UniqueLabelId + jInfo.LineCartonCount
+                If jInfo.JobStepName = "Label" Then
+                    m_UniqueLabelId = m_UniqueLabelId + jInfo.LineCartonCount
+                    custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                    ctx.SaveChanges()
+                End If
+
+
             Next
-            Dim custInfo As CustomerJobInfo
-            custInfo = ctx.CustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
-            custInfo.NextUniqueLabelNo = m_UniqueLabelId
-            ctx.SaveChanges()
+
+
+            ' ctx.SaveChanges()
 
 
         Else
-            m_LineJob = False
+            LineJob = False
             Dim cJob As List(Of CartonJobInfo)
             cJob = ctx.CartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
 
@@ -86,12 +95,12 @@ Public Class QueueProcessingByCommand
         erc = QEnum.QueueConsumerErrorCodes.OK
     PrintByLabel = IsBatchSerialized()
         'PrintByLabel = False
-        If PrintByLabel Then
+        If PrintByLabel Or LineJob Then
             LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}""  /?qpLabelId=""{Format(m_UniqueLabelId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
                      vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
@@ -119,6 +128,14 @@ Public Class QueueProcessingByCommand
         End Get
         Set(value As CartonJobLineInfo)
             m_JobStepLineInfo = value
+        End Set
+    End Property
+    Private Property LineJob As Boolean
+        Get
+            Return m_LineJob
+        End Get
+        Set(value As Boolean)
+            m_LineJob = value
         End Set
     End Property
 

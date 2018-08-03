@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Windows.Forms
+Imports LabelMaker2.Infrastructure
 Imports LaberMaker2.Main
 Imports LabelMaker2.Main.Data.VNDataModel
 
@@ -90,8 +91,8 @@ Public Class FormJobs
                 Dim Q As New QueueProcessingByCommand()
 
 
-                Dim j As JobToProcess
-                Dim ji As ViewJobNotPrinted
+                Dim j As New JobToProcess()
+                Dim ji As ViewPalletJobsNotPrinted
                 For Ix = 1 To CheckedListBox1.Items.Count
                     If CheckedListBox1.GetItemChecked(Ix - 1) = True Then
                         ji = CheckedListBox1.Items(Ix - 1)

@@ -112,6 +112,12 @@
     <Compile Include="FormJobSteps.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormMainByCust.Designer.vb">
+      <DependentUpon>FormMainByCust.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormMainByCust.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormMain.Designer.vb">
       <DependentUpon>FormMain.vb</DependentUpon>
     </Compile>
@@ -125,8 +131,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Globals.vb" />
-    <Compile Include="Interfaces\ILabelProperties.vb" />
-    <Compile Include="IQueueProcessing.vb" />
     <Compile Include="Model\JobStep.vb" />
     <Compile Include="Model\JobsToProcess.vb" />
     <Compile Include="Model\JobType.vb" />
@@ -145,11 +149,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Printers.vb" />
-    <Compile Include="QEnum.vb" />
-    <Compile Include="QueueProcessingInternalBase.vb" />
-    <Compile Include="QueueProcessingByXMLBase.vb" />
-    <Compile Include="QueueProcessingByCommandBase.vb" />
     <Compile Include="Settings.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormJobSteps.resx">
       <DependentUpon>FormJobSteps.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMainByCust.resx">
+      <DependentUpon>FormMainByCust.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>
@@ -177,21 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DataModel1.Diagram1.view">
-      <DependentUpon>DataModel1.edml</DependentUpon>
-    </None>
-    <DevartEntityDeploy Include="DataModel1.edml">
-      <Generator>DevartEfGenerator</Generator>
-      <LastGenOutput>DataModel1.info</LastGenOutput>
-    </DevartEntityDeploy>
-    <None Include="DataModel1.edps">
-      <DependentUpon>DataModel1.edml</DependentUpon>
-    </None>
-    <None Include="DataModel1.info">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel1.edml</DependentUpon>
-    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -225,6 +212,10 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.Infrastructure\LabelMaker2.Infrastructure.vbproj">
+      <Project>{A97B1B75-DF7C-46D9-BD65-7E98413256FD}</Project>
+      <Name>LabelMaker2.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
       <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
       <Name>LabelMaker2.Main.Data</Name>

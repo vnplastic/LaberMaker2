@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LaberMaker2.Main", "LaberMaker2.Main\LaberMaker2.Main.vbproj", "{1C22793D-007B-4B72-8F14-52447BBF804E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3CC480A-3BAE-4986-A86E-36924A44F1BD} = {E3CC480A-3BAE-4986-A86E-36924A44F1BD}
+		{208A806D-2F00-4378-A85A-96ABABDAAA52} = {208A806D-2F00-4378-A85A-96ABABDAAA52}
+		{A55472D8-C46A-45EE-8DEE-F03EB2A97FBC} = {A55472D8-C46A-45EE-8DEE-F03EB2A97FBC}
+	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LabelMaker2.PalletLabels", "LabelMaker2.PalletLabels\LabelMaker2.PalletLabels.vbproj", "{208A806D-2F00-4378-A85A-96ABABDAAA52}"
 EndProject
@@ -12,6 +17,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LabelMaker2.AddressLabels", "LabelMaker2.AddressLabels\LabelMaker2.AddressLabels.vbproj", "{A55472D8-C46A-45EE-8DEE-F03EB2A97FBC}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LabelMaker2.Main.Data", "LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj", "{393165C2-ADEB-4D86-BA74-64EDF9041CC5}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LabelMaker2.Infrastructure", "LabelMaker2.Infrastructure\LabelMaker2.Infrastructure.vbproj", "{A97B1B75-DF7C-46D9-BD65-7E98413256FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +46,15 @@ Global
 		{393165C2-ADEB-4D86-BA74-64EDF9041CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{393165C2-ADEB-4D86-BA74-64EDF9041CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{393165C2-ADEB-4D86-BA74-64EDF9041CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97B1B75-DF7C-46D9-BD65-7E98413256FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97B1B75-DF7C-46D9-BD65-7E98413256FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97B1B75-DF7C-46D9-BD65-7E98413256FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97B1B75-DF7C-46D9-BD65-7E98413256FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA8FBFA9-A435-4EFA-9042-F91E33A187D4}
 	EndGlobalSection
 EndGlobal

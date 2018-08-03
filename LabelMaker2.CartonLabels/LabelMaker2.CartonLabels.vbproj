@@ -131,16 +131,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
-      <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
-      <Name>LabelMaker2.Main.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LaberMaker2.Main\LaberMaker2.Main.vbproj">
-      <Project>{1c22793d-007b-4b72-8f14-52447bbf804e}</Project>
-      <Name>LaberMaker2.Main</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="ADODB">
       <Guid>{B691E011-1797-432E-907A-4D8C69339129}</Guid>
       <VersionMajor>6</VersionMajor>
@@ -150,6 +140,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.Infrastructure\LabelMaker2.Infrastructure.vbproj">
+      <Project>{a97b1b75-df7c-46d9-bd65-7e98413256fd}</Project>
+      <Name>LabelMaker2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
+      <Project>{393165C2-ADEB-4D86-BA74-64EDF9041CC5}</Project>
+      <Name>LabelMaker2.Main.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Forms
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
-Imports LaberMaker2.Main
+
 
 Public Class LabelProperties : Implements ILabelProperties
 

@@ -3,6 +3,7 @@ Imports System.Data.SqlClient
 Imports System.Reflection
 Imports IniParser
 Imports IniParser.Model
+Imports LabelMaker2.Infrastructure
 
 Public Module Globals
     Private _logger As NLog.Logger
@@ -78,7 +79,8 @@ Public Module Globals
 
         EFBuilder.Provider = "System.Data.SqlClient"
         EFBuilder.ProviderConnectionString = providerString
-        EFBuilder.Metadata = "res://*/DataModel1.csdl|res://*/DataModel1.ssdl|res://*/DataModel1.msl"
+        '    EFBuilder.Metadata = "res://*/DataModel1.csdl|res://*/DataModel1.ssdl|res://*/DataModel1.msl"
+        EFBuilder.Metadata = "res://LabelMaker2.Infrastructure/DataModel1.csdl|res://LabelMaker2.Infrastructure/DataModel1.ssdl|res://LabelMaker2.Infrastructure/DataModel1.msl"
 
 
 

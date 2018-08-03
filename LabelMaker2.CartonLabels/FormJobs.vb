@@ -1,7 +1,8 @@
-﻿Imports System.Drawing
+﻿
+Imports System.Drawing
 Imports System.Windows.Forms
-Imports LaberMaker2.Main
 Imports LabelMaker2.Main.Data.VNDataModel
+Imports LabelMaker2.Infrastructure
 
 Public Class FormJobs
     Dim ctx As VNDataEntities
@@ -10,7 +11,7 @@ Public Class FormJobs
     Dim log As NLog.Logger
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ctx = New VNDataEntities(Vars.ConnString)
-        log = Globals.Logger
+        log = LabelMaker2.Infrastructure.Globals.Logger
         Dim i As Integer = 0
         log.Trace("Carton Label Module Starting Up.....")
         jobs = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()

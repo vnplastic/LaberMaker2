@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Entity
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 Imports NLog
 
@@ -36,7 +37,9 @@ Public Class FormMain
                 b.Select()
                 SetJobButtons()
             End If
-        Catch
+        Catch ex As Exception
+            MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
+            log.Debug(ex.Message & vbCrLf & ex.StackTrace)
 
         End Try
     End Sub

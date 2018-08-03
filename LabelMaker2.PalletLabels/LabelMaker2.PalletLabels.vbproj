@@ -150,17 +150,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LabelMaker2.CartonLabels\LabelMaker2.CartonLabels.vbproj">
-      <Project>{E3CC480A-3BAE-4986-A86E-36924A44F1BD}</Project>
-      <Name>LabelMaker2.CartonLabels</Name>
+    <ProjectReference Include="..\LabelMaker2.Infrastructure\LabelMaker2.Infrastructure.vbproj">
+      <Project>{a97b1b75-df7c-46d9-bd65-7e98413256fd}</Project>
+      <Name>LabelMaker2.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
       <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
       <Name>LabelMaker2.Main.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LaberMaker2.Main\LaberMaker2.Main.vbproj">
-      <Project>{1c22793d-007b-4b72-8f14-52447bbf804e}</Project>
-      <Name>LaberMaker2.Main</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

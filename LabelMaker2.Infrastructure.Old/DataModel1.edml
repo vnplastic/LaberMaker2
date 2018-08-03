@@ -382,6 +382,11 @@
           <Property Name="SOId" Type="nchar" Nullable="false" MaxLength="18" />
           <Property Name="CustomerStockNumber" Type="nvarchar" MaxLength="140" />
           <Property Name="VNDesc" Type="nvarchar" MaxLength="255" />
+          <Property Name="UPCCOde" Type="nvarchar" MaxLength="16" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="80" />
+          <Property Name="ItemColor" Type="varchar" MaxLength="25" />
+          <Property Name="SourceCountry" Type="varchar" Nullable="false" MaxLength="2" />
+          <Property Name="CaseQty" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="VNA057VWB1_Pallet_Job_Info">
           <Key>
@@ -422,6 +427,7 @@
           <Property Name="CartonCount" Type="decimal" Precision="18" Scale="0" />
           <Property Name="PalletCount" Type="decimal" Precision="20" Scale="2" />
           <Property Name="PalletLabelCount" Type="decimal" Precision="31" Scale="2" />
+          <Property Name="CustomerJobInfoId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VNA057VWC1_Address_Job_Info">
           <Key>
@@ -1013,6 +1019,11 @@
           <Property Name="SOId" Type="String" Nullable="false" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="true" ed:Guid="e19f5d13-28a4-40d2-a058-257aeb247b05" />
           <Property Name="CustomerStockNumber" Type="String" MaxLength="140" Unicode="true" ed:ValidateMaxLength="140" ed:ValidateRequired="false" ed:Guid="a0955bbb-b853-46f7-9cd3-886f35172dc7" />
           <Property Name="VNDesc" Type="String" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="false" ed:Guid="51976048-48e8-4368-b7ae-b0e5542ff29a" />
+          <Property Name="UPCCOde" Type="String" MaxLength="16" Unicode="true" ed:ValidateMaxLength="16" ed:ValidateRequired="false" ed:Guid="680f7ada-854b-4c6f-b4f1-ea0c9a261a5a" />
+          <Property Name="ProductName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="32e2161f-b6d1-4692-9151-937165450867" />
+          <Property Name="ItemColor" Type="String" MaxLength="25" ed:ValidateMaxLength="25" ed:ValidateRequired="false" ed:Guid="b56cd622-c1ed-4913-a7d1-8a339df6c28d" />
+          <Property Name="SourceCountry" Type="String" Nullable="false" MaxLength="2" ed:ValidateMaxLength="2" ed:ValidateRequired="true" ed:Guid="0a1de125-a0c3-4924-9963-0ac82a822db1" />
+          <Property Name="CaseQty" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="8b043b38-cbf0-4090-8bef-4f890e7e5505" />
         </EntityType>
         <EntityType Name="PalletJobInfo" ed:Guid="7299305b-2e0a-4b41-ad7a-9a6e676c015a">
           <Key>
@@ -1053,6 +1064,7 @@
           <Property Name="CartonCount" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="a919c78f-58fe-4816-bf57-56b2e21ef092" />
           <Property Name="PalletCount" Type="Decimal" Precision="20" Scale="2" ed:ValidateRequired="false" ed:Guid="a78f1309-7529-4f14-bf73-d5107d7d89a0" />
           <Property Name="PalletLabelCount" Type="Decimal" Precision="31" Scale="2" ed:ValidateRequired="false" ed:Guid="1cb3bb3d-688f-43ae-9fc2-908d707deae8" />
+          <Property Name="CustomerJobInfoId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="0fd3e637-78d0-4ccd-855d-ed68c722dc5c" />
         </EntityType>
         <EntityType Name="AddressJobInfo" ed:Guid="c99f2f03-aeb8-4b97-8fd0-95740fc6eb66">
           <Key>
@@ -1542,6 +1554,11 @@
                 <ScalarProperty Name="NextUniqueLabelNo" ColumnName="NextUniqueLabelNo" />
                 <ScalarProperty Name="CustomerJobInfoId" ColumnName="CustomerJobInfoId" />
                 <ScalarProperty Name="SOId" ColumnName="SOId" />
+                <ScalarProperty Name="UPCCOde" ColumnName="UPCCOde" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ItemColor" ColumnName="ItemColor" />
+                <ScalarProperty Name="SourceCountry" ColumnName="SourceCountry" />
+                <ScalarProperty Name="CaseQty" ColumnName="CaseQty" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1579,6 +1596,7 @@
                 <ScalarProperty Name="CartonCount" ColumnName="CartonCount" />
                 <ScalarProperty Name="PalletCount" ColumnName="PalletCount" />
                 <ScalarProperty Name="PalletLabelCount" ColumnName="PalletLabelCount" />
+                <ScalarProperty Name="CustomerJobInfoId" ColumnName="CustomerJobInfoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

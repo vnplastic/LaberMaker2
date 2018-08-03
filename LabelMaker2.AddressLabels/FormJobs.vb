@@ -2,6 +2,7 @@
 Imports System.Windows.Forms
 Imports LaberMaker2.Main
 Imports System.Data.Entity
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class FormJobs

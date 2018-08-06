@@ -282,6 +282,7 @@
           <Property Name="CartonCount" Type="decimal" Precision="18" Scale="0" />
           <Property Name="PalletCount" Type="decimal" Precision="20" Scale="2" />
           <Property Name="PalletLabelCount" Type="decimal" Precision="31" Scale="2" />
+          <Property Name="JobTypeId" Type="int" />
         </EntityType>
         <EntityType Name="VNA057VWA1_Carton_Job_Info">
           <Key>
@@ -919,6 +920,7 @@
           <Property Name="CartonCount" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="264986db-4c15-42e7-be60-1773849b6f0b" />
           <Property Name="PalletCount" Type="Decimal" Precision="20" Scale="2" ed:ValidateRequired="false" ed:Guid="c9d8d12f-e342-43b1-8f96-5a5b9f360b97" />
           <Property Name="PalletLabelCount" Type="Decimal" Precision="31" Scale="2" ed:ValidateRequired="false" ed:Guid="1e26ec6f-0f47-4e41-8bbc-41fe0b4d2bbb" />
+          <Property Name="JobTypeId" Type="Int32" ed:ValidateRequired="false" ed:Guid="bbd584b5-1d36-44c9-83ec-374197bd8b65" />
         </EntityType>
         <EntityType Name="CartonJobInfo" ed:Guid="3574575f-5ca4-4f07-99bb-5e16826670a1">
           <Key>
@@ -1460,6 +1462,7 @@
                 <ScalarProperty Name="CartonCount" ColumnName="CartonCount" />
                 <ScalarProperty Name="PalletCount" ColumnName="PalletCount" />
                 <ScalarProperty Name="PalletLabelCount" ColumnName="PalletLabelCount" />
+                <ScalarProperty Name="JobTypeId" ColumnName="JobTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

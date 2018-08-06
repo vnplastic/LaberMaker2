@@ -13,12 +13,15 @@ Public Class LabelProperties : Implements ILabelProperties
         Return True
     End Function
 
+    Public Property QueueProcessor As IQueueProcessing Implements ILabelProperties.QueueProcessor
+
     Public Sub New(connString As String)
         JobTypeId = 1
         DBConnString = connString
         Vars.ConnString = DBConnString
         Vars.JobTypeID = JobTypeId
         FormPrint = New FormJobs()
+        QueueProcessor = New QueueProcessingByCommand
 
     End Sub
 

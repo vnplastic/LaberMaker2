@@ -15,6 +15,8 @@ Public Class LabelProperties : Implements ILabelProperties
         Return True
     End Function
 
+    Public Property QueueProcessor As IQueueProcessing Implements ILabelProperties.QueueProcessor
+
     Public Sub New(connString As String)
         Me.JobTypeId = 2
         DBConnString = connString
@@ -22,6 +24,7 @@ Public Class LabelProperties : Implements ILabelProperties
         Vars.JobTypeID = JobTypeId
         FormPrint = New FormJobs()
         Vars.Caller = Me
+        QueueProcessor = New QueueProcessingByCommand
 
 
 

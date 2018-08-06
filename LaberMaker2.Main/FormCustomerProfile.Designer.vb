@@ -37,6 +37,10 @@ Partial Class FormCustomerProfile
         Me.cboCustomer = New System.Windows.Forms.ComboBox()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnAdd = New System.Windows.Forms.Button()
+        Me.chkSerialized = New System.Windows.Forms.CheckBox()
+        Me.chkPerLineLabel = New System.Windows.Forms.CheckBox()
+        Me.txtLabelName = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -62,8 +66,8 @@ Partial Class FormCustomerProfile
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(583, 519)
-        Me.SplitContainer1.SplitterDistance = 242
+        Me.SplitContainer1.Size = New System.Drawing.Size(804, 531)
+        Me.SplitContainer1.SplitterDistance = 247
         Me.SplitContainer1.TabIndex = 0
         '
         'grdCustomerProfiles
@@ -73,7 +77,7 @@ Partial Class FormCustomerProfile
         Me.grdCustomerProfiles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdCustomerProfiles.Location = New System.Drawing.Point(0, 0)
         Me.grdCustomerProfiles.Name = "grdCustomerProfiles"
-        Me.grdCustomerProfiles.Size = New System.Drawing.Size(583, 242)
+        Me.grdCustomerProfiles.Size = New System.Drawing.Size(804, 247)
         Me.grdCustomerProfiles.TabIndex = 0
         '
         'SplitContainer2
@@ -85,6 +89,10 @@ Partial Class FormCustomerProfile
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLabelName)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label6)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkPerLineLabel)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkSerialized)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label5)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cboPrinter)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustName)
@@ -100,8 +108,8 @@ Partial Class FormCustomerProfile
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnAdd)
-        Me.SplitContainer2.Size = New System.Drawing.Size(583, 273)
-        Me.SplitContainer2.SplitterDistance = 221
+        Me.SplitContainer2.Size = New System.Drawing.Size(804, 280)
+        Me.SplitContainer2.SplitterDistance = 226
         Me.SplitContainer2.TabIndex = 0
         '
         'Label5
@@ -191,9 +199,9 @@ Partial Class FormCustomerProfile
         '
         Me.btnSave.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(257, 1)
+        Me.btnSave.Location = New System.Drawing.Point(532, 3)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 46)
+        Me.btnSave.Size = New System.Drawing.Size(75, 48)
         Me.btnSave.TabIndex = 1
         Me.btnSave.Text = "Save Profile"
         Me.btnSave.UseVisualStyleBackColor = True
@@ -202,18 +210,54 @@ Partial Class FormCustomerProfile
         '
         Me.btnAdd.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAdd.Location = New System.Drawing.Point(75, 2)
+        Me.btnAdd.Location = New System.Drawing.Point(147, 3)
         Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(75, 46)
+        Me.btnAdd.Size = New System.Drawing.Size(75, 48)
         Me.btnAdd.TabIndex = 0
         Me.btnAdd.Text = "Add Profile"
         Me.btnAdd.UseVisualStyleBackColor = True
+        '
+        'chkSerialized
+        '
+        Me.chkSerialized.AutoSize = True
+        Me.chkSerialized.Location = New System.Drawing.Point(512, 27)
+        Me.chkSerialized.Name = "chkSerialized"
+        Me.chkSerialized.Size = New System.Drawing.Size(71, 17)
+        Me.chkSerialized.TabIndex = 11
+        Me.chkSerialized.Text = "Serialized"
+        Me.chkSerialized.UseVisualStyleBackColor = True
+        '
+        'chkPerLineLabel
+        '
+        Me.chkPerLineLabel.AutoSize = True
+        Me.chkPerLineLabel.Location = New System.Drawing.Point(512, 69)
+        Me.chkPerLineLabel.Name = "chkPerLineLabel"
+        Me.chkPerLineLabel.Size = New System.Drawing.Size(122, 17)
+        Me.chkPerLineLabel.TabIndex = 12
+        Me.chkPerLineLabel.Text = "Per Line Item Labels"
+        Me.chkPerLineLabel.UseVisualStyleBackColor = True
+        '
+        'txtLabelName
+        '
+        Me.txtLabelName.Location = New System.Drawing.Point(635, 110)
+        Me.txtLabelName.Name = "txtLabelName"
+        Me.txtLabelName.Size = New System.Drawing.Size(119, 20)
+        Me.txtLabelName.TabIndex = 14
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(509, 110)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(79, 13)
+        Me.Label6.TabIndex = 13
+        Me.Label6.Text = "Name on Label"
         '
         'FormCustomerProfile
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(583, 519)
+        Me.ClientSize = New System.Drawing.Size(804, 531)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FormCustomerProfile"
         Me.Text = "Customer Profiles"
@@ -246,4 +290,8 @@ Partial Class FormCustomerProfile
     Friend WithEvents cboCustomer As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents cboPrinter As ComboBox
+    Friend WithEvents txtLabelName As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents chkPerLineLabel As CheckBox
+    Friend WithEvents chkSerialized As CheckBox
 End Class

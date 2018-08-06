@@ -6,5 +6,6 @@ Public Interface ILabelProperties
     Property FormPrint As UserControl
     Property DBConnString As String
     Function CanPrintJob() As Boolean
+    Property QueueProcessor As IQueueProcessing
 
 End Interface

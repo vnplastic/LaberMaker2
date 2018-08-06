@@ -1,4 +1,5 @@
-﻿Imports LabelMaker2.Infrastructure
+﻿Imports System.Windows.Forms
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 
 
@@ -11,14 +12,17 @@ Public Class QueueProcessingByCommand
     Private m_LineJob As Boolean
 
 
+
     Sub New()
         MyBase.New()
     End Sub
 
     Public Overrides Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean 'Implements IQueueProcessing.PrintJob
-        ctx = context
+        Try
+            ctx = context
         Dim j As CartonJobInfo
         Dim currentCartonCount As Integer
+
         j = ctx.CartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).FirstOrDefault
         If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
         Dim custInfo As CustomerJobInfo
@@ -81,6 +85,10 @@ Public Class QueueProcessingByCommand
 
         End If
 
+        Catch ex As Exception
+            Debug.WriteLine(ex, ex.Message & vbCrLf & ex.StackTrace)
+            MessageBox.Show("An error occurred trying to print Carton labels", "Error")
+        End Try
 
 
 

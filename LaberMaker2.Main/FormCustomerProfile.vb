@@ -22,7 +22,7 @@ Public Class FormCustomerProfile
 
 
         '  Dim lst2 As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
-        lst = ctx.CustomerJobInfos.Include("JobType").Include("Printer").ToList()
+        lst = ctx.CustomerJobInfos.Include("JobType").Include("Printer").OrderBy(Function(c) c.CustomerName).ToList()
 
         custBindingSource.DataSource = lst
         grdCustomerProfiles.ColumnCount = 2
@@ -111,7 +111,8 @@ Public Class FormCustomerProfile
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        Dim cust As New LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo()
+        'Dim cust As New LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo()
+        Dim cust As CustomerJobInfo
         If String.IsNullOrEmpty(txtCustName.Text) Then
             MessageBox.Show("You need to select a customer first", "Error")
             Return
@@ -124,29 +125,43 @@ Public Class FormCustomerProfile
             MessageBox.Show("You need to select a Job Type first", "Error")
             Return
         End If
-
+        Dim custId As String
+        Dim jobType As Integer
+        custId = cboCustomer.SelectedValue
+        jobType = cboJobType.SelectedValue
+        cust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = custId And c.JobTypeId = jobType).FirstOrDefault
+        If cust Is Nothing Then
+               cust = New CustomerJobInfo
+        lst.Add(cust)
+        ctx.CustomerJobInfos.Add(cust)
+        End If
         cust.JobTypeId = cboJobType.SelectedValue
         cust.KNDY4CustomerC1 = cboCustomer.SelectedValue '"a1B36000001hoHbEAI"
         cust.CustomerName = txtCustName.Text '"Wal-Mart Stores Inc."
         cust.CustomerShortName = txtCustomerShortName.Text
-        'ToDo: Need to fix printer name issue
-        If bAddMode Then
-            Dim custExists As Int16
-            custExists = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust.KNDY4CustomerC1 And c.JobTypeId = cust.JobTypeId).Count
-            If custExists = 0 Then
-                lst.Add(cust)
-                ctx.CustomerJobInfos.Add(cust)
-            Else
-                MessageBox.Show("A record with this customer and JobType already exists", "Error")
-                Return
-            End If
-        End If
+        cust.PrinterId = cboPrinter.SelectedValue
+        cust.LabelPerLine = chkPerLineLabel.Checked
+        cust.Serialized = chkSerialized.Checked
+        cust.CustomerPrintName = txtLabelName.Text
+
+        'If bAddMode Then
+        '    Dim custExists As Int16
+        '    custExists = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust.KNDY4CustomerC1 And c.JobTypeId = cust.JobTypeId).Count
+        '    If custExists = 0 Then
+        '        lst.Add(cust)
+        '        ctx.CustomerJobInfos.Add(cust)
+        '    Else
+        '        MessageBox.Show("A record with this customer and JobType already exists", "Error")
+        '        Return
+        '    End If
+
+        'End If
         ctx.SaveChanges()
         custBindingSource.ResetBindings(False)
         ' grdCustomerProfiles.Refresh()
 
 
-        ClearForm()
+        'ClearForm()
         bAddMode = False
     End Sub
     Sub ClearForm()
@@ -154,6 +169,9 @@ Public Class FormCustomerProfile
         cboJobType.SelectedIndex = -1
         cboPrinter.SelectedIndex = -1
         txtCustomerShortName.Text = ""
+        chkSerialized.Checked = False
+        chkPerLineLabel.Checked = False
+        txtLabelName.Text = ""
         grdCustomerProfiles.Rows(0).Selected = True
     End Sub
 
@@ -183,6 +201,9 @@ Public Class FormCustomerProfile
             cboJobType.SelectedIndex = cboJobType.FindString(t.JobTypeName)
             cboPrinter.SelectedIndex = If(t.PrinterName Is Nothing, -1, cboPrinter.FindString(t.PrinterName))
             txtCustomerShortName.Text = If(t.CustomerShortName = Nothing, "", t.CustomerShortName)
+            chkPerLineLabel.Checked = If(t.LabelPerLine Is Nothing, False, t.LabelPerLine)
+            chkSerialized.Checked = If(t.Serialized Is Nothing, False, t.Serialized)
+            txtLabelName.Text = t.CustomerPrintName
             'cboCustomer.SelectedText = t.CustomerName
         End If
     End Sub

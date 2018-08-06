@@ -34,6 +34,8 @@ Partial Class FormMainByCust
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lstSalesOrders = New System.Windows.Forms.CheckedListBox()
+        Me.grpLabeType = New System.Windows.Forms.GroupBox()
+        Me.btnPrintLabels = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -41,6 +43,7 @@ Partial Class FormMainByCust
         Me.SplitContainer1.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -134,6 +137,11 @@ Partial Class FormMainByCust
         'SplitContainer2.Panel1
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.lstSalesOrders)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrintLabels)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.grpLabeType)
         Me.SplitContainer2.Size = New System.Drawing.Size(714, 469)
         Me.SplitContainer2.SplitterDistance = 126
         Me.SplitContainer2.TabIndex = 0
@@ -146,6 +154,24 @@ Partial Class FormMainByCust
         Me.lstSalesOrders.Name = "lstSalesOrders"
         Me.lstSalesOrders.Size = New System.Drawing.Size(126, 469)
         Me.lstSalesOrders.TabIndex = 0
+        '
+        'grpLabeType
+        '
+        Me.grpLabeType.Location = New System.Drawing.Point(3, 4)
+        Me.grpLabeType.Name = "grpLabeType"
+        Me.grpLabeType.Size = New System.Drawing.Size(112, 465)
+        Me.grpLabeType.TabIndex = 0
+        Me.grpLabeType.TabStop = False
+        Me.grpLabeType.Text = "Label Types"
+        '
+        'btnPrintLabels
+        '
+        Me.btnPrintLabels.Location = New System.Drawing.Point(157, 20)
+        Me.btnPrintLabels.Name = "btnPrintLabels"
+        Me.btnPrintLabels.Size = New System.Drawing.Size(176, 34)
+        Me.btnPrintLabels.TabIndex = 1
+        Me.btnPrintLabels.Text = "Print Labels"
+        Me.btnPrintLabels.UseVisualStyleBackColor = True
         '
         'FormMainByCust
         '
@@ -163,6 +189,7 @@ Partial Class FormMainByCust
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -182,4 +209,6 @@ Partial Class FormMainByCust
     Friend WithEvents CustomerJobInfoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents lstSalesOrders As CheckedListBox
+    Friend WithEvents grpLabeType As GroupBox
+    Friend WithEvents btnPrintLabels As Button
 End Class

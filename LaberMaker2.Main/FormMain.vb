@@ -126,4 +126,14 @@ Public Class FormMain
 
         frm.Show()
     End Sub
+
+    Private Sub FormMain_CursorChanged(sender As Object, e As EventArgs) Handles Me.CursorChanged
+        For Each ctl In Me.Controls
+            If TypeOf ctl Is RadioButton Then
+                Dim btn As RadioButton = ctl
+                RemoveHandler btn.Click, AddressOf OnJobTypeChanged
+            End If
+
+        Next
+    End Sub
 End Class

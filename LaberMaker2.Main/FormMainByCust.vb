@@ -6,7 +6,7 @@ Imports NLog
 Public Class FormMainByCust
     Dim m_JobTypeId = 0
     Dim m_JobTypeList As New List(Of JobType)
-    Dim m_LoadedJobTypes As Dictionary(Of Integer, UserControl) = New Dictionary(Of Integer, UserControl)
+    Dim m_LoadedJobTypes As Dictionary(Of Integer, IQueueProcessing) = New Dictionary(Of Integer, IQueueProcessing)
     Dim ctx As VNDataEntities
     Dim jobs As List(Of ViewJobNotPrinted)
     Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
@@ -65,63 +65,52 @@ Public Class FormMainByCust
     Private Sub OnCustomerChanged(sender As Object, e As EventArgs)
         Dim b As RadioButton = sender
         Dim cust As String
+        'Dim job As New JobToProcess
+        ' Dim job As SalesOrdersToProcess
         cust = b.Tag
-        Dim jobTypesForCust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust).ToList
+        Dim jobTypesForCust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust).Include(Function(c) c.JobType) _
+            .OrderBy(Function(d) d.JobType.JobTypeName).ToList
         Dim jobsNotPrinted = ctx.ViewJobNotPrinteds.Where(Function(c) c.KNDY4CustomerC = cust) _
                 .OrderBy(Function(c) c.SalesOrderName).ToList
         Dim jobs = jobsNotPrinted _
-            .Select(Function(c) New With {c.SalesOrder, c.SalesOrderName}).OrderBy(Function(c) c.SalesOrderName).Distinct.ToList
+        .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName}) _
+        .GroupBy(Function(c) c.SalesOrder) _
+                .Select(Function(x) x.FirstOrDefault).ToList
+
         lstSalesOrders.Items.Clear()
 
 
         For Each j In jobs
-
-            Dim item = lstSalesOrders.Items.Add(j)
-            lstSalesOrders.ValueMember = "SalesOrder"
-            lstSalesOrders.DisplayMember = "SalesOrderName"
+            Dim job As SalesOrdersToProcess = New SalesOrdersToProcess
+            job.SalesOrder = j.SalesOrderName
+            job.SOId = j.SalesOrder
+            Dim item = lstSalesOrders.Items.Add(job)
+            lstSalesOrders.ValueMember = "SOId"
+            lstSalesOrders.DisplayMember = "SalesOrder"
         Next
+        grpLabeType.Controls.Clear()
 
+        Dim currentTop As Integer = 0
         For Each jt As CustomerJobInfo In jobTypesForCust
+            If Not m_LoadedJobTypes.ContainsKey(jt.JobTypeId) Then
+                Dim instanceDll = ctx.JobTypes.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
+                m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
+                Debug.WriteLine("Loaded " + instanceDll)
+            End If
 
-            Dim instanceDll = ctx.JobTypes.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
-            Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
-            Debug.WriteLine("Loaded " + instanceDll)
+            Dim chkBox As New CheckBox
+            chkBox.Text = jt.JobTypeName
+            chkBox.Checked = True
+            chkBox.Tag = jt.JobTypeId
+            chkBox.Top = currentTop
+            currentTop = chkBox.Top + chkBox.Height
+
+            grpLabeType.Controls.Add(chkBox)
+
 
         Next
-        'Dim instanceDll As String
-        'Dim tmpDLL As ILabelProperties
 
-        'If m_JobTypeId <> b.Tag Then
-        '    Try
-        '        m_JobTypeId = b.Tag
-        '        instanceDll = jobTypes.Where(Function(c) c.JobTypeId = m_JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
-        '        If SplitContainer1.Panel2.Controls.Count > 0 Then SplitContainer1.Panel2.Controls.RemoveAt(SplitContainer1.Panel2.Controls.Count - 1)
-        '        tmpDLL = Globals.CreateLabelInstance(instanceDll)
-        '        'Select Case m_JobTypeId
-        '        '    Case 1
-
-        '        '        tmpDLL = Globals.CreateLabelInstance("LabelMaker2.CartonLabels.dll")
-        '        For Each c As Control In SplitContainer1.Panel2.Controls
-        '            c.Visible = False
-        '        Next
-        '        If m_LoadedJobTypes.ContainsKey(m_JobTypeId) Then
-        '            SplitContainer1.Panel2.Controls.Add(m_LoadedJobTypes(m_JobTypeId))
-        '        Else
-        '            SplitContainer1.Panel2.Controls.Add(tmpDLL.FormPrint)
-        '            m_LoadedJobTypes.Add(m_JobTypeId, tmpDLL.FormPrint)
-        '        End If
-
-        '        ' If Not tmpDLL Is Nothing Then tmpDLL.DBConnString = "FileDSN=" + My.Settings.DB_ODBC
-
-        '        For Each c As Control In SplitContainer1.Panel2.Controls
-        '            Debug.Print(c.Name)
-        '        Next
-        '    Catch ex As Exception
-        '        MessageBox.Show("A serious error occurred when loading Job Types", "Error")
-        '        log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
-        '    End Try
-
-        'End If
     End Sub
 #End Region
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -157,5 +146,68 @@ Public Class FormMainByCust
         Dim frm As New FormJobSteps
 
         frm.Show()
+    End Sub
+
+    Private Sub FormMainByCust_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        For Each ctl In Me.Controls
+            If TypeOf ctl Is RadioButton Then
+                Dim btn As RadioButton = ctl
+                RemoveHandler btn.Click, AddressOf OnCustomerChanged
+            End If
+
+        Next
+    End Sub
+
+    Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
+        Try
+
+
+
+            Dim j As New LabelMaker2.Infrastructure.JobToProcess()
+            Dim ji As ViewJobNotPrinted
+            Dim TypeId As Integer
+            'Dim ji As JobInfo
+            Dim so As SalesOrdersToProcess
+            Dim SalesOrder As String
+
+            For Ix = 1 To lstSalesOrders.Items.Count
+                If lstSalesOrders.GetItemChecked(Ix - 1) = True Then
+                    ' ji = lstSalesOrders.Items(Ix - 1)
+                    ' Dim jTemp As JobToProcess
+                    'j.JobId = ji.JobId
+                    'j.SalesOrder = lstSalesOrders.Items(Ix - 1) 'ji.SalesOrderName
+
+                    so = lstSalesOrders.Items(Ix - 1)
+                    SalesOrder = so.SalesOrder
+
+
+
+                    For Iy = 1 To grpLabeType.Controls.Count
+                        If TypeOf grpLabeType.Controls(Iy - 1) Is CheckBox Then
+                            Dim chk As CheckBox = grpLabeType.Controls(Iy - 1)
+                            If chk.Checked = True Then
+                                ' ji = chk.Tag
+                                ' Dim jTemp As JobToProcess
+                                'j.JobId = ji.JobId
+                                'j.SalesOrder = ji.SalesOrderName
+                                Dim Proc As IQueueProcessing
+                                Proc = m_LoadedJobTypes(chk.Tag)
+                                Dim Q = Proc
+                                TypeId = chk.Tag
+                                ji = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = TypeId And c.SalesOrderName = SalesOrder).FirstOrDefault
+                                j.JobId = ji.JobId
+                                j.SalesOrder = so.SalesOrder
+                                Q.PrintJob(j, ctx)
+                                MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                            End If
+                        End If
+                    Next
+                End If
+            Next
+
+        Catch ex As Exception
+            log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
+            MessageBox.Show("An error occurred trying to print labels", "Error")
+        End Try
     End Sub
 End Class

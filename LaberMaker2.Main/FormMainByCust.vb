@@ -68,6 +68,7 @@ Public Class FormMainByCust
         'Dim job As New JobToProcess
         ' Dim job As SalesOrdersToProcess
         cust = b.Tag
+
         Dim jobTypesForCust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust).Include(Function(c) c.JobType) _
             .OrderBy(Function(d) d.JobType.JobTypeName).ToList
         Dim jobsNotPrinted = ctx.ViewJobNotPrinteds.Where(Function(c) c.KNDY4CustomerC = cust) _

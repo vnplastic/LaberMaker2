@@ -448,7 +448,13 @@ Public MustInherit Class QueueProcessingByCommandBase
         If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then
 
         Else
-            CommandStr = "UPDATE VNA042TB05_Batch SET Printed = 1 WHERE JobId=" & Format(m_JobId, "0")
+            erc = BTCommandClose()
+            erc = BTCommandExecute()
+            'CommandStr = "UPDATE VNA042TB05_Batch SET Printed = 1 WHERE JobId=" & Format(m_JobId, "0")
+            Dim job As Job = ctx.Jobs.Find(m_JobId)
+            job.Printed = True
+            ctx.SaveChanges()
+
             ''MsgBox(CommandStr)
             'erc = RunSql(CommandStr)
             'CommandStr = "UPDATE VNA042TB04_Job SET Printed = 1 WHERE JobId=" & Format(m_JobId, "0")

@@ -103,7 +103,7 @@ Public Class QueueProcessingByCommand
         erc = QEnum.QueueConsumerErrorCodes.OK
     PrintByLabel = IsBatchSerialized()
         'PrintByLabel = False
-        If PrintByLabel Or LineJob Then
+        If PrintByLabel And LineJob Then
             LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf

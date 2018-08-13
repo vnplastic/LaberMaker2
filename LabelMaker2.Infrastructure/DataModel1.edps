@@ -35,12 +35,18 @@
         <File Name="DataModel1.JobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.CartonJobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.CartonJobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
-        <File Name="DataModel1.CartonJobLineInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
-        <File Name="DataModel1.CartonJobLineInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.PalletJobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.PalletJobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.AddressJobInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.AddressJobInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CartonJobLineInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CartonJobLineInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CartonJob.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CartonJob.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.CartonJobLine.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.CartonJobLine.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.PalletJob.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.PalletJob.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.PregeneratedViews.vb" Project="LabelMaker2.Main.Data" />
       </GeneratedFiles>
     </Generation>

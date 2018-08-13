@@ -35,6 +35,7 @@ Public MustInherit Class QueueProcessingInternalBase
         m_Cancel = False
     End Sub
 
+    Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
     Public MustOverride Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
     Private Function BTCommandOpen() As Long
         Dim erc As Long

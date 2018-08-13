@@ -13,7 +13,7 @@ Public Class FormMain
 #Region "Job Control"
     Private Sub GetJobTypes()
         Try
-            jobTypes = ctx.JobTypes.OrderByDescending(Function(c) c.JobTypeName).ToList()
+            jobTypes = ctx.JobTypes.AsNoTracking.OrderByDescending(Function(c) c.JobTypeName).ToList()
             For Each j In jobTypes
                 Dim job As JobType = New JobType With {
                     .JobTypeId = j.JobTypeId,

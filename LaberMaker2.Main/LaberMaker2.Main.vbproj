@@ -112,6 +112,12 @@
     <Compile Include="FormJobSteps.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormLineSelection.Designer.vb">
+      <DependentUpon>FormLineSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormLineSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormMainByCust.Designer.vb">
       <DependentUpon>FormMainByCust.vb</DependentUpon>
     </Compile>
@@ -122,6 +128,24 @@
       <DependentUpon>FormMain.vb</DependentUpon>
     </Compile>
     <Compile Include="FormMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrintSO.Designer.vb">
+      <DependentUpon>FormPrintSO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrintSO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSalesOrderNumber.designer.vb">
+      <DependentUpon>FormSalesOrderNumber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormSalesOrderNumber.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelectLabelTypes.Designer.vb">
+      <DependentUpon>FormSelectLabelTypes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormSelectLabelTypes.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormSteps.Designer.vb">
@@ -161,11 +185,23 @@
     <EmbeddedResource Include="FormJobSteps.resx">
       <DependentUpon>FormJobSteps.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormLineSelection.resx">
+      <DependentUpon>FormLineSelection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMainByCust.resx">
       <DependentUpon>FormMainByCust.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrintSO.resx">
+      <DependentUpon>FormPrintSO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSalesOrderNumber.resx">
+      <DependentUpon>FormSalesOrderNumber.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelectLabelTypes.resx">
+      <DependentUpon>FormSelectLabelTypes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSteps.resx">
       <DependentUpon>FormSteps.vb</DependentUpon>

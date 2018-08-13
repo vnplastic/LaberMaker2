@@ -11,11 +11,13 @@ Public Class FormMainByCust
     Dim jobs As List(Of ViewJobNotPrinted)
     Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
     Dim log As Logger
+    Dim currentCustomer As String
 #Region "Job Control"
     Private Sub GetCustomersWithJobs()
         Try
+            GroupBox1.Controls.Clear()
             Dim i As Integer = 1
-            Dim openJobs = ctx.ViewJobNotPrinteds _
+            Dim openJobs = ctx.ViewJobNotPrinteds.AsNoTracking _
                     .Select(Function(c) New With {c.CustomerName, c.KNDY4CustomerC}).OrderBy(Function(c) c.CustomerName).Distinct.ToList()
 
             For Each j In openJobs
@@ -64,18 +66,24 @@ Public Class FormMainByCust
 
     Private Sub OnCustomerChanged(sender As Object, e As EventArgs)
         Dim b As RadioButton = sender
-        Dim cust As String
+        'Dim cust As String
         'Dim job As New JobToProcess
         ' Dim job As SalesOrdersToProcess
-        cust = b.Tag
+        currentCustomer = b.Tag
+        PopulateOrders()
+    End Sub
 
-        Dim jobTypesForCust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = cust).Include(Function(c) c.JobType) _
-            .OrderBy(Function(d) d.JobType.JobTypeName).ToList
-        Dim jobsNotPrinted = ctx.ViewJobNotPrinteds.Where(Function(c) c.KNDY4CustomerC = cust) _
+    Private Sub PopulateOrders()
+
+        Dim jobTypesForCust = ctx.CustomerJobInfos.AsNoTracking.Where(Function(c) c.KNDY4CustomerC1 = currentCustomer).Include(Function(c) c.JobType) _
+                .OrderBy(Function(d) d.JobType.JobTypeName).ToList
+
+        Dim jobsNotPrinted = ctx.ViewJobNotPrinteds.AsNoTracking.Where(Function(c) c.KNDY4CustomerC = currentCustomer) _
                 .OrderBy(Function(c) c.SalesOrderName).ToList
+
         Dim jobs = jobsNotPrinted _
-        .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName}) _
-        .GroupBy(Function(c) c.SalesOrder) _
+                .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName}) _
+                .GroupBy(Function(c) c.SalesOrder) _
                 .Select(Function(x) x.FirstOrDefault).ToList
 
         lstSalesOrders.Items.Clear()
@@ -94,7 +102,7 @@ Public Class FormMainByCust
         Dim currentTop As Integer = 0
         For Each jt As CustomerJobInfo In jobTypesForCust
             If Not m_LoadedJobTypes.ContainsKey(jt.JobTypeId) Then
-                Dim instanceDll = ctx.JobTypes.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                Dim instanceDll = ctx.JobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
                 Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
                 m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
                 Debug.WriteLine("Loaded " + instanceDll)
@@ -111,8 +119,9 @@ Public Class FormMainByCust
 
 
         Next
-
     End Sub
+
+
 #End Region
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim conn As String = Globals.GetEFConnectionString
@@ -210,5 +219,24 @@ Public Class FormMainByCust
             log.Debug(ex, ex.Message & vbCrLf & ex.StackTrace)
             MessageBox.Show("An error occurred trying to print labels", "Error")
         End Try
+        GetCustomersWithJobs()
+        PopulateOrders()
+    End Sub
+
+    Private Sub btnSelectAll_Click(sender As Object, e As EventArgs) Handles btnSelectAll.Click
+        For Ix = 1 To lstSalesOrders.Items.Count
+            lstSalesOrders.SetItemChecked(Ix - 1, True)
+        Next
+    End Sub
+
+    Private Sub btnDeselectAll_Click(sender As Object, e As EventArgs) Handles btnDeselectAll.Click
+        For Ix = 1 To lstSalesOrders.Items.Count
+            lstSalesOrders.SetItemChecked(Ix - 1, False)
+        Next
+    End Sub
+
+    Private Sub ReprintLabelsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReprintLabelsToolStripMenuItem.Click
+        Dim frm As New FormPrintSO
+        frm.Show()
     End Sub
 End Class

@@ -15,6 +15,7 @@ Public Interface IQueueProcessing
     Property PrinterName() As String
     Property Status() As Long
     Property BTExe() As String
+    Property TestMode As Boolean
     ' Property JobStepInfo As JobInfo
 #End Region
     Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean

@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.JobInfo in the schema.
+    ''' There are no comments for VNDataModel.PalletJob in the schema.
     ''' </summary>
-    Public partial class JobInfo 
+    Public partial class PalletJob 
 
         Public Sub New()
             OnCreated()
@@ -165,37 +165,32 @@ Namespace VNDataModel
         ''' <summary>
         ''' There are no comments for CartonLabelCount in the schema.
         ''' </summary>
-        Public Overridable Property CartonLabelCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property CartonLabelCount() As Global.System.Nullable(Of Integer)
     
         ''' <summary>
         ''' There are no comments for CartonCount in the schema.
         ''' </summary>
-        Public Overridable Property CartonCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property CartonCount() As Global.System.Nullable(Of Integer)
     
         ''' <summary>
         ''' There are no comments for PalletCount in the schema.
         ''' </summary>
-        Public Overridable Property PalletCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property PalletCount() As Global.System.Nullable(Of Integer)
     
         ''' <summary>
         ''' There are no comments for PalletLabelCount in the schema.
         ''' </summary>
-        Public Overridable Property PalletLabelCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property PalletLabelCount() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerJobInfoId in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerJobInfoId() As Integer
     
         ''' <summary>
         ''' There are no comments for JobTypeId in the schema.
         ''' </summary>
-        Public Overridable Property JobTypeId() As Global.System.Nullable(Of Integer)
-    
-        ''' <summary>
-        ''' There are no comments for LabelPerLine in the schema.
-        ''' </summary>
-        Public Overridable Property LabelPerLine() As Global.System.Nullable(Of Boolean)
-    
-        ''' <summary>
-        ''' There are no comments for SOId in the schema.
-        ''' </summary>
-        Public Overridable Property SOId() As String
+        Public Overridable Property JobTypeId() As Integer
 
         #End Region
     

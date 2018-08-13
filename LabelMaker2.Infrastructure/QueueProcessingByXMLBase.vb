@@ -162,6 +162,8 @@ Public Class QueueProcessingByXMLBase
 
     ' Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
 
+    Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
+
     Public Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
         Throw New NotImplementedException
     End Function

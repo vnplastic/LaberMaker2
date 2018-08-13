@@ -15,9 +15,13 @@ Public Class FormJobs
         log.Trace("Pallet Label Module Starting Up")
         ctx = New VNDataEntities(Vars.ConnString)
         Dim i As Integer = 0
-        jobs = ctx.ViewPalletJobsNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
+        jobs = ctx.ViewPalletJobsNotPrinteds.AsNoTracking.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
 
-        For Each j In jobs
+
+        Dim jobsToPrint = jobs.Select(Function(c) New With {c.CustomerName, c.KNDY4CustomerC}).GroupBy(Function(c) c.CustomerName) _
+                .Select(Function(x) x.FirstOrDefault).ToList
+
+        For Each j In jobsToPrint
 
 
 
@@ -41,6 +45,7 @@ Public Class FormJobs
 
         Dim b As RadioButton = sender
         CheckedListBox1.Items.Clear()
+        jobs = ctx.ViewPalletJobsNotPrinteds.AsNoTracking.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
 
         For Each j In jobs.Where(Function(c) c.KNDY4CustomerC = b.Tag).OrderBy(Function(c) c.JobId).ToList()
             If Not j.ShipmentData.HasValue Then
@@ -114,5 +119,17 @@ Public Class FormJobs
 
         End If
 
+    End Sub
+
+    Private Sub btnSelectAll_Click(sender As Object, e As EventArgs) Handles btnSelectAll.Click
+        For Ix = 1 To CheckedListBox1.Items.Count
+            CheckedListBox1.SetItemChecked(Ix - 1, True)
+        Next
+    End Sub
+
+    Private Sub btnDeselectAll_Click(sender As Object, e As EventArgs) Handles btnDeselectAll.Click
+        For Ix = 1 To CheckedListBox1.Items.Count
+            CheckedListBox1.SetItemChecked(Ix - 1, False)
+        Next
     End Sub
 End Class

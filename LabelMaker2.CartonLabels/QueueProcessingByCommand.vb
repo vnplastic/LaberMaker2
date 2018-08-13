@@ -10,11 +10,13 @@ Public Class QueueProcessingByCommand
     Private m_JobStepLineInfo As CartonJobLineInfo
     Private m_UniqueLabelId As Integer
     Private m_LineJob As Boolean
+    Private log As NLog.Logger
 
 
 
     Sub New()
         MyBase.New()
+        log = LabelMaker2.Infrastructure.Globals.Logger
     End Sub
 
     Public Overrides Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean 'Implements IQueueProcessing.PrintJob
@@ -88,6 +90,7 @@ Public Class QueueProcessingByCommand
         Catch ex As Exception
             Debug.WriteLine(ex, ex.Message & vbCrLf & ex.StackTrace)
             MessageBox.Show("An error occurred trying to print Carton labels", "Error")
+            Log.Debug(ex.Message & vbCrLf & ex.StackTrace)
         End Try
 
 
@@ -108,20 +111,42 @@ Public Class QueueProcessingByCommand
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
                      & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                         $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH /P" &
+                         $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                          vbCrLf
         End If
 
         erc = BTCommandAdd(CommandStr)
     Return erc
                 End Function
+
+    Public Overrides Function JobEnd() As Long
+        If LineJob Then
+            Dim CartonJobLine As List(Of CartonJobLine)
+            CartonJobLine = ctx.CartonJobLines.Where(Function(c) c.JobId = JobId).ToList
+            For Each cj In CartonJobLine
+                cj.Printed = True
+            Next
+        Else
+            Dim CartonJob As List(Of CartonJob)
+            CartonJob = ctx.CartonJobs.Where(Function(c) c.JobId = JobId).ToList
+            For Each cj In CartonJob
+                cj.Printed = True
+            Next
+        End If
+
+
+        ctx.SaveChanges()
+        Return MyBase.JobEnd()
+
+    End Function
+
     Private Property JobStepInfo As CartonJobInfo
         Get
             Return m_JobStepInfo

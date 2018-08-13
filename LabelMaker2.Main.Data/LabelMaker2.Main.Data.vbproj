@@ -82,10 +82,18 @@
       <DependentUpon>DataModel1.AddressJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.AddressJobInfo.vb" />
+    <Compile Include="DataModel1.CartonJob.Generated.vb">
+      <DependentUpon>DataModel1.CartonJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.CartonJob.vb" />
     <Compile Include="DataModel1.CartonJobInfo.Generated.vb">
       <DependentUpon>DataModel1.CartonJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.CartonJobInfo.vb" />
+    <Compile Include="DataModel1.CartonJobLine.Generated.vb">
+      <DependentUpon>DataModel1.CartonJobLine.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.CartonJobLine.vb" />
     <Compile Include="DataModel1.CartonJobLineInfo.Generated.vb">
       <DependentUpon>DataModel1.CartonJobLineInfo.vb</DependentUpon>
     </Compile>
@@ -118,6 +126,10 @@
       <DependentUpon>DataModel1.JobType.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.JobType.vb" />
+    <Compile Include="DataModel1.PalletJob.Generated.vb">
+      <DependentUpon>DataModel1.PalletJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.PalletJob.vb" />
     <Compile Include="DataModel1.PalletJobInfo.Generated.vb">
       <DependentUpon>DataModel1.PalletJobInfo.vb</DependentUpon>
     </Compile>

@@ -14,9 +14,11 @@ Public Class FormJobs
         log = LabelMaker2.Infrastructure.Globals.Logger
         Dim i As Integer = 0
         log.Trace("Carton Label Module Starting Up.....")
-        jobs = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
+        jobs = ctx.ViewJobNotPrinteds.AsNoTracking.Where(Function(c) c.JobTypeId = Vars.JobTypeID).OrderBy(Function(c) c.CustomerName).ToList()
 
-        For Each j In jobs
+        Dim jobsToPrint = jobs.Select(Function(c) New With {c.CustomerName, c.KNDY4CustomerC}).GroupBy(Function(c) c.CustomerName) _
+            .Select(Function(x) x.FirstOrDefault).ToList
+        For Each j In jobsToPrint
 
 
 
@@ -87,4 +89,20 @@ Public Class FormJobs
             Return "OK"
         End Get
     End Property
+
+    Private Sub btnSelectAll_Click(sender As Object, e As EventArgs) Handles btnSelectAll.Click
+        For Ix = 1 To CheckedListBox1.Items.Count
+            CheckedListBox1.SetItemChecked(Ix - 1, True)
+        Next
+    End Sub
+
+    Private Sub btnDeselectAll_Click(sender As Object, e As EventArgs) Handles btnDeselectAll.Click
+        For Ix = 1 To CheckedListBox1.Items.Count
+            CheckedListBox1.SetItemChecked(Ix - 1, False)
+        Next
+    End Sub
+
+    Private Sub btnMore_Click(sender As Object, e As EventArgs) Handles btnMore.Click
+
+    End Sub
 End Class

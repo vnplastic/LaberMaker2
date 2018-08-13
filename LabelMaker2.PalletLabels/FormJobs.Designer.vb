@@ -51,7 +51,7 @@ Partial Class FormJobs
         'btnMore
         '
         Me.btnMore.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMore.Location = New System.Drawing.Point(385, 260)
+        Me.btnMore.Location = New System.Drawing.Point(390, 265)
         Me.btnMore.Name = "btnMore"
         Me.btnMore.Size = New System.Drawing.Size(206, 36)
         Me.btnMore.TabIndex = 36
@@ -61,7 +61,7 @@ Partial Class FormJobs
         'btnExit
         '
         Me.btnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExit.Location = New System.Drawing.Point(495, 336)
+        Me.btnExit.Location = New System.Drawing.Point(500, 341)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(96, 36)
         Me.btnExit.TabIndex = 35
@@ -71,7 +71,7 @@ Partial Class FormJobs
         'btnRefresh
         '
         Me.btnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRefresh.Location = New System.Drawing.Point(385, 336)
+        Me.btnRefresh.Location = New System.Drawing.Point(390, 341)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(96, 36)
         Me.btnRefresh.TabIndex = 34
@@ -81,7 +81,7 @@ Partial Class FormJobs
         'btnPrintLabels
         '
         Me.btnPrintLabels.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintLabels.Location = New System.Drawing.Point(385, 208)
+        Me.btnPrintLabels.Location = New System.Drawing.Point(390, 213)
         Me.btnPrintLabels.Name = "btnPrintLabels"
         Me.btnPrintLabels.Size = New System.Drawing.Size(206, 36)
         Me.btnPrintLabels.TabIndex = 33
@@ -92,7 +92,7 @@ Partial Class FormJobs
         '
         Me.btnOptions.Enabled = False
         Me.btnOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnOptions.Location = New System.Drawing.Point(385, 159)
+        Me.btnOptions.Location = New System.Drawing.Point(390, 164)
         Me.btnOptions.Name = "btnOptions"
         Me.btnOptions.Size = New System.Drawing.Size(206, 36)
         Me.btnOptions.TabIndex = 32
@@ -102,7 +102,7 @@ Partial Class FormJobs
         'btnDeselectAll
         '
         Me.btnDeselectAll.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeselectAll.Location = New System.Drawing.Point(385, 96)
+        Me.btnDeselectAll.Location = New System.Drawing.Point(390, 101)
         Me.btnDeselectAll.Name = "btnDeselectAll"
         Me.btnDeselectAll.Size = New System.Drawing.Size(206, 36)
         Me.btnDeselectAll.TabIndex = 31
@@ -112,7 +112,7 @@ Partial Class FormJobs
         'btnSelectAll
         '
         Me.btnSelectAll.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectAll.Location = New System.Drawing.Point(385, 54)
+        Me.btnSelectAll.Location = New System.Drawing.Point(390, 59)
         Me.btnSelectAll.Name = "btnSelectAll"
         Me.btnSelectAll.Size = New System.Drawing.Size(206, 36)
         Me.btnSelectAll.TabIndex = 30
@@ -121,11 +121,11 @@ Partial Class FormJobs
         '
         'CheckedListBox1
         '
-        Me.CheckedListBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckedListBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(215, 79)
+        Me.CheckedListBox1.Location = New System.Drawing.Point(196, 79)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(148, 298)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(176, 298)
         Me.CheckedListBox1.TabIndex = 29
         '
         'GroupBox1

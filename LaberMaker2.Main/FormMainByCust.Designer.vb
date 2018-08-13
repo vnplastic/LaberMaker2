@@ -34,8 +34,11 @@ Partial Class FormMainByCust
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lstSalesOrders = New System.Windows.Forms.CheckedListBox()
-        Me.grpLabeType = New System.Windows.Forms.GroupBox()
         Me.btnPrintLabels = New System.Windows.Forms.Button()
+        Me.grpLabeType = New System.Windows.Forms.GroupBox()
+        Me.btnSelectAll = New System.Windows.Forms.Button()
+        Me.btnDeselectAll = New System.Windows.Forms.Button()
+        Me.ReprintLabelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -52,7 +55,7 @@ Partial Class FormMainByCust
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.UtilityToolStripMenuItem, Me.AboutToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(861, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(633, 24)
         Me.MenuStrip1.TabIndex = 23
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -71,7 +74,7 @@ Partial Class FormMainByCust
         '
         'UtilityToolStripMenuItem
         '
-        Me.UtilityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.JobStepsToolStripMenuItem, Me.CustomerProfilesToolStripMenuItem, Me.CustomerJobInfoToolStripMenuItem})
+        Me.UtilityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.JobStepsToolStripMenuItem, Me.CustomerProfilesToolStripMenuItem, Me.CustomerJobInfoToolStripMenuItem, Me.ReprintLabelsToolStripMenuItem})
         Me.UtilityToolStripMenuItem.Name = "UtilityToolStripMenuItem"
         Me.UtilityToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.UtilityToolStripMenuItem.Text = "&Utility"
@@ -114,8 +117,8 @@ Partial Class FormMainByCust
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(861, 471)
-        Me.SplitContainer1.SplitterDistance = 141
+        Me.SplitContainer1.Size = New System.Drawing.Size(633, 471)
+        Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 24
         '
         'GroupBox1
@@ -123,7 +126,7 @@ Partial Class FormMainByCust
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(139, 469)
+        Me.GroupBox1.Size = New System.Drawing.Size(101, 469)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Customer"
@@ -140,10 +143,12 @@ Partial Class FormMainByCust
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnDeselectAll)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnSelectAll)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrintLabels)
         Me.SplitContainer2.Panel2.Controls.Add(Me.grpLabeType)
-        Me.SplitContainer2.Size = New System.Drawing.Size(714, 469)
-        Me.SplitContainer2.SplitterDistance = 126
+        Me.SplitContainer2.Size = New System.Drawing.Size(524, 469)
+        Me.SplitContainer2.SplitterDistance = 117
         Me.SplitContainer2.TabIndex = 0
         '
         'lstSalesOrders
@@ -152,8 +157,17 @@ Partial Class FormMainByCust
         Me.lstSalesOrders.FormattingEnabled = True
         Me.lstSalesOrders.Location = New System.Drawing.Point(0, 0)
         Me.lstSalesOrders.Name = "lstSalesOrders"
-        Me.lstSalesOrders.Size = New System.Drawing.Size(126, 469)
+        Me.lstSalesOrders.Size = New System.Drawing.Size(117, 469)
         Me.lstSalesOrders.TabIndex = 0
+        '
+        'btnPrintLabels
+        '
+        Me.btnPrintLabels.Location = New System.Drawing.Point(145, 23)
+        Me.btnPrintLabels.Name = "btnPrintLabels"
+        Me.btnPrintLabels.Size = New System.Drawing.Size(176, 34)
+        Me.btnPrintLabels.TabIndex = 1
+        Me.btnPrintLabels.Text = "Print Labels"
+        Me.btnPrintLabels.UseVisualStyleBackColor = True
         '
         'grpLabeType
         '
@@ -164,24 +178,39 @@ Partial Class FormMainByCust
         Me.grpLabeType.TabStop = False
         Me.grpLabeType.Text = "Label Types"
         '
-        'btnPrintLabels
+        'btnSelectAll
         '
-        Me.btnPrintLabels.Location = New System.Drawing.Point(157, 20)
-        Me.btnPrintLabels.Name = "btnPrintLabels"
-        Me.btnPrintLabels.Size = New System.Drawing.Size(176, 34)
-        Me.btnPrintLabels.TabIndex = 1
-        Me.btnPrintLabels.Text = "Print Labels"
-        Me.btnPrintLabels.UseVisualStyleBackColor = True
+        Me.btnSelectAll.Location = New System.Drawing.Point(145, 83)
+        Me.btnSelectAll.Name = "btnSelectAll"
+        Me.btnSelectAll.Size = New System.Drawing.Size(176, 34)
+        Me.btnSelectAll.TabIndex = 2
+        Me.btnSelectAll.Text = "Select All"
+        Me.btnSelectAll.UseVisualStyleBackColor = True
+        '
+        'btnDeselectAll
+        '
+        Me.btnDeselectAll.Location = New System.Drawing.Point(145, 142)
+        Me.btnDeselectAll.Name = "btnDeselectAll"
+        Me.btnDeselectAll.Size = New System.Drawing.Size(176, 34)
+        Me.btnDeselectAll.TabIndex = 3
+        Me.btnDeselectAll.Text = "Deselect All"
+        Me.btnDeselectAll.UseVisualStyleBackColor = True
+        '
+        'ReprintLabelsToolStripMenuItem
+        '
+        Me.ReprintLabelsToolStripMenuItem.Name = "ReprintLabelsToolStripMenuItem"
+        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReprintLabelsToolStripMenuItem.Text = "Reprint Labels"
         '
         'FormMainByCust
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(861, 495)
+        Me.ClientSize = New System.Drawing.Size(633, 495)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Name = "FormMainByCust"
-        Me.Text = "FormMain"
+        Me.Text = "Labels By Customer"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -211,4 +240,7 @@ Partial Class FormMainByCust
     Friend WithEvents lstSalesOrders As CheckedListBox
     Friend WithEvents grpLabeType As GroupBox
     Friend WithEvents btnPrintLabels As Button
+    Friend WithEvents btnDeselectAll As Button
+    Friend WithEvents btnSelectAll As Button
+    Friend WithEvents ReprintLabelsToolStripMenuItem As ToolStripMenuItem
 End Class

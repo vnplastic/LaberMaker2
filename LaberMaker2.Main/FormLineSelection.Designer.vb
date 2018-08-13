@@ -1,0 +1,77 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class FormLineSelection
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.lstLineItems = New System.Windows.Forms.ListBox()
+        Me.btnSelect = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'lstLineItems
+        '
+        Me.lstLineItems.FormattingEnabled = True
+        Me.lstLineItems.ItemHeight = 25
+        Me.lstLineItems.Location = New System.Drawing.Point(83, 34)
+        Me.lstLineItems.Name = "lstLineItems"
+        Me.lstLineItems.Size = New System.Drawing.Size(302, 479)
+        Me.lstLineItems.TabIndex = 0
+        '
+        'btnSelect
+        '
+        Me.btnSelect.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.btnSelect.Location = New System.Drawing.Point(150, 519)
+        Me.btnSelect.Name = "btnSelect"
+        Me.btnSelect.Size = New System.Drawing.Size(167, 43)
+        Me.btnSelect.TabIndex = 1
+        Me.btnSelect.Text = "Select Line"
+        Me.btnSelect.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(92, 6)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(277, 25)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = "Select the product to reprint"
+        '
+        'FormLineSelection
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(476, 574)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.btnSelect)
+        Me.Controls.Add(Me.lstLineItems)
+        Me.Name = "FormLineSelection"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Select Line"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+
+    Friend WithEvents lstLineItems As ListBox
+    Friend WithEvents btnSelect As Button
+    Friend WithEvents Label1 As Label
+End Class

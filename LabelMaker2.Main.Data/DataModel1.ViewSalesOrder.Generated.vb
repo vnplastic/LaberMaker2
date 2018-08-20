@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.ViewJobNotPrinted in the schema.
+    ''' There are no comments for VNDataModel.ViewSalesOrder in the schema.
     ''' </summary>
-    Public partial class ViewJobNotPrinted 
+    Public partial class ViewSalesOrder 
 
         Public Sub New()
             OnCreated()
@@ -28,19 +28,34 @@ Namespace VNDataModel
         #Region "Primitive Properties"
     
         ''' <summary>
-        ''' There are no comments for JobTypeId in the schema.
+        ''' There are no comments for KNDY4StatusC in the schema.
         ''' </summary>
-        Public Overridable Property JobTypeId() As Integer
+        Public Overridable Property KNDY4StatusC() As String
     
         ''' <summary>
-        ''' There are no comments for JobId in the schema.
+        ''' There are no comments for Name in the schema.
         ''' </summary>
-        Public Overridable Property JobId() As Integer
+        Public Overridable Property Name() As String
     
         ''' <summary>
-        ''' There are no comments for KNDY4CustomerC in the schema.
+        ''' There are no comments for SalesOrderId in the schema.
         ''' </summary>
-        Public Overridable Property KNDY4CustomerC() As String
+        Public Overridable Property SalesOrderId() As String
+    
+        ''' <summary>
+        ''' There are no comments for SONo in the schema.
+        ''' </summary>
+        Public Overridable Property SONo() As String
+    
+        ''' <summary>
+        ''' There are no comments for ShipmentDate in the schema.
+        ''' </summary>
+        Public Overridable Property ShipmentDate() As Global.System.Nullable(Of System.DateTime)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerID in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerID() As String
     
         ''' <summary>
         ''' There are no comments for CustomerName in the schema.
@@ -48,14 +63,14 @@ Namespace VNDataModel
         Public Overridable Property CustomerName() As String
     
         ''' <summary>
-        ''' There are no comments for SalesOrder in the schema.
+        ''' There are no comments for LineNo in the schema.
         ''' </summary>
-        Public Overridable Property SalesOrder() As String
+        Public Overridable Property LineNo() As Global.System.Nullable(Of Decimal)
     
         ''' <summary>
-        ''' There are no comments for SalesOrderName in the schema.
+        ''' There are no comments for ProductName in the schema.
         ''' </summary>
-        Public Overridable Property SalesOrderName() As String
+        Public Overridable Property ProductName() As String
 
         #End Region
     

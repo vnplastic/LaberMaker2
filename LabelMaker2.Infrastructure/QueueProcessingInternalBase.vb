@@ -826,6 +826,11 @@ Public MustInherit Class QueueProcessingInternalBase
         'Shell(CommandStr, AppWinStyle.MinimizedNoFocus, False, -1)
         Return erc
     End Function
+
+    Public Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+        Throw New NotImplementedException
+    End Sub
+
 #Region "Properties"
     'Public Property BatchId As Long Implements IQueueProcessing.BatchId
     '    Get

@@ -19,7 +19,7 @@ Namespace VNDataModel
     ''' <summary>
     ''' There are no comments for VNDataModel.Job in the schema.
     ''' </summary>
-    Public partial class Job 
+    Public partial class TableJob 
 
         Public Sub New()
             OnCreated()
@@ -63,7 +63,7 @@ Namespace VNDataModel
         ''' <summary>
         ''' There are no comments for JobType in the schema.
         ''' </summary>
-        Public Overridable Property JobType() As JobType
+        Public Overridable Property JobType() As TableJobType
 
         #End Region
     

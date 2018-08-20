@@ -3,21 +3,21 @@ Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class FormJobSteps
     Dim ctx As New VNDataEntities
-    Dim lst As BindingList(Of CustomerJobInfo)
-    Dim blstStepsIncluded As BindingList(Of JobStep)
-    Dim blstStepsAvailable As BindingList(Of JobStep)
+    Dim lst As BindingList(Of TableCustomerJobInfo)
+    Dim blstStepsIncluded As BindingList(Of TableJobStep)
+    Dim blstStepsAvailable As BindingList(Of TableJobStep)
     Dim icurrentCustJob As Integer
-    Dim lstStepsIncluded As List(Of JobStep)
-    Dim lstStepsAvailable As List(Of JobStep)
+    Dim lstStepsIncluded As List(Of TableJobStep)
+    Dim lstStepsAvailable As List(Of TableJobStep)
 
     Dim isDirty As Boolean
-    Dim currentStep As New CustomerJobStep
-    Dim custJobSteps As New BindingList(Of CustomerJobStep)
+    Dim currentStep As New TableCustomerJobStep
+    Dim custJobSteps As New BindingList(Of TableCustomerJobStep)
     Dim frmLoading As Boolean
 
     Private Sub FormJobSteps_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         frmLoading = True
-        lst = New BindingList(Of CustomerJobInfo)(ctx.CustomerJobInfos.Include("JobType").OrderBy(Function(c) c.CustomerName).ThenBy(Function(d) d.JobType.JobTypeName).ToList())
+        lst = New BindingList(Of TableCustomerJobInfo)(ctx.TableCustomerJobInfos.Include("JobType").OrderBy(Function(c) c.CustomerName).ThenBy(Function(d) d.JobType.JobTypeName).ToList())
         grdCustomerJobInfo.AutoGenerateColumns = False
         grdCustomerJobInfo.ColumnCount = 1
         grdCustomerJobInfo.Columns(0).Name = "CustomerName"
@@ -45,16 +45,16 @@ Public Class FormJobSteps
 
     Private Sub FillComboBoxes()
         frmLoading = True
-        Dim lstPrinterCompatibility As New List(Of TypesWithName)
-        Dim lstSourceType As New List(Of TypesWithName)
-        Dim lstDeliveryType As New List(Of TypesWithName)
-        Dim lstLabelOrientation As New List(Of TypesWithName)
-        Dim lstLabelSize As New List(Of TypesWithName)
-        lstPrinterCompatibility = ctx.TypesWithNames.Where(Function(c) c.TypeName = "Printer Compatibility").ToList()
-        lstSourceType = ctx.TypesWithNames.Where(Function(c) c.TypeName = "Source Type").ToList()
-        lstDeliveryType = ctx.TypesWithNames.Where(Function(c) c.TypeName = "Delivery Type").ToList()
-        lstLabelOrientation = ctx.TypesWithNames.Where(Function(c) c.TypeName = "Label Orientation").ToList()
-        lstLabelSize = ctx.TypesWithNames.Where(Function(c) c.TypeName = "Label Size").ToList()
+        Dim lstPrinterCompatibility As New List(Of ViewTypesWithName)
+        Dim lstSourceType As New List(Of ViewTypesWithName)
+        Dim lstDeliveryType As New List(Of ViewTypesWithName)
+        Dim lstLabelOrientation As New List(Of ViewTypesWithName)
+        Dim lstLabelSize As New List(Of ViewTypesWithName)
+        lstPrinterCompatibility = ctx.ViewTypesWithNames.Where(Function(c) c.TypeName = "Printer Compatibility").ToList()
+        lstSourceType = ctx.ViewTypesWithNames.Where(Function(c) c.TypeName = "Source Type").ToList()
+        lstDeliveryType = ctx.ViewTypesWithNames.Where(Function(c) c.TypeName = "Delivery Type").ToList()
+        lstLabelOrientation = ctx.ViewTypesWithNames.Where(Function(c) c.TypeName = "Label Orientation").ToList()
+        lstLabelSize = ctx.ViewTypesWithNames.Where(Function(c) c.TypeName = "Label Size").ToList()
 
         cboLabelSize.DataSource = lstLabelSize
         cboLabelSize.DisplayMember = "TypeCodeName"
@@ -87,13 +87,13 @@ Public Class FormJobSteps
         Dim iJobType As Integer = lst(e.RowIndex).JobTypeId
         Dim iCustomerInfo As Integer = lst(e.RowIndex).CustomerJobInfoId
         ' Dim lstSteps As New List(Of JobStep)
-        lstStepsIncluded = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustomerInfo).Select(Function(d) d.JobStep).OrderBy(Function(d) d.JobStepOrder).ToList()
+        lstStepsIncluded = ctx.TableCustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustomerInfo).Select(Function(d) d.JobStep).OrderBy(Function(d) d.JobStepOrder).ToList()
 
         Dim lst2 As New List(Of Integer)
         lst2 = lstStepsIncluded.Select(Function(d) d.JobStepId).ToList()
-        blstStepsIncluded = New BindingList(Of JobStep)(lstStepsIncluded)
-        lstStepsAvailable = New List(Of JobStep)(ctx.JobSteps.Where(Function(c) c.JobTypeId = iJobType And Not lst2.Contains(c.JobStepId)).OrderBy(Function(d) d.JobStepOrder).ToList())
-        blstStepsAvailable = New BindingList(Of JobStep)(lstStepsAvailable)
+        blstStepsIncluded = New BindingList(Of TableJobStep)(lstStepsIncluded)
+        lstStepsAvailable = New List(Of TableJobStep)(ctx.TableJobSteps.Where(Function(c) c.JobTypeId = iJobType And Not lst2.Contains(c.JobStepId)).OrderBy(Function(d) d.JobStepOrder).ToList())
+        blstStepsAvailable = New BindingList(Of TableJobStep)(lstStepsAvailable)
 
 
 
@@ -136,7 +136,7 @@ Public Class FormJobSteps
     End Sub
 
     Private Sub btnMoveToCurrent_Click(sender As Object, e As EventArgs) Handles btnMoveToCurrent.Click
-        Dim currentAvaialble As JobStep
+        Dim currentAvaialble As TableJobStep
         Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
 
         If lstAvailableSteps.SelectedIndex <> -1 Then
@@ -147,22 +147,22 @@ Public Class FormJobSteps
             blstStepsAvailable.Remove(currentAvaialble)
             ' isDirty = True
 
-            lstStepsAvailable.Sort(Function(x As JobStep, y As JobStep)
+            lstStepsAvailable.Sort(Function(x As TableJobStep, y As TableJobStep)
                                        Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                    End Function)
 
 
-            lstStepsIncluded.Sort(Function(x As JobStep, y As JobStep)
+            lstStepsIncluded.Sort(Function(x As TableJobStep, y As TableJobStep)
                                       Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                   End Function)
 
             blstStepsAvailable.ResetBindings()
             blstStepsIncluded.ResetBindings()
             lstCurrentSteps.SelectedIndex = lstCurrentSteps.FindString(currentAvaialble.JobStepName)
-            Dim changedStep = New CustomerJobStep
+            Dim changedStep = New TableCustomerJobStep
             changedStep.JobStepId = currentAvaialble.JobStepId
             changedStep.CustomerJobInfoId = iCustInfoId
-            ctx.CustomerJobSteps.Add(changedStep)
+            ctx.TableCustomerJobSteps.Add(changedStep)
             ' ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentAvaialble.JobStepId)
 
             ctx.SaveChanges()
@@ -172,7 +172,7 @@ Public Class FormJobSteps
     End Sub
 
     Private Sub btnMoveToAvailable_Click(sender As Object, e As EventArgs) Handles btnMoveToAvailable.Click
-        Dim currentInclude As JobStep
+        Dim currentInclude As TableJobStep
         Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
         If lstCurrentSteps.SelectedIndex <> -1 Then
             frmLoading = True
@@ -183,16 +183,16 @@ Public Class FormJobSteps
             blstStepsAvailable.Add(currentInclude)
 
 
-            lstStepsIncluded.Sort(Function(x As JobStep, y As JobStep)
+            lstStepsIncluded.Sort(Function(x As TableJobStep, y As TableJobStep)
                                       Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                   End Function)
-            lstStepsAvailable.Sort(Function(x As JobStep, y As JobStep)
+            lstStepsAvailable.Sort(Function(x As TableJobStep, y As TableJobStep)
                                        Return x.JobStepOrder.CompareTo(y.JobStepOrder)
                                    End Function)
             blstStepsAvailable.ResetBindings()
             blstStepsIncluded.ResetBindings()
-            Dim changedStep = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentInclude.JobStepId).FirstOrDefault
-            ctx.CustomerJobSteps.Remove(changedStep)
+            Dim changedStep = ctx.TableCustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentInclude.JobStepId).FirstOrDefault
+            ctx.TableCustomerJobSteps.Remove(changedStep)
             ctx.SaveChanges()
             isDirty = False
         End If
@@ -212,8 +212,8 @@ Public Class FormJobSteps
 
                 Dim iJobStepId As Integer = lstCurrentSteps.Items(lstCurrentSteps.SelectedIndex).JobStepId
                 Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
-                Dim newStep As New CustomerJobStep
-                newStep = ctx.CustomerJobSteps.Where(Function(c) c.JobStepId = iJobStepId And
+                Dim newStep As New TableCustomerJobStep
+                newStep = ctx.TableCustomerJobSteps.Where(Function(c) c.JobStepId = iJobStepId And
                                                                        c.CustomerJobInfoId = iCustInfoId).FirstOrDefault()
 
 
@@ -242,7 +242,7 @@ Public Class FormJobSteps
     Private Sub SaveChanges()
         Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId
         ' Dim original = ctx.CustomerJobSteps.Find(iCustInfoId)
-        Dim original = ctx.CustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentStep.JobStepId).FirstOrDefault
+        Dim original = ctx.TableCustomerJobSteps.Where(Function(c) c.CustomerJobInfoId = iCustInfoId And c.JobStepId = currentStep.JobStepId).FirstOrDefault
 
         If isDirty = True Then
             If Not original Is Nothing Then

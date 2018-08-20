@@ -58,4 +58,5 @@ Public Interface IQueueProcessing
     Function WriteStatusComplete() As Long
     Function ClearFormats() As Long
     Function AddFormat(ByVal pFormatName As String) As Long
+    Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0)
 End Interface

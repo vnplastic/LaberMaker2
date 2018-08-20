@@ -142,12 +142,6 @@
     <Compile Include="FormSalesOrderNumber.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSelectLabelTypes.Designer.vb">
-      <DependentUpon>FormSelectLabelTypes.vb</DependentUpon>
-    </Compile>
-    <Compile Include="FormSelectLabelTypes.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FormSteps.Designer.vb">
       <DependentUpon>FormSteps.vb</DependentUpon>
     </Compile>
@@ -199,9 +193,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSalesOrderNumber.resx">
       <DependentUpon>FormSalesOrderNumber.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSelectLabelTypes.resx">
-      <DependentUpon>FormSelectLabelTypes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSteps.resx">
       <DependentUpon>FormSteps.vb</DependentUpon>

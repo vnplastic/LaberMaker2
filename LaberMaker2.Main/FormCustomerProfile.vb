@@ -4,13 +4,13 @@ Imports LabelMaker2.Main.Data.VNDataModel
 Public Class FormCustomerProfile
     Dim ctx As New VNDataEntities
     Dim custBindingSource As New BindingSource
-    Dim lst As List(Of LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo) = New List(Of LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo)
+    Dim lst As List(Of LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo) = New List(Of LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo)
     Dim newcustBindingSource As New BindingSource
-    Dim lstCust As List(Of LabelMaker2.Main.Data.VNDataModel.CustomerSoldTo) = New List(Of LabelMaker2.Main.Data.VNDataModel.CustomerSoldTo)
+    Dim lstCust As List(Of LabelMaker2.Main.Data.VNDataModel.ViewCustomerSoldTo) = New List(Of LabelMaker2.Main.Data.VNDataModel.ViewCustomerSoldTo)
     Dim typeBindingSource As New BindingSource
-    Dim lstType As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
+    Dim lstType As List(Of LabelMaker2.Main.Data.VNDataModel.TableJobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.TableJobType)
     Dim printerBindingSource As New BindingSource
-    Dim lstPrinters As List(Of LabelMaker2.Main.Data.VNDataModel.Printer) = New List(Of LabelMaker2.Main.Data.VNDataModel.Printer)
+    Dim lstPrinters As List(Of LabelMaker2.Main.Data.VNDataModel.TablePrinter) = New List(Of LabelMaker2.Main.Data.VNDataModel.TablePrinter)
     Dim bAddMode As Boolean = False
     Dim log As NLog.Logger
 
@@ -22,7 +22,7 @@ Public Class FormCustomerProfile
 
 
         '  Dim lst2 As List(Of LabelMaker2.Main.Data.VNDataModel.JobType) = New List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
-        lst = ctx.CustomerJobInfos.Include("JobType").Include("Printer").OrderBy(Function(c) c.CustomerName).ToList()
+        lst = ctx.TableCustomerJobInfos.Include("JobType").Include("Printer").OrderBy(Function(c) c.CustomerName).ToList()
 
         custBindingSource.DataSource = lst
         grdCustomerProfiles.ColumnCount = 2
@@ -70,12 +70,12 @@ Public Class FormCustomerProfile
 
         grdCustomerProfiles.DataSource = custBindingSource
 
-        lstCust = ctx.CustomerSoldTos.OrderBy(Function(c) c.Name).ToList()
+        lstCust = ctx.ViewCustomerSoldTos.OrderBy(Function(c) c.Name).ToList()
         newcustBindingSource.DataSource = lstCust
-        lstType = ctx.JobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
+        lstType = ctx.TableJobTypes.OrderBy(Function(c) c.JobTypeName).ToList()
         typeBindingSource.DataSource = lstType
 
-        lstPrinters = ctx.Printers.ToList()
+        lstPrinters = ctx.TablePrinters.ToList()
 
         printerBindingSource.DataSource = lstPrinters
 
@@ -112,7 +112,7 @@ Public Class FormCustomerProfile
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         'Dim cust As New LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo()
-        Dim cust As CustomerJobInfo
+        Dim cust As TableCustomerJobInfo
         If String.IsNullOrEmpty(txtCustName.Text) Then
             MessageBox.Show("You need to select a customer first", "Error")
             Return
@@ -129,11 +129,11 @@ Public Class FormCustomerProfile
         Dim jobType As Integer
         custId = cboCustomer.SelectedValue
         jobType = cboJobType.SelectedValue
-        cust = ctx.CustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = custId And c.JobTypeId = jobType).FirstOrDefault
+        cust = ctx.TableCustomerJobInfos.Where(Function(c) c.KNDY4CustomerC1 = custId And c.JobTypeId = jobType).FirstOrDefault
         If cust Is Nothing Then
-               cust = New CustomerJobInfo
+               cust = New TableCustomerJobInfo
         lst.Add(cust)
-        ctx.CustomerJobInfos.Add(cust)
+        ctx.TableCustomerJobInfos.Add(cust)
         End If
         cust.JobTypeId = cboJobType.SelectedValue
         cust.KNDY4CustomerC1 = cboCustomer.SelectedValue '"a1B36000001hoHbEAI"
@@ -184,10 +184,10 @@ Public Class FormCustomerProfile
     End Sub
 
     Private Sub grdCustomerProfiles_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdCustomerProfiles.UserDeletingRow
-        Dim var As LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo = TryCast(e.Row.DataBoundItem, LabelMaker2.Main.Data.VNDataModel.CustomerJobInfo)
+        Dim var As LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo = TryCast(e.Row.DataBoundItem, LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo)
 
         lst.Remove(var)
-        ctx.CustomerJobInfos.Remove(var)
+        ctx.TableCustomerJobInfos.Remove(var)
         ctx.SaveChanges()
         custBindingSource.ResetBindings(False)
 
@@ -196,7 +196,7 @@ Public Class FormCustomerProfile
     Private Sub grdCustomerProfiles_SelectionChanged(sender As Object, e As EventArgs) Handles grdCustomerProfiles.SelectionChanged
         Dim s As DataGridView = TryCast(sender, DataGridView)
         If s.SelectedRows.Count > 0 Then
-            Dim t As CustomerJobInfo = TryCast(s.SelectedRows(0).DataBoundItem, CustomerJobInfo)
+            Dim t As TableCustomerJobInfo = TryCast(s.SelectedRows(0).DataBoundItem, TableCustomerJobInfo)
             cboCustomer.SelectedIndex = cboCustomer.FindString(t.CustomerName)
             cboJobType.SelectedIndex = cboJobType.FindString(t.JobTypeName)
             cboPrinter.SelectedIndex = If(t.PrinterName Is Nothing, -1, cboPrinter.FindString(t.PrinterName))

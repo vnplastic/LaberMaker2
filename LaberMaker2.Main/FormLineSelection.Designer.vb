@@ -30,18 +30,19 @@ Partial Class FormLineSelection
         'lstLineItems
         '
         Me.lstLineItems.FormattingEnabled = True
-        Me.lstLineItems.ItemHeight = 25
-        Me.lstLineItems.Location = New System.Drawing.Point(83, 34)
+        Me.lstLineItems.Location = New System.Drawing.Point(42, 18)
+        Me.lstLineItems.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.lstLineItems.Name = "lstLineItems"
-        Me.lstLineItems.Size = New System.Drawing.Size(302, 479)
+        Me.lstLineItems.Size = New System.Drawing.Size(153, 251)
         Me.lstLineItems.TabIndex = 0
         '
         'btnSelect
         '
         Me.btnSelect.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.btnSelect.Location = New System.Drawing.Point(150, 519)
+        Me.btnSelect.Location = New System.Drawing.Point(75, 270)
+        Me.btnSelect.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnSelect.Name = "btnSelect"
-        Me.btnSelect.Size = New System.Drawing.Size(167, 43)
+        Me.btnSelect.Size = New System.Drawing.Size(84, 22)
         Me.btnSelect.TabIndex = 1
         Me.btnSelect.Text = "Select Line"
         Me.btnSelect.UseVisualStyleBackColor = True
@@ -49,20 +50,22 @@ Partial Class FormLineSelection
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(92, 6)
+        Me.Label1.Location = New System.Drawing.Point(46, 3)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(277, 25)
+        Me.Label1.Size = New System.Drawing.Size(138, 13)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Select the product to reprint"
         '
         'FormLineSelection
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(476, 574)
+        Me.ClientSize = New System.Drawing.Size(238, 298)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnSelect)
         Me.Controls.Add(Me.lstLineItems)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "FormLineSelection"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Select Line"

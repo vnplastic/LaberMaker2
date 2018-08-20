@@ -78,79 +78,97 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel1.AddressJobInfo.Generated.vb">
-      <DependentUpon>DataModel1.AddressJobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.AddressJobInfo.vb" />
-    <Compile Include="DataModel1.CartonJob.Generated.vb">
-      <DependentUpon>DataModel1.CartonJob.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CartonJob.vb" />
-    <Compile Include="DataModel1.CartonJobInfo.Generated.vb">
-      <DependentUpon>DataModel1.CartonJobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CartonJobInfo.vb" />
-    <Compile Include="DataModel1.CartonJobLine.Generated.vb">
-      <DependentUpon>DataModel1.CartonJobLine.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CartonJobLine.vb" />
-    <Compile Include="DataModel1.CartonJobLineInfo.Generated.vb">
-      <DependentUpon>DataModel1.CartonJobLineInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CartonJobLineInfo.vb" />
-    <Compile Include="DataModel1.CustomerJobInfo.Generated.vb">
-      <DependentUpon>DataModel1.CustomerJobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CustomerJobInfo.vb" />
-    <Compile Include="DataModel1.CustomerJobStep.Generated.vb">
-      <DependentUpon>DataModel1.CustomerJobStep.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CustomerJobStep.vb" />
-    <Compile Include="DataModel1.CustomerSoldTo.Generated.vb">
-      <DependentUpon>DataModel1.CustomerSoldTo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.CustomerSoldTo.vb" />
-    <Compile Include="DataModel1.Job.Generated.vb">
-      <DependentUpon>DataModel1.Job.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.Job.vb" />
-    <Compile Include="DataModel1.JobInfo.Generated.vb">
-      <DependentUpon>DataModel1.JobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.JobInfo.vb" />
-    <Compile Include="DataModel1.JobStep.Generated.vb">
-      <DependentUpon>DataModel1.JobStep.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.JobStep.vb" />
-    <Compile Include="DataModel1.JobType.Generated.vb">
-      <DependentUpon>DataModel1.JobType.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.JobType.vb" />
-    <Compile Include="DataModel1.PalletJob.Generated.vb">
-      <DependentUpon>DataModel1.PalletJob.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.PalletJob.vb" />
-    <Compile Include="DataModel1.PalletJobInfo.Generated.vb">
-      <DependentUpon>DataModel1.PalletJobInfo.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.PalletJobInfo.vb" />
     <Compile Include="DataModel1.PregeneratedViews.vb" />
-    <Compile Include="DataModel1.Printer.Generated.vb">
-      <DependentUpon>DataModel1.Printer.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.Printer.vb" />
-    <Compile Include="DataModel1.Type.Generated.vb">
-      <DependentUpon>DataModel1.Type.vb</DependentUpon>
+    <Compile Include="DataModel1.TableCartonJob.Generated.vb">
+      <DependentUpon>DataModel1.TableCartonJob.vb</DependentUpon>
     </Compile>
+    <Compile Include="DataModel1.TableCartonJob.vb" />
+    <Compile Include="DataModel1.TableCartonJobLine.vb" />
+    <Compile Include="DataModel1.TableCustomerJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.TableCustomerJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableCustomerJobInfo.vb" />
+    <Compile Include="DataModel1.TableCustomerJobStep.Generated.vb">
+      <DependentUpon>DataModel1.TableCustomerJobStep.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableCustomerJobStep.vb" />
+    <Compile Include="DataModel1.TableJob.Generated.vb">
+      <DependentUpon>DataModel1.TableJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableJob.vb" />
+    <Compile Include="DataModel1.TableJobStep.Generated.vb">
+      <DependentUpon>DataModel1.TableJobStep.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableJobStep.vb" />
+    <Compile Include="DataModel1.TableJobType.Generated.vb">
+      <DependentUpon>DataModel1.TableJobType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableJobType.vb" />
+    <Compile Include="DataModel1.TablePalletJob.Generated.vb">
+      <DependentUpon>DataModel1.TablePalletJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TablePalletJob.vb" />
+    <Compile Include="DataModel1.TablePrinter.Generated.vb">
+      <DependentUpon>DataModel1.TablePrinter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TablePrinter.vb" />
+    <Compile Include="DataModel1.TableType.Generated.vb">
+      <DependentUpon>DataModel1.TableType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableType.vb" />
+    <Compile Include="DataModel1.TableTypeCode.Generated.vb">
+      <DependentUpon>DataModel1.TableTypeCode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.TableTypeCode.vb" />
     <Compile Include="DataModel1.Type.vb" />
-    <Compile Include="DataModel1.TypesWithName.Generated.vb">
-      <DependentUpon>DataModel1.TypesWithName.vb</DependentUpon>
-    </Compile>
     <Compile Include="DataModel1.TypesWithName.vb" />
+    <Compile Include="DataModel1.ViewAddressJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewAddressJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewAddressJobInfo.vb" />
+    <Compile Include="DataModel1.ViewAllJob.Generated.vb">
+      <DependentUpon>DataModel1.ViewAllJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewAllJob.vb" />
+    <Compile Include="DataModel1.ViewCartonJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewCartonJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewCartonJobInfo.vb" />
+    <Compile Include="DataModel1.ViewCartonJobLineInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewCartonJobLineInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewCartonJobLineInfo.vb" />
+    <Compile Include="DataModel1.ViewCustomerSoldTo.Generated.vb">
+      <DependentUpon>DataModel1.ViewCustomerSoldTo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewCustomerSoldTo.vb" />
+    <Compile Include="DataModel1.ViewJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewJobInfo.vb" />
     <Compile Include="DataModel1.ViewJobNotPrinted.Generated.vb">
       <DependentUpon>DataModel1.ViewJobNotPrinted.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.ViewJobNotPrinted.vb" />
+    <Compile Include="DataModel1.ViewPalletJobInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewPalletJobInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewPalletJobInfo.vb" />
     <Compile Include="DataModel1.ViewPalletJobsNotPrinted.Generated.vb">
       <DependentUpon>DataModel1.ViewPalletJobsNotPrinted.vb</DependentUpon>
     </Compile>
@@ -159,10 +177,15 @@
       <DependentUpon>DataModel1.ViewPrinter.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.ViewPrinter.vb" />
-    <Compile Include="DataModel1.ViiewPalletJobsNotPrinted.vb" />
-    <Compile Include="DataModel1.VNA057TB07TypeCode.Generated.vb">
-      <DependentUpon>DataModel1.VNA057TB07TypeCode.vb</DependentUpon>
+    <Compile Include="DataModel1.ViewSalesOrder.Generated.vb">
+      <DependentUpon>DataModel1.ViewSalesOrder.vb</DependentUpon>
     </Compile>
+    <Compile Include="DataModel1.ViewSalesOrder.vb" />
+    <Compile Include="DataModel1.ViewTypesWithName.Generated.vb">
+      <DependentUpon>DataModel1.ViewTypesWithName.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewTypesWithName.vb" />
+    <Compile Include="DataModel1.ViiewPalletJobsNotPrinted.vb" />
     <Compile Include="DataModel1.VNA057TB07TypeCode.vb" />
     <Compile Include="DataModel1.VNA057VW01JobNotPrinted.vb" />
     <Compile Include="DataModel1.VNA057VW06JobInfo.vb" />

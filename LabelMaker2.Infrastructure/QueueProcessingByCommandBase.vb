@@ -455,7 +455,7 @@ Public MustInherit Class QueueProcessingByCommandBase
         erc = BTCommandExecute()
 
         'If Not TestMode Then
-        Dim job As Job = ctx.Jobs.Find(m_JobId)
+        Dim job As TableJob = ctx.TableJobs.Find(m_JobId)
 
             job.Printed = True
             ctx.SaveChanges()
@@ -480,7 +480,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         Result = False   ' The default response is that batch is not serialized
-        Dim isSerialized = ctx.JobInfos.Where(Function(c) c.JobId = JobId).Select(Function(c) c.Serialized).FirstOrDefault
+        Dim isSerialized = ctx.ViewJobInfos.Where(Function(c) c.JobId = JobId).Select(Function(c) c.Serialized).FirstOrDefault
         If isSerialized Is Nothing Then
             Return Result
         End If
@@ -826,6 +826,11 @@ Public MustInherit Class QueueProcessingByCommandBase
         'Shell(CommandStr, AppWinStyle.MinimizedNoFocus, False, -1)
         Return erc
     End Function
+
+    Public MustOverride Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+
+
+
 #Region "Properties"
     'Public Property BatchId As Long Implements IQueueProcessing.BatchId
     '    Get

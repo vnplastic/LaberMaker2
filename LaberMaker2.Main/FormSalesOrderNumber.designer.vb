@@ -28,6 +28,8 @@ Partial Class FormSalesOrderNumber
         Me.btnOk = New System.Windows.Forms.Button()
         Me.numLabels = New System.Windows.Forms.NumericUpDown()
         Me.chkLabelQty = New System.Windows.Forms.CheckBox()
+        Me.cboJobTypes = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         CType(Me.numLabels, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -56,7 +58,7 @@ Partial Class FormSalesOrderNumber
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(28, 73)
+        Me.btnCancel.Location = New System.Drawing.Point(42, 111)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(103, 50)
         Me.btnCancel.TabIndex = 5
@@ -66,7 +68,7 @@ Partial Class FormSalesOrderNumber
         'btnOk
         '
         Me.btnOk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnOk.Location = New System.Drawing.Point(171, 73)
+        Me.btnOk.Location = New System.Drawing.Point(185, 111)
         Me.btnOk.Name = "btnOk"
         Me.btnOk.Size = New System.Drawing.Size(103, 50)
         Me.btnOk.TabIndex = 6
@@ -93,13 +95,32 @@ Partial Class FormSalesOrderNumber
         Me.chkLabelQty.Text = "Change Label Qty"
         Me.chkLabelQty.UseVisualStyleBackColor = True
         '
+        'cboJobTypes
+        '
+        Me.cboJobTypes.FormattingEnabled = True
+        Me.cboJobTypes.Location = New System.Drawing.Point(153, 75)
+        Me.cboJobTypes.Name = "cboJobTypes"
+        Me.cboJobTypes.Size = New System.Drawing.Size(121, 21)
+        Me.cboJobTypes.TabIndex = 29
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(87, 78)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(60, 13)
+        Me.Label2.TabIndex = 30
+        Me.Label2.Text = "Label Type"
+        '
         'FormSalesOrderNumber
         '
         Me.AcceptButton = Me.btnOk
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(316, 145)
+        Me.ClientSize = New System.Drawing.Size(342, 173)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.cboJobTypes)
         Me.Controls.Add(Me.numLabels)
         Me.Controls.Add(Me.chkLabelQty)
         Me.Controls.Add(Me.btnOk)
@@ -120,4 +141,6 @@ Partial Class FormSalesOrderNumber
     Friend WithEvents btnOk As System.Windows.Forms.Button
     Friend WithEvents numLabels As NumericUpDown
     Friend WithEvents chkLabelQty As CheckBox
+    Friend WithEvents cboJobTypes As ComboBox
+    Friend WithEvents Label2 As Label
 End Class

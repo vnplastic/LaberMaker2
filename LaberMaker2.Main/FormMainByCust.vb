@@ -5,11 +5,11 @@ Imports NLog
 
 Public Class FormMainByCust
     Dim m_JobTypeId = 0
-    Dim m_JobTypeList As New List(Of JobType)
+    Dim m_JobTypeList As New List(Of TableJobType)
     Dim m_LoadedJobTypes As Dictionary(Of Integer, IQueueProcessing) = New Dictionary(Of Integer, IQueueProcessing)
     Dim ctx As VNDataEntities
     Dim jobs As List(Of ViewJobNotPrinted)
-    Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
+    Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.TableJobType)
     Dim log As Logger
     Dim currentCustomer As String
 #Region "Job Control"
@@ -75,7 +75,7 @@ Public Class FormMainByCust
 
     Private Sub PopulateOrders()
 
-        Dim jobTypesForCust = ctx.CustomerJobInfos.AsNoTracking.Where(Function(c) c.KNDY4CustomerC1 = currentCustomer).Include(Function(c) c.JobType) _
+        Dim jobTypesForCust = ctx.TableCustomerJobInfos.AsNoTracking.Where(Function(c) c.KNDY4CustomerC1 = currentCustomer).Include(Function(c) c.JobType) _
                 .OrderBy(Function(d) d.JobType.JobTypeName).ToList
 
         Dim jobsNotPrinted = ctx.ViewJobNotPrinteds.AsNoTracking.Where(Function(c) c.KNDY4CustomerC = currentCustomer) _
@@ -100,9 +100,9 @@ Public Class FormMainByCust
         grpLabeType.Controls.Clear()
 
         Dim currentTop As Integer = 0
-        For Each jt As CustomerJobInfo In jobTypesForCust
+        For Each jt As TableCustomerJobInfo In jobTypesForCust
             If Not m_LoadedJobTypes.ContainsKey(jt.JobTypeId) Then
-                Dim instanceDll = ctx.JobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                Dim instanceDll = ctx.TableJobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
                 Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
                 m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
                 Debug.WriteLine("Loaded " + instanceDll)

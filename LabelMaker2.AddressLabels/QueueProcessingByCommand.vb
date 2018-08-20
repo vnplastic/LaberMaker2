@@ -12,6 +12,10 @@ Public Class QueueProcessingByCommand
         Throw New NotImplementedException()
     End Function
 
+    Public Overrides Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0)
+        Throw New NotImplementedException
+    End Sub
+
     'Overloads Function PrintJob()
 
     'End Function

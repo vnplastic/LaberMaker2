@@ -6,8 +6,8 @@ Imports LabelMaker2.Main.Data.VNDataModel
 Public Class QueueProcessingByCommand
     Inherits QueueProcessingByCommandBase
     Dim ctx As VNDataEntities
-    Private m_JobStepInfo As CartonJobInfo
-    Private m_JobStepLineInfo As CartonJobLineInfo
+    Private m_JobStepInfo As ViewCartonJobInfo
+    Private m_JobStepLineInfo As ViewCartonJobLineInfo
     Private m_UniqueLabelId As Integer
     Private m_LineJob As Boolean
     Private log As NLog.Logger
@@ -22,21 +22,21 @@ Public Class QueueProcessingByCommand
     Public Overrides Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean 'Implements IQueueProcessing.PrintJob
         Try
             ctx = context
-        Dim j As CartonJobInfo
+        Dim j As ViewCartonJobInfo
         Dim currentCartonCount As Integer
 
-        j = ctx.CartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).FirstOrDefault
+        j = ctx.ViewCartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).FirstOrDefault
         If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
-        Dim custInfo As CustomerJobInfo
-        custInfo = ctx.CustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
+        Dim custInfo As TableCustomerJobInfo
+        custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
 
         PrinterName = j.PrinterName
         JobId = _job.JobId
         ' j = ctx.CartonJobInfos.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
         If j.LabelPerLine = True Then
             LineJob = True
-            Dim cJob As List(Of CartonJobLineInfo)
-            cJob = ctx.CartonJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
+            Dim cJob As List(Of ViewCartonJobLineInfo)
+            cJob = ctx.ViewCartonJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
 
             Dim t As List(Of String)
             t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
@@ -46,7 +46,7 @@ Public Class QueueProcessingByCommand
                 AddFormat(TemplateFile)
                 Debug.Print(TemplateFile)
             Next
-            For Each jInfo As CartonJobLineInfo In cJob
+            For Each jInfo As ViewCartonJobLineInfo In cJob
                 currentCartonCount = jInfo.LineCartonCount
                 JobStepLineInfo = jInfo
                 TemplateFile = JobStepLineInfo.FormatName
@@ -67,8 +67,8 @@ Public Class QueueProcessingByCommand
 
         Else
             LineJob = False
-            Dim cJob As List(Of CartonJobInfo)
-            cJob = ctx.CartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+            Dim cJob As List(Of ViewCartonJobInfo)
+            cJob = ctx.ViewCartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
 
             Dim t As List(Of String)
             t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
@@ -78,7 +78,7 @@ Public Class QueueProcessingByCommand
                 AddFormat(TemplateFile)
                 Debug.Print(TemplateFile)
             Next
-            For Each jInfo As CartonJobInfo In cJob
+            For Each jInfo As ViewCartonJobInfo In cJob
                 JobStepInfo = jInfo
                 TemplateFile = JobStepInfo.FormatName
                 ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
@@ -127,19 +127,20 @@ Public Class QueueProcessingByCommand
                 End Function
 
     Public Overrides Function JobEnd() As Long
-        If LineJob Then
-            Dim CartonJobLine As List(Of CartonJobLine)
-            CartonJobLine = ctx.CartonJobLines.Where(Function(c) c.JobId = JobId).ToList
-            For Each cj In CartonJobLine
-                cj.Printed = True
-            Next
-        Else
-            Dim CartonJob As List(Of CartonJob)
-            CartonJob = ctx.CartonJobs.Where(Function(c) c.JobId = JobId).ToList
+        'If LineJob Then
+        '    Dim CartonJobLine As List(Of TableCartonJob)
+        '    CartonJobLine = ctx.TableCartonJobs.Where(Function(c) c.JobId = JobId).ToList
+        '    For Each cj In CartonJobLine
+        '        cj.Printed = True
+        '    Next
+        'Else
+        'Todo:Is there a bug from converting to single Job Table?????
+        Dim CartonJob As List(Of TableCartonJob)
+            CartonJob = ctx.TableCartonJobs.Where(Function(c) c.JobId = JobId).ToList
             For Each cj In CartonJob
                 cj.Printed = True
             Next
-        End If
+        ' End If
 
 
         ctx.SaveChanges()
@@ -147,19 +148,23 @@ Public Class QueueProcessingByCommand
 
     End Function
 
-    Private Property JobStepInfo As CartonJobInfo
+    Public Overrides Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Property JobStepInfo As ViewCartonJobInfo
         Get
             Return m_JobStepInfo
         End Get
-        Set(value As CartonJobInfo)
+        Set(value As ViewCartonJobInfo)
             m_JobStepInfo = value
         End Set
     End Property
-    Private Property JobStepLineInfo As CartonJobLineInfo
+    Private Property JobStepLineInfo As ViewCartonJobLineInfo
         Get
             Return m_JobStepLineInfo
         End Get
-        Set(value As CartonJobLineInfo)
+        Set(value As ViewCartonJobLineInfo)
             m_JobStepLineInfo = value
         End Set
     End Property

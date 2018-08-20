@@ -6,7 +6,7 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class CustomerJobInfo
+    Partial Public Class TableCustomerJobInfo
         Public ReadOnly Property JobTypeName() As String
             Get
                 Return JobType.JobTypeName

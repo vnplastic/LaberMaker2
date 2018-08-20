@@ -5,17 +5,17 @@ Imports NLog
 
 Public Class FormMain
     Dim m_JobTypeId = 0
-    Dim m_JobTypeList As New List(Of JobType)
+    Dim m_JobTypeList As New List(Of TableJobType)
     Dim m_LoadedJobTypes As Dictionary(Of Integer, UserControl) = New Dictionary(Of Integer, UserControl)
     Dim ctx As VNDataEntities
-    Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.JobType)
+    Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.TableJobType)
     Dim log As Logger
 #Region "Job Control"
     Private Sub GetJobTypes()
         Try
-            jobTypes = ctx.JobTypes.AsNoTracking.OrderByDescending(Function(c) c.JobTypeName).ToList()
+            jobTypes = ctx.TableJobTypes.AsNoTracking.OrderByDescending(Function(c) c.JobTypeName).ToList()
             For Each j In jobTypes
-                Dim job As JobType = New JobType With {
+                Dim job As TableJobType = New TableJobType With {
                     .JobTypeId = j.JobTypeId,
                     .JobTypeName = j.JobTypeName}
 

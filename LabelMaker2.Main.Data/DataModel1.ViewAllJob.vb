@@ -6,6 +6,6 @@ Imports System.Runtime.Serialization
 
 Namespace VNDataModel
 
-    Partial Public Class TableCustomerJobStep
+    Partial Public Class ViewAllJob
     End Class
 End Namespace

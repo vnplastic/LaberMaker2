@@ -26,15 +26,16 @@ Public Class QueueProcessingByCommand
             ctx = Me.Context
             Dim j As ViewCartonJobInfo
             Dim currentCartonCount As Integer
-            Dim jobId As Integer = _job.JobId
+            'Dim jobId As Integer = _job.JobId
+            Me.JobId = _job.JobId
 
-            j = ctx.ViewCartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = jobId).FirstOrDefault
+            j = ctx.ViewCartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = JobId).FirstOrDefault
             If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
             Dim custInfo As TableCustomerJobInfo
             custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
 
             PrinterName = j.PrinterName
-            JobId = _job.JobId
+
             ' j = ctx.CartonJobInfos.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
             If j.LabelPerLine = True Then
                 LineJob = True

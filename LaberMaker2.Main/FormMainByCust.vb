@@ -118,6 +118,10 @@ Public Class FormMainByCust
             grpLabeType.Controls.Add(chkBox)
 
 
+            'Int h = lst.ItemHeight * lst.Items.Count; 
+            'lst.Height = h + lst.Height - lst.ClientSize.Height; 
+
+
         Next
     End Sub
 
@@ -171,11 +175,9 @@ Public Class FormMainByCust
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
         Try
 
-
-
             Dim j As New LabelMaker2.Infrastructure.JobToProcess()
             Dim ji As ViewJobNotPrinted
-            Dim TypeId As Integer
+            Dim lTypeId As Integer
             'Dim ji As JobInfo
             Dim so As SalesOrdersToProcess
             Dim SalesOrder As String
@@ -203,11 +205,12 @@ Public Class FormMainByCust
                                 Dim Proc As IQueueProcessing
                                 Proc = m_LoadedJobTypes(chk.Tag)
                                 Dim Q = Proc
-                                TypeId = chk.Tag
-                                ji = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = TypeId And c.SalesOrderName = SalesOrder).FirstOrDefault
+                                lTypeId = chk.Tag
+                                ji = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = lTypeId And c.SalesOrderName = SalesOrder).FirstOrDefault
                                 j.JobId = ji.JobId
                                 j.SalesOrder = so.SalesOrder
-                                Q.PrintJob(j, ctx)
+                                Q.SetContext(ctx)
+                                Q.PrintJob(j)
                                 MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                             End If
                         End If
@@ -237,6 +240,28 @@ Public Class FormMainByCust
 
     Private Sub ReprintLabelsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReprintLabelsToolStripMenuItem.Click
         Dim frm As New FormPrintSO
+
         frm.Show()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnReprint.Click
+        Dim frm As New FormPrintSO
+
+        frm.Show()
+    End Sub
+
+    Private Sub lstSalesOrders_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles lstSalesOrders.ItemCheck
+        If lstSalesOrders.CheckedItems.Count = 1 And e.NewValue = CheckState.Unchecked Then
+            ' The collection Is about to be emptied: there 's just one item checked, and it's being unchecked at this moment
+            btnPrintLabels.Enabled = False
+            'btnReprint.Enabled = False
+
+        Else
+            'The collection will Not be empty once this click Is handled
+            btnPrintLabels.Enabled = True
+            'btnReprint.Enabled = True
+
+        End If
+
     End Sub
 End Class

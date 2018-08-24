@@ -55,6 +55,7 @@ Public Class FormJobs
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click
         If CanPrint = "OK" Then
             Dim Q As New QueueProcessingByCommand()
+            Q.SetContext(ctx)
 
             Dim j As JobToProcess
             Dim ji As ViewJobNotPrinted
@@ -66,7 +67,7 @@ Public Class FormJobs
                     j.SalesOrder = ji.SalesOrderName
 
                     'j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                    Q.PrintJob(j, ctx)
+                    Q.PrintJob(j)
                     MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                 End If
             Next

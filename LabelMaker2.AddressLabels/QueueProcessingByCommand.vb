@@ -8,11 +8,11 @@ Public Class QueueProcessingByCommand
         MyBase.New()
     End Sub
 
-    Public Overrides Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean
+    Public Overrides Function PrintJob(_job As JobToProcess) As Boolean
         Throw New NotImplementedException()
     End Function
 
-    Public Overrides Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0)
+    Public Overrides Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0)
         Throw New NotImplementedException
     End Sub
 

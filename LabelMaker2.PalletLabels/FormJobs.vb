@@ -94,6 +94,7 @@ Public Class FormJobs
         If CanPrint = "OK" Then
             Try
                 Dim Q As New QueueProcessingByCommand()
+                Q.SetContext(ctx)
 
 
                 Dim j As New JobToProcess()
@@ -106,7 +107,7 @@ Public Class FormJobs
                         j.SalesOrder = ji.SalesOrderName
 
                         'j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                        Q.PrintJob(j, ctx)
+                        Q.PrintJob(j)
                         MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                     End If
                 Next

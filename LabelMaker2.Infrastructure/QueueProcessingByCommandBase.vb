@@ -38,14 +38,19 @@ Public MustInherit Class QueueProcessingByCommandBase
     Sub New()
         m_QueueProcessMode = QEnum.QueueProcessMode.CommandLine
         m_Cancel = False
-        ctx = New VNDataEntities
+
+
         Dim args As String() = Environment.GetCommandLineArgs
         If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then TestMode = True
 
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
-    Public MustOverride Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
+    Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
+
+    Public Sub SetContext(context As VNDataEntities) Implements IQueueProcessing.SetContext
+        Me.Context = context
+    End Sub
 
     'Function GetFormat(f As String) As String
     '    Dim r As String
@@ -480,7 +485,11 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         Result = False   ' The default response is that batch is not serialized
-        Dim isSerialized = ctx.ViewJobInfos.Where(Function(c) c.JobId = JobId).Select(Function(c) c.Serialized).FirstOrDefault
+        Dim ljobID As Integer
+        ljobID = JobId
+
+
+        Dim isSerialized = Context.ViewJobInfos.Where(Function(c) c.JobId = ljobID).Select(Function(c) c.Serialized).FirstOrDefault
         If isSerialized Is Nothing Then
             Return Result
         End If
@@ -827,7 +836,7 @@ Public MustInherit Class QueueProcessingByCommandBase
         Return erc
     End Function
 
-    Public MustOverride Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+    Public MustOverride Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
 
 
 
@@ -903,6 +912,8 @@ Public MustInherit Class QueueProcessingByCommandBase
             m_ProfileId = value
         End Set
     End Property
+
+    Public Property Context As VNDataEntities Implements IQueueProcessing.Context
 
     Public Property QueueId As Long Implements IQueueProcessing.QueueId
         Get

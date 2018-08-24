@@ -1,9 +1,15 @@
-﻿Imports LabelMaker2.Main.Data.VNDataModel
+﻿Imports System.Data.Entity.Validation
+Imports LabelMaker2.Infrastructure
+Imports LabelMaker2.Main.Data.VNDataModel
+Imports NLog
 
 Public Class FormPrintSO
     Dim ctx As VNDataEntities
+    Dim log As Logger
+    Public Property q As IQueueProcessing
     Private Sub FormPrintSO_Load(sender As Object, e As EventArgs) Handles Me.Load
         ctx = New VNDataEntities
+        log = NLog.LogManager.GetCurrentClassLogger
     End Sub
     Private Sub btnNewJob_Click(sender As System.Object, e As System.EventArgs) Handles btnNewJob.Click
         Dim m_fsono As String
@@ -12,7 +18,7 @@ Public Class FormPrintSO
         'Dim iLables as Integer
         Dim m_labelQty As Integer
         Dim m_lineNo As Integer
-        Dim jobType As String
+        'Dim jobType As String
         Dim jobTypeId As Integer
         Dim jobToReprint As ViewJobInfo
         Dim jobs As List(Of ViewJobInfo)
@@ -40,17 +46,15 @@ Public Class FormPrintSO
             Dim job = ctx.ViewJobInfos.AsNoTracking.Where(Function(c) c.SalesOrderName.Contains(m_fsono)).ToList
 
             If job.Count = 0 Then
-                MsgBox("This Sales Order is not for an active LabelMaker Customer or is the wrong label type (Pallet/Carton).", MsgBoxStyle.OkOnly,
+                MsgBox("This Sales Order is not for an active LabelMaker Customer or is the wrong label type.", MsgBoxStyle.OkOnly,
                        "LabelMaker: Create Print Job")
                 Exit Sub
 
             Else
 
-                If jobTypeId = 0 Then
-                    jobs = job
-                Else
-                    jobs = job.Where(Function(c) c.JobTypeId = jobTypeId).ToList
-                End If
+                '
+                jobs = job.Where(Function(c) c.JobTypeId = jobTypeId).ToList
+                '  End If
                 If jobs.Any(Function(c) c.Printed = 0) Then
                     Dim sMessage As String
 
@@ -87,72 +91,82 @@ Public Class FormPrintSO
                     End If
                 End If
 
+                Dim instanceDll = ctx.TableJobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                Dim q = Globals.CreateLabelInstance(instanceDll).QueueProcessor
+
+                q.SetContext(ctx)
+
 
                 OldCaption = Me.Text ' "More..."
-#Region "Cartons"
-                    'ToDo: Generate Reprint Jobs
-                    If jobType = "Carton" Then
-                    NewCartonJob(jobToReprint.SOId, m_labelQty, m_lineNo)
-#End Region
-                Else 'Pallet Labels
-                        'ToDO need to add ability to print only a few pallet labels????
+                'ToDo: Generate Reprint Jobs
+                '                If jobTypeId = 1 Then
+                q.CreateReprintJob(jobToReprint.SOId, m_labelQty, jobToReprint.LabelPerLine, m_lineNo)
+                'NewCartonJob(jobToReprint.SOId, m_labelQty, jobToReprint.LabelPerLine, m_lineNo)
+                '               End If
+                'If jobTypeId = 2 Then
+                '    'ToDO need to add ability to print only a few pallet labels????
+                '    NewPalletJob(jobToReprint.SOId, m_labelQty, jobToReprint.LabelPerLine, m_lineNo)
+                '    Me.Text = "Creating Job"
 
-                        Me.Text = "Creating Job"
-
-                End If
-                    Me.Text = "Generated"
+                'End If
+                Me.Text = "Generated"
                 MsgBox("Label Print Job Created Successfully.", MsgBoxStyle.OkOnly, "LabelMaker: Create Label Print Job")
 
             End If
-            End If
-
-
-
-    End Sub
-
-    Private Sub NewCartonJob(SOId As String, m_labelQty As Integer, Optional LineNo As Integer = 0)
-        Me.Text = "Creating Job"
-        Dim newJob As TableJob
-        newJob = ctx.TableJobs.Where(Function(c) c.KNDY4SalesOrderC1 = SOId And c.JobTypeId = 1).FirstOrDefault
-        If m_labelQty > 0 Then
-
-
-            newJob.Printed = 0
-            ctx.TableJobs.Add(newJob)
-            ctx.SaveChanges()
-            ctx.InsertNewCartonJob()
-            Dim inewJob As Integer
-            inewJob = newJob.JobId
-            Dim jobInfo As TableCartonJob
-            If LineNo = 0 Then
-                jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label").FirstOrDefault
-            Else
-                ctx.TableCartonJobs.RemoveRange(ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo <> LineNo))
-                jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo = LineNo).FirstOrDefault
-            End If
-
-            jobInfo.CartonLabelCount = m_labelQty
-            Dim bh As Boolean = ctx.ChangeTracker.HasChanges()
-            ctx.SaveChanges()
-        Else
-            newJob.Printed = 0
-            ctx.TableJobs.Add(newJob)
-            ctx.SaveChanges()
-            ctx.InsertNewCartonJob()
-            Dim inewJob As Integer
-            inewJob = newJob.JobId
-            'Dim jobInfo As TableCartonJob
-            If LineNo = 0 Then
-                'jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label").FirstOrDefault
-            Else
-                ctx.TableCartonJobs.RemoveRange(ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo <> LineNo))
-                ctx.SaveChanges()
-                'jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo = LineNo).FirstOrDefault
-            End If
-
 
         End If
+
     End Sub
+
+    Private Sub NewPalletJob(soId As String, mLabelQty As Integer, LineJob As Boolean, mLineNo As Integer)
+        Throw New NotImplementedException
+    End Sub
+
+    'Private Sub NewCartonJob(SOId As String, m_labelQty As Integer, LineJob As Boolean, Optional LineNo As Integer = 0)
+    '    Try
+    '        Me.Text = "Creating Job"
+    '        Dim newJob As TableJob
+    '        newJob = ctx.TableJobs.Where(Function(c) c.KNDY4SalesOrderC1 = SOId And c.JobTypeId = 1).FirstOrDefault
+    '        newJob.Printed = 0
+    '        ctx.TableJobs.Add(newJob)
+    '        ctx.SaveChanges()
+
+    '        Dim inewJob As Integer
+    '        inewJob = newJob.JobId
+    '        If LineJob Then
+    '            ctx.InsertNewCartonJobLine()
+    '        Else
+    '            ctx.InsertNewCartonJob()
+    '        End If
+    '        If m_labelQty > 0 Then
+    '            Dim jobInfo As TableCartonJob
+    '            If LineNo = 0 Then
+    '                jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label").FirstOrDefault
+    '            Else
+    '                ctx.TableCartonJobs.RemoveRange(ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo <> LineNo))
+    '                jobInfo = ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo = LineNo).FirstOrDefault
+    '            End If
+
+    '            jobInfo.CartonLabelCount = m_labelQty
+    '            Dim bh As Boolean = ctx.ChangeTracker.HasChanges()
+    '            ctx.SaveChanges()
+    '        Else
+
+    '            If LineNo = 0 Then
+    '            Else
+    '                ctx.TableCartonJobs.RemoveRange(ctx.TableCartonJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo <> LineNo))
+    '                ctx.SaveChanges()
+    '            End If
+
+
+    '        End If
+    '    Catch e As DbEntityValidationException
+    '        MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+    '        log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+    '    End Try
+
+
+    'End Sub
 
     Private Sub btnDone_Click(sender As System.Object, e As System.EventArgs) Handles btnDone.Click
         ' FormMain.RefreshForm(False)

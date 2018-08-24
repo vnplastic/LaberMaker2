@@ -7,7 +7,7 @@ Imports LabelMaker2.Infrastructure
 Public Class FormJobs
     Dim ctx As VNDataEntities
     Dim jobs As List(Of ViewJobNotPrinted)
-    Dim q As New QueueProcessingByCommand
+    'Dim q As QueueProcessingByCommand
     Dim log As NLog.Logger
     Private Sub FormJobs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ctx = New VNDataEntities(Vars.ConnString)
@@ -60,6 +60,7 @@ Public Class FormJobs
         If CanPrint = "OK" Then
             Try
                 Dim Q As New QueueProcessingByCommand()
+                Q.SetContext(ctx)
 
                 Dim j As New JobToProcess()
                 Dim ji As ViewJobNotPrinted
@@ -71,7 +72,7 @@ Public Class FormJobs
                         j.SalesOrder = ji.SalesOrderName
 
                         'j = ctx.CartonJobInfos.Where(Function(c) c.JobId = ji.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
-                        Q.PrintJob(j, ctx)
+                        Q.PrintJob(j)
                         MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
                     End If
                 Next

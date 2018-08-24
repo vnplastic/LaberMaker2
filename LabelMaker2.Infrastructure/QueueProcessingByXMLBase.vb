@@ -164,9 +164,13 @@ Public Class QueueProcessingByXMLBase
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
 
-    Public Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
+    Public Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
         Throw New NotImplementedException
     End Function
+
+    Public Sub SetContext(context As VNDataEntities) Implements IQueueProcessing.SetContext
+        Throw New NotImplementedException
+    End Sub
 
     ''' <summary>
     ''' Attach a printer to this QueueConsumer to begin processing
@@ -946,7 +950,7 @@ Public Class QueueProcessingByXMLBase
         Return erc
     End Function
 
-    Public Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+    Public Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
         Throw New NotImplementedException
     End Sub
 
@@ -1029,6 +1033,8 @@ Public Class QueueProcessingByXMLBase
             m_ProfileId = value
         End Set
     End Property
+
+    Public Property Context As VNDataEntities Implements IQueueProcessing.Context
 
     Public Property QueueId As Long Implements IQueueProcessing.QueueId
         Get

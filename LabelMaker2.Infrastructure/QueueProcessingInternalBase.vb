@@ -36,7 +36,12 @@ Public MustInherit Class QueueProcessingInternalBase
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
-    Public MustOverride Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean Implements IQueueProcessing.PrintJob
+    Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
+
+    Public Sub SetContext(context As VNDataEntities) Implements IQueueProcessing.SetContext
+        Throw New NotImplementedException
+    End Sub
+
     Private Function BTCommandOpen() As Long
         Dim erc As Long
         'Dim CommandStr As String
@@ -827,7 +832,7 @@ Public MustInherit Class QueueProcessingInternalBase
         Return erc
     End Function
 
-    Public Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+    Public Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
         Throw New NotImplementedException
     End Sub
 
@@ -910,6 +915,8 @@ Public MustInherit Class QueueProcessingInternalBase
             m_ProfileId = value
         End Set
     End Property
+
+    Public Property Context As VNDataEntities Implements IQueueProcessing.Context
 
     Public Property QueueId As Long Implements IQueueProcessing.QueueId
         Get

@@ -2,6 +2,7 @@
 
 Public Interface IQueueProcessing
 #Region "Properties"
+    Property Context As VNDataEntities
     Property QueueId() As Long
     Property ProfileId() As Long
     Property JobId() As Long
@@ -18,7 +19,8 @@ Public Interface IQueueProcessing
     Property TestMode As Boolean
     ' Property JobStepInfo As JobInfo
 #End Region
-    Function PrintJob(_job As JobToProcess, context As VNDataEntities) As Boolean
+    Function PrintJob(_job As JobToProcess) As Boolean
+    Sub SetContext(context As VNDataEntities)
     Function AttachPrinter(Optional pPrinterId As System.UInt32 = 0, Optional pPrinterName As System.String = "") As Long
     Function PrinterIsAttached() As Boolean
     Function DetachPrinter() As Long
@@ -58,5 +60,5 @@ Public Interface IQueueProcessing
     Function WriteStatusComplete() As Long
     Function ClearFormats() As Long
     Function AddFormat(ByVal pFormatName As String) As Long
-    Sub CreateReprintJob(SOId As String, LabelCount As Integer, Optional LineNo As Integer = 0)
+    Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0)
 End Interface

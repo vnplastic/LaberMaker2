@@ -61,4 +61,6 @@ Public Interface IQueueProcessing
     Function ClearFormats() As Long
     Function AddFormat(ByVal pFormatName As String) As Long
     Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0)
+    Sub RefreshSalesforceData()
+    Sub RefreshLabelData(Optional SOId As String = Nothing)
 End Interface

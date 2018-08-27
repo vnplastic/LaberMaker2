@@ -24,12 +24,12 @@ Public Class QueueProcessingByCommand
     Public Overrides Function PrintJob(_job As JobToProcess) As Boolean 'Implements IQueueProcessing.PrintJob
         Try
             ctx = Me.Context
-            Dim j As ViewCartonJobInfo
+            Dim j As TableCartonJob
             Dim currentCartonCount As Integer
             'Dim jobId As Integer = _job.JobId
             Me.JobId = _job.JobId
 
-            j = ctx.ViewCartonJobInfos.AsNoTracking.Where(Function(c) c.JobId = JobId).FirstOrDefault
+            j = ctx.TableCartonJobs.AsNoTracking.Where(Function(c) c.JobId = JobId).FirstOrDefault
             If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
             Dim custInfo As TableCustomerJobInfo
             custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
@@ -43,7 +43,7 @@ Public Class QueueProcessingByCommand
                 cJob = ctx.ViewCartonJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
 
                 Dim t As List(Of String)
-                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
+                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.LabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
 
                 For Each f In t
                     TemplateFile = f
@@ -165,9 +165,9 @@ Public Class QueueProcessingByCommand
             Dim inewJob As Integer
             inewJob = newJob.JobId
             If LabelPerLine Then
-                ctx.InsertNewCartonJobLine()
+                ctx.InsertNewCartonJobLine(True)
             Else
-                ctx.InsertNewCartonJob()
+                ctx.InsertNewCartonJob(True)
             End If
             If LabelCount > 0 Then
                 Dim jobInfo As TableCartonJob
@@ -196,6 +196,15 @@ Public Class QueueProcessingByCommand
             log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
         End Try
 
+    End Sub
+
+    Public Overrides Sub RefreshSalesforceData()
+
+        Context.InsertNewCartonJob(False)
+    End Sub
+
+    Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
+        'Nothing to do in this module at the moment
     End Sub
 
     Private Property JobStepInfo As ViewCartonJobInfo

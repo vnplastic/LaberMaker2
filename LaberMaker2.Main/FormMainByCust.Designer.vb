@@ -35,11 +35,13 @@ Partial Class FormMainByCust
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lstSalesOrders = New System.Windows.Forms.CheckedListBox()
+        Me.btnRefreshData = New System.Windows.Forms.Button()
+        Me.btnRefreshSF = New System.Windows.Forms.Button()
+        Me.btnReprint = New System.Windows.Forms.Button()
         Me.btnDeselectAll = New System.Windows.Forms.Button()
         Me.btnSelectAll = New System.Windows.Forms.Button()
         Me.btnPrintLabels = New System.Windows.Forms.Button()
         Me.grpLabeType = New System.Windows.Forms.GroupBox()
-        Me.btnReprint = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -150,6 +152,8 @@ Partial Class FormMainByCust
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnRefreshData)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnRefreshSF)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReprint)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDeselectAll)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSelectAll)
@@ -167,6 +171,33 @@ Partial Class FormMainByCust
         Me.lstSalesOrders.Name = "lstSalesOrders"
         Me.lstSalesOrders.Size = New System.Drawing.Size(145, 469)
         Me.lstSalesOrders.TabIndex = 0
+        '
+        'btnRefreshData
+        '
+        Me.btnRefreshData.Location = New System.Drawing.Point(145, 326)
+        Me.btnRefreshData.Name = "btnRefreshData"
+        Me.btnRefreshData.Size = New System.Drawing.Size(176, 34)
+        Me.btnRefreshData.TabIndex = 6
+        Me.btnRefreshData.Text = "Refresh Label Data"
+        Me.btnRefreshData.UseVisualStyleBackColor = True
+        '
+        'btnRefreshSF
+        '
+        Me.btnRefreshSF.Location = New System.Drawing.Point(145, 268)
+        Me.btnRefreshSF.Name = "btnRefreshSF"
+        Me.btnRefreshSF.Size = New System.Drawing.Size(176, 34)
+        Me.btnRefreshSF.TabIndex = 5
+        Me.btnRefreshSF.Text = "Refresh Salesforce Date"
+        Me.btnRefreshSF.UseVisualStyleBackColor = True
+        '
+        'btnReprint
+        '
+        Me.btnReprint.Location = New System.Drawing.Point(145, 207)
+        Me.btnReprint.Name = "btnReprint"
+        Me.btnReprint.Size = New System.Drawing.Size(176, 34)
+        Me.btnReprint.TabIndex = 4
+        Me.btnReprint.Text = "Reprint Labels"
+        Me.btnReprint.UseVisualStyleBackColor = True
         '
         'btnDeselectAll
         '
@@ -204,15 +235,6 @@ Partial Class FormMainByCust
         Me.grpLabeType.TabIndex = 0
         Me.grpLabeType.TabStop = False
         Me.grpLabeType.Text = "Label Types"
-        '
-        'btnReprint
-        '
-        Me.btnReprint.Location = New System.Drawing.Point(145, 207)
-        Me.btnReprint.Name = "btnReprint"
-        Me.btnReprint.Size = New System.Drawing.Size(176, 34)
-        Me.btnReprint.TabIndex = 4
-        Me.btnReprint.Text = "Reprint Labels"
-        Me.btnReprint.UseVisualStyleBackColor = True
         '
         'FormMainByCust
         '
@@ -256,4 +278,6 @@ Partial Class FormMainByCust
     Friend WithEvents btnSelectAll As Button
     Friend WithEvents ReprintLabelsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents btnReprint As Button
+    Friend WithEvents btnRefreshData As Button
+    Friend WithEvents btnRefreshSF As Button
 End Class

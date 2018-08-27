@@ -31,7 +31,7 @@ Public MustInherit Class QueueProcessingByCommandBase
     Private m_WaitForUserReponse As Boolean
     Private m_SalesOrderNo As String
     Private m_Cancel As Boolean
-    Private ctx As VNDataEntities
+    ' Private ctx As VNDataEntities
     Private m_testMode As Boolean
     'Dim m_JobStepInfo As T
 #End Region
@@ -456,15 +456,15 @@ Public MustInherit Class QueueProcessingByCommandBase
         erc = BTCommandExecute()
         ' Mark all batches in the job as Printed
 
-        erc = BTCommandClose()
-        erc = BTCommandExecute()
+        'erc = BTCommandClose()
+        'erc = BTCommandExecute()
 
-        'If Not TestMode Then
-        Dim job As TableJob = ctx.TableJobs.Find(m_JobId)
+        If Not TestMode Then
+            Dim job As TableJob = Context.TableJobs.Find(m_JobId)
 
             job.Printed = True
-            ctx.SaveChanges()
-        'End If
+            Context.SaveChanges()
+        End If
 
         Return erc
     End Function
@@ -837,6 +837,10 @@ Public MustInherit Class QueueProcessingByCommandBase
     End Function
 
     Public MustOverride Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0) Implements IQueueProcessing.CreateReprintJob
+
+    Public MustOverride Sub RefreshSalesforceData() Implements IQueueProcessing.RefreshSalesforceData
+
+    Public MustOverride Sub RefreshLabelData(Optional SOId As String = Nothing) Implements IQueueProcessing.RefreshLabelData
 
 
 

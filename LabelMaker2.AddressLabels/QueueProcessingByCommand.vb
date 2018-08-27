@@ -16,6 +16,15 @@ Public Class QueueProcessingByCommand
         Throw New NotImplementedException
     End Sub
 
+    Public Overrides Sub RefreshSalesforceData()
+
+        'ToDo: Implement 
+    End Sub
+
+    Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
+        'ToDo: Implement 
+    End Sub
+
     'Overloads Function PrintJob()
 
     'End Function

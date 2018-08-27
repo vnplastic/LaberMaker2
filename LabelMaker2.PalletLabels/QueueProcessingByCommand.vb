@@ -32,7 +32,7 @@ Public Class QueueProcessingByCommand
             cJob = ctx.ViewPalletJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
 
             Dim t As List(Of String)
-            t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.CartonLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
+            t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.LabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
 
             For Each f In t
                 TemplateFile = f
@@ -69,7 +69,7 @@ Public Class QueueProcessingByCommand
             Dim inewJob As Integer
             inewJob = newJob.JobId
 
-            ctx.InsertNewPalletJob()
+            ctx.InsertNewPalletJob(True)
 
             If LabelCount > 0 Then
                 Dim jobInfo As TablePalletJob
@@ -104,6 +104,36 @@ Public Class QueueProcessingByCommand
             Log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
         End Try
     End Sub
+
+    Public Overrides Sub RefreshSalesforceData()
+
+        Context.InsertNewPalletJob(False)
+    End Sub
+
+    Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
+        If String.IsNullOrEmpty(SOId) Then
+            Context.UpdatePalletJobInfo("")
+        Else
+            Context.UpdatePalletJobInfo(SOId)
+        End If
+
+    End Sub
+
+    Public Overrides Function JobEnd() As Long
+        If Not TestMode Then
+            Dim PalletJob As List(Of TablePalletJob)
+            PalletJob = ctx.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList
+            For Each cj In PalletJob
+                cj.Printed = True
+            Next
+            ' End If
+
+
+            ctx.SaveChanges()
+        End If
+
+        Return MyBase.JobEnd()
+    End Function
 
     'Overloads Function PrintJob()
 

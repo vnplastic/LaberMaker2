@@ -954,6 +954,14 @@ Public Class QueueProcessingByXMLBase
         Throw New NotImplementedException
     End Sub
 
+    Public Sub RefreshSalesforceData() Implements IQueueProcessing.RefreshSalesforceData
+        Throw New NotImplementedException
+    End Sub
+
+    Public Sub RefreshLabelData(Optional SOId As String = Nothing) Implements IQueueProcessing.RefreshLabelData
+        Throw New NotImplementedException
+    End Sub
+
 #Region "Properties"
     'Public Property BatchId As Long Implements IQueueProcessing.BatchId
     '    Get

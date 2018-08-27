@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="Globals.vb" />
     <Compile Include="Interfaces\ILabelProperties.vb" />
-    <Compile Include="IQueueProcessing.vb" />
+    <Compile Include="Interfaces\IQueueProcessing.vb" />
     <Compile Include="Model\JobStep.vb" />
     <Compile Include="Model\JobsToProcess.vb" />
     <Compile Include="Model\SalesOrdersToProcess.vb" />

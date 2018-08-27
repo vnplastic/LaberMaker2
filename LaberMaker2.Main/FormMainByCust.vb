@@ -101,12 +101,12 @@ Public Class FormMainByCust
 
         Dim currentTop As Integer = 0
         For Each jt As TableCustomerJobInfo In jobTypesForCust
-            If Not m_LoadedJobTypes.ContainsKey(jt.JobTypeId) Then
-                Dim instanceDll = ctx.TableJobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
-                Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
-                m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
-                Debug.WriteLine("Loaded " + instanceDll)
-            End If
+            'If Not m_LoadedJobTypes.ContainsKey(jt.JobTypeId) Then
+            '    Dim instanceDll = ctx.TableJobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = jt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+            '    Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
+            '    m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
+            '    Debug.WriteLine("Loaded " + instanceDll)
+            'End If
 
             Dim chkBox As New CheckBox
             chkBox.Text = jt.JobTypeName
@@ -133,6 +133,7 @@ Public Class FormMainByCust
         log.Trace("LabelMaker2 starting up")
         Try
             ctx = New VNDataEntities(conn)
+            LoadLabelTypeModules()
             GetCustomersWithJobs()
         Catch ex As Exception
             MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
@@ -263,5 +264,45 @@ Public Class FormMainByCust
 
         End If
 
+    End Sub
+
+    Private Sub btnRefreshSF_Click(sender As Object, e As EventArgs) Handles btnRefreshSF.Click
+        Try
+            ctx.Database.CommandTimeout = 120
+            ctx.RefreshSalesForce()
+        Catch ex As Exception
+            MsgBox("An error occurred refreshing Salesforce Data", MsgBoxStyle.OkOnly, "Error")
+            log.Debug(ex.Message + vbCrLf + ex.StackTrace + vbCrLf + If(ex.InnerException.Message = Nothing, "", ex.InnerException.Message))
+        End Try
+
+        For Each mt In m_LoadedJobTypes
+            Dim Proc As IQueueProcessing
+            Proc = mt.Value
+            Proc.SetContext(ctx)
+            Proc.RefreshSalesforceData()
+
+        Next
+    End Sub
+    Private Sub LoadLabelTypeModules()
+        Dim ModuleTypes = ctx.TableJobTypes.Where(Function(c) c.Active = True).ToList
+
+        For Each mt In ModuleTypes
+            If Not m_LoadedJobTypes.ContainsKey(mt.JobTypeId) Then
+                Dim instanceDll = ctx.TableJobTypes.AsNoTracking.Where(Function(c) c.JobTypeId = mt.JobTypeId).Select(Function(c) c.DLLName).FirstOrDefault
+                Dim tmpDLL = Globals.CreateLabelInstance(instanceDll)
+                m_LoadedJobTypes.Add(mt.JobTypeId, tmpDLL.QueueProcessor)
+                Debug.WriteLine("Loaded " + instanceDll)
+            End If
+        Next
+    End Sub
+
+    Private Sub btnRefreshData_Click(sender As Object, e As EventArgs) Handles btnRefreshData.Click
+        For Each mt In m_LoadedJobTypes
+            Dim Proc As IQueueProcessing
+            Proc = mt.Value
+            Proc.SetContext(ctx)
+            Proc.RefreshLabelData(Nothing)
+
+        Next
     End Sub
 End Class

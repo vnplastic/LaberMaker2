@@ -217,16 +217,16 @@ Public Class FormJobSteps
                                                                        c.CustomerJobInfoId = iCustInfoId).FirstOrDefault()
 
 
-                If newStep.LabelOrientationId Is Nothing Then cboLabelOrientation.SelectedIndex = -1 Else cboLabelOrientation.SelectedValue = newStep.LabelOrientationId
-                If newStep.DeliveryTypeId Is Nothing Then cboDeliveryType.SelectedIndex = -1 Else cboDeliveryType.SelectedValue = newStep.DeliveryTypeId
-                If newStep.LabelSizeId Is Nothing Then cboLabelSize.SelectedIndex = -1 Else cboLabelSize.SelectedValue = newStep.LabelSizeId
-                If newStep.PrinterCompatibilityID Is Nothing Then cboPrinterCompatibility.SelectedIndex = -1 Else cboPrinterCompatibility.SelectedValue = newStep.PrinterCompatibilityID
-                If newStep.SourceTypeId Is Nothing Then cboSourceType.SelectedIndex = -1 Else cboSourceType.SelectedValue = newStep.SourceTypeId
-                If newStep.LabelCount Is Nothing Then numLabelCount.Value = 0 Else numLabelCount.Value = newStep.LabelCount
+                If newStep.LabelOrientationId = Nothing Then cboLabelOrientation.SelectedIndex = -1 Else cboLabelOrientation.SelectedValue = newStep.LabelOrientationId
+                If newStep.DeliveryTypeId = Nothing Then cboDeliveryType.SelectedIndex = -1 Else cboDeliveryType.SelectedValue = newStep.DeliveryTypeId
+                If newStep.LabelSizeId = Nothing Then cboLabelSize.SelectedIndex = -1 Else cboLabelSize.SelectedValue = newStep.LabelSizeId
+                If newStep.PrinterCompatibilityID = Nothing Then cboPrinterCompatibility.SelectedIndex = -1 Else cboPrinterCompatibility.SelectedValue = newStep.PrinterCompatibilityID
+                If newStep.SourceTypeId = Nothing Then cboSourceType.SelectedIndex = -1 Else cboSourceType.SelectedValue = newStep.SourceTypeId
+                If newStep.LabelCount = Nothing Then numLabelCount.Value = 0 Else numLabelCount.Value = newStep.LabelCount
                 currentStep = newStep
 
+                End If
             End If
-        End If
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click

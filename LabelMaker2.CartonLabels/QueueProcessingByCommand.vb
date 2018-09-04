@@ -10,7 +10,7 @@ Public Class QueueProcessingByCommand
     Private m_JobStepInfo As ViewCartonJobInfo
     Private m_JobStepLineInfo As ViewCartonJobLineInfo
     Private m_UniqueLabelId As Integer
-    Private m_LineJob As Boolean
+    'Private m_LineJob As Boolean
     Private log As NLog.Logger
 
 
@@ -93,8 +93,10 @@ Public Class QueueProcessingByCommand
 
         Catch ex As Exception
             Debug.WriteLine(ex, ex.Message & vbCrLf & ex.StackTrace)
-            MessageBox.Show("An error occurred trying to print Carton labels", "Error")
+            ' MessageBox.Show("An error occurred trying to print Carton labels", "Error")
             log.Debug(ex.Message & vbCrLf & ex.StackTrace)
+            Throw New Exception("An Error occured trying to print job", ex)
+            Throw
         End Try
 
 
@@ -115,14 +117,14 @@ Public Class QueueProcessingByCommand
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+            LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                         $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                         $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                          vbCrLf
         End If
 
@@ -201,6 +203,7 @@ Public Class QueueProcessingByCommand
     Public Overrides Sub RefreshSalesforceData()
 
         Context.InsertNewCartonJob(False)
+        Context.InsertNewCartonJobLine(False)
     End Sub
 
     Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
@@ -223,13 +226,13 @@ Public Class QueueProcessingByCommand
             m_JobStepLineInfo = value
         End Set
     End Property
-    Private Property LineJob As Boolean
-        Get
-            Return m_LineJob
-        End Get
-        Set(value As Boolean)
-            m_LineJob = value
-        End Set
-    End Property
+    'Private Property LineJob As Boolean
+    '    Get
+    '        Return m_LineJob
+    '    End Get
+    '    Set(value As Boolean)
+    '        m_LineJob = value
+    '    End Set
+    'End Property
 
 End Class

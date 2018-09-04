@@ -49,6 +49,8 @@
         <File Name="DataModel1.ViewAllJob.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.ViewSalesOrder.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
         <File Name="DataModel1.ViewSalesOrder.Generated.vb" Project="LabelMaker2.Main.Data" />
+        <File Name="DataModel1.ViewPalletJobLineInfo.vb" Project="LabelMaker2.Main.Data" OverwriteMode="None" />
+        <File Name="DataModel1.ViewPalletJobLineInfo.Generated.vb" Project="LabelMaker2.Main.Data" />
         <File Name="DataModel1.PregeneratedViews.vb" Project="LabelMaker2.Main.Data" />
       </GeneratedFiles>
     </Generation>

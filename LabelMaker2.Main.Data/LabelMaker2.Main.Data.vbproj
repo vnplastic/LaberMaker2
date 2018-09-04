@@ -169,6 +169,10 @@
       <DependentUpon>DataModel1.ViewPalletJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.ViewPalletJobInfo.vb" />
+    <Compile Include="DataModel1.ViewPalletJobLineInfo.Generated.vb">
+      <DependentUpon>DataModel1.ViewPalletJobLineInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel1.ViewPalletJobLineInfo.vb" />
     <Compile Include="DataModel1.ViewPalletJobsNotPrinted.Generated.vb">
       <DependentUpon>DataModel1.ViewPalletJobsNotPrinted.vb</DependentUpon>
     </Compile>

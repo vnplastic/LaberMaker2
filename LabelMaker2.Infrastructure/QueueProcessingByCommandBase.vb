@@ -1,5 +1,4 @@
-﻿Option Explicit On
-
+﻿
 Imports System.Data.SqlClient
 Imports System.IO
 Imports LabelMaker2.Main.Data.VNDataModel
@@ -46,6 +45,7 @@ Public MustInherit Class QueueProcessingByCommandBase
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
+    Public Property LineJob As Integer Implements IQueueProcessing.LineJob
     Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
 
     Public Sub SetContext(context As VNDataEntities) Implements IQueueProcessing.SetContext
@@ -247,7 +247,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -262,7 +262,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -287,7 +287,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -299,7 +299,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{Format(m_JobId, "0")}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{Format(m_JobId, "0")}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -369,7 +369,7 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
         vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -495,30 +495,7 @@ Public MustInherit Class QueueProcessingByCommandBase
         End If
         Return isSerialized
     End Function
-    Public Function PalletLabels() As Long Implements IQueueProcessing.PalletLabels
-        Dim erc As Long
-        Dim CommandStr As System.String
-        Dim PrintByLabel As Boolean       ' True=Print by Label, False=Print by Batch
-        Dim LabelBatch As String
 
-        erc = QEnum.QueueConsumerErrorCodes.OK
-        PrintByLabel = IsBatchSerialized()
-        PrintByLabel = False
-        If PrintByLabel Then
-            LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_JobId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        End If
-        CommandStr = m_BTExe &
-                    $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
-                     vbCrLf
-        erc = BTCommandAdd(CommandStr)
-        Return erc
-    End Function
     Public Overridable Function Labels() As Long Implements IQueueProcessing.Labels
         Dim erc As Long
         Dim CommandStr As System.String
@@ -533,12 +510,12 @@ Public MustInherit Class QueueProcessingByCommandBase
                          & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+            LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                          & $"        <Value>{Format(m_JobId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         End If
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpBatchId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -598,8 +575,6 @@ Public MustInherit Class QueueProcessingByCommandBase
                 erc = Labels()
             Case QEnum.QueueLabelType.Extras
                 erc = Extras()
-            Case QEnum.QueueLabelType.PalletLabels
-                erc = PalletLabels()
             Case QEnum.QueueLabelType.BatchAfterFooter
                 erc = BatchAfterFooter()
             Case QEnum.QueueLabelType.BatchAfterBlanks
@@ -990,7 +965,6 @@ Public MustInherit Class QueueProcessingByCommandBase
         {"BatchBeforeHeader", QEnum.QueueLabelType.BatchBeforeHeader},
         {"Label", QEnum.QueueLabelType.Labels},
         {"ExtraLabel", QEnum.QueueLabelType.Extras},
-        {"PalletLabel", QEnum.QueueLabelType.PalletLabels},
         {"BatchAfterFooter", QEnum.QueueLabelType.BatchAfterFooter},
         {"BatchAfterBlanks", QEnum.QueueLabelType.BatchAfterBlanks},
         {"BatchAfterPause", QEnum.QueueLabelType.BatchAfterPause},

@@ -36,6 +36,7 @@ Public MustInherit Class QueueProcessingInternalBase
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
+    Public Property LineJob As Integer Implements IQueueProcessing.LineJob
     Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
 
     Public Sub SetContext(context As VNDataEntities) Implements IQueueProcessing.SetContext
@@ -489,29 +490,7 @@ Public MustInherit Class QueueProcessingInternalBase
 
         'Return Result
     End Function
-    Public Function PalletLabels() As Long Implements IQueueProcessing.PalletLabels
-        Dim erc As Long
-        Dim CommandStr As System.String
-        Dim PrintByLabel As Boolean       ' True=Print by Label, False=Print by Batch
-        Dim LabelBatch As String
 
-        erc = QEnum.QueueConsumerErrorCodes.OK
-        PrintByLabel = IsBatchSerialized()
-        PrintByLabel = False
-        If PrintByLabel Then
-            LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        End If
-        CommandStr = ""
-        erc = BTCommandAdd(CommandStr)
-
-        Return erc
-    End Function
     Public Function Labels() As Long Implements IQueueProcessing.Labels
         Dim erc As Long
         Dim CommandStr As System.String
@@ -526,7 +505,7 @@ Public MustInherit Class QueueProcessingInternalBase
                          & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+            LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                          & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         End If
@@ -591,8 +570,6 @@ Public MustInherit Class QueueProcessingInternalBase
                         erc = Labels()
                     Case QEnum.QueueLabelType.Extras
                         erc = Extras()
-                    Case QEnum.QueueLabelType.PalletLabels
-                        erc = PalletLabels()
                     Case QEnum.QueueLabelType.BatchAfterFooter
                         erc = BatchAfterFooter()
                     Case QEnum.QueueLabelType.BatchAfterBlanks

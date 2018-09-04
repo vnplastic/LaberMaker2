@@ -17,9 +17,9 @@ Imports System.Runtime.Serialization
 Namespace VNDataModel
 
     ''' <summary>
-    ''' There are no comments for VNDataModel.ViewJobInfo in the schema.
+    ''' There are no comments for VNDataModel.ViewPalletJobLineInfo in the schema.
     ''' </summary>
-    Public partial class ViewJobInfo 
+    Public partial class ViewPalletJobLineInfo 
 
         Public Sub New()
             OnCreated()
@@ -28,9 +28,29 @@ Namespace VNDataModel
         #Region "Primitive Properties"
     
         ''' <summary>
-        ''' There are no comments for Printed in the schema.
+        ''' There are no comments for JobId in the schema.
         ''' </summary>
-        Public Overridable Property Printed() As Global.System.Nullable(Of Boolean)
+        Public Overridable Property JobId() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for LineNo in the schema.
+        ''' </summary>
+        Public Overridable Property LineNo() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for LinePalletCount in the schema.
+        ''' </summary>
+        Public Overridable Property LinePalletCount() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerStockNumber in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerStockNumber() As String
+    
+        ''' <summary>
+        ''' There are no comments for VNDesc in the schema.
+        ''' </summary>
+        Public Overridable Property VNDesc() As String
     
         ''' <summary>
         ''' There are no comments for VNFCUSCHR1C in the schema.
@@ -123,11 +143,6 @@ Namespace VNDataModel
         Public Overridable Property SoldToCompany() As String
     
         ''' <summary>
-        ''' There are no comments for JobId in the schema.
-        ''' </summary>
-        Public Overridable Property JobId() As Global.System.Nullable(Of Integer)
-    
-        ''' <summary>
         ''' There are no comments for SalesOrderName in the schema.
         ''' </summary>
         Public Overridable Property SalesOrderName() As String
@@ -153,11 +168,6 @@ Namespace VNDataModel
         Public Overridable Property PrinterName() As String
     
         ''' <summary>
-        ''' There are no comments for JobStepName in the schema.
-        ''' </summary>
-        Public Overridable Property JobStepName() As String
-    
-        ''' <summary>
         ''' There are no comments for JobStepOrder in the schema.
         ''' </summary>
         Public Overridable Property JobStepOrder() As Integer
@@ -173,19 +183,19 @@ Namespace VNDataModel
         Public Overridable Property CartonCount() As Global.System.Nullable(Of Decimal)
     
         ''' <summary>
-        ''' There are no comments for PalletCount in the schema.
+        ''' There are no comments for JobStepName in the schema.
         ''' </summary>
-        Public Overridable Property PalletCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property JobStepName() As String
     
         ''' <summary>
-        ''' There are no comments for PalletLabelCount in the schema.
+        ''' There are no comments for CustomerPrintName in the schema.
         ''' </summary>
-        Public Overridable Property PalletLabelCount() As Global.System.Nullable(Of Decimal)
+        Public Overridable Property CustomerPrintName() As String
     
         ''' <summary>
-        ''' There are no comments for JobTypeId in the schema.
+        ''' There are no comments for LabelCount in the schema.
         ''' </summary>
-        Public Overridable Property JobTypeId() As Global.System.Nullable(Of Integer)
+        Public Overridable Property LabelCount() As Global.System.Nullable(Of Integer)
     
         ''' <summary>
         ''' There are no comments for LabelPerLine in the schema.
@@ -193,9 +203,64 @@ Namespace VNDataModel
         Public Overridable Property LabelPerLine() As Global.System.Nullable(Of Boolean)
     
         ''' <summary>
+        ''' There are no comments for NextUniqueLabelNo in the schema.
+        ''' </summary>
+        Public Overridable Property NextUniqueLabelNo() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for CustomerJobInfoId in the schema.
+        ''' </summary>
+        Public Overridable Property CustomerJobInfoId() As Integer
+    
+        ''' <summary>
         ''' There are no comments for SOId in the schema.
         ''' </summary>
         Public Overridable Property SOId() As String
+    
+        ''' <summary>
+        ''' There are no comments for Printed in the schema.
+        ''' </summary>
+        Public Overridable Property Printed() As Global.System.Nullable(Of Boolean)
+    
+        ''' <summary>
+        ''' There are no comments for UPCCOde in the schema.
+        ''' </summary>
+        Public Overridable Property UPCCOde() As String
+    
+        ''' <summary>
+        ''' There are no comments for ProductName in the schema.
+        ''' </summary>
+        Public Overridable Property ProductName() As String
+    
+        ''' <summary>
+        ''' There are no comments for ItemColor in the schema.
+        ''' </summary>
+        Public Overridable Property ItemColor() As String
+    
+        ''' <summary>
+        ''' There are no comments for CaseQty in the schema.
+        ''' </summary>
+        Public Overridable Property CaseQty() As Global.System.Nullable(Of Integer)
+    
+        ''' <summary>
+        ''' There are no comments for SourceCountry in the schema.
+        ''' </summary>
+        Public Overridable Property SourceCountry() As String
+    
+        ''' <summary>
+        ''' There are no comments for UCCCode in the schema.
+        ''' </summary>
+        Public Overridable Property UCCCode() As String
+    
+        ''' <summary>
+        ''' There are no comments for CasesPerPallet in the schema.
+        ''' </summary>
+        Public Overridable Property CasesPerPallet() As Global.System.Nullable(Of Decimal)
+    
+        ''' <summary>
+        ''' There are no comments for PalletLabelCount in the schema.
+        ''' </summary>
+        Public Overridable Property PalletLabelCount() As Global.System.Nullable(Of Decimal)
 
         #End Region
     

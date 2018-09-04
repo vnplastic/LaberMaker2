@@ -23,7 +23,6 @@
         BatchBeforeHeader = 230
         Labels = 300
         Extras = 400
-        PalletLabels = 450
         BatchAfterFooter = 500
         BatchAfterBlanks = 510
         BatchAfterPause = 520

@@ -163,6 +163,7 @@ Public Class QueueProcessingByXMLBase
     ' Public Property JobStepInfo As JobInfo Implements IQueueProcessing.JobStepInfo
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
+    Public Property LineJob As Integer Implements IQueueProcessing.LineJob
 
     Public Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
         Throw New NotImplementedException
@@ -238,7 +239,7 @@ Public Class QueueProcessingByXMLBase
         CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
                              & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
                              vbCrLf _
-                             & "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+                             & "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                              & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                              & "      </QueryPrompt>" & vbCrLf _
                              & "      <PrintSetup>" & vbCrLf _
@@ -262,7 +263,7 @@ Public Class QueueProcessingByXMLBase
         CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
                              & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
                              vbCrLf _
-                             & "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+                             & "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                              & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                              & "      </QueryPrompt>" & vbCrLf _
                              & "      <PrintSetup>" & vbCrLf _
@@ -303,7 +304,7 @@ Public Class QueueProcessingByXMLBase
         CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
                      & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
                      vbCrLf _
-                     & "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+                     & "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf _
                      & "      <PrintSetup>" & vbCrLf _
@@ -323,7 +324,7 @@ Public Class QueueProcessingByXMLBase
         CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
                      & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
                      vbCrLf _
-                     & "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+                     & "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf _
                      & "      <PrintSetup>" & vbCrLf _
@@ -405,7 +406,7 @@ Public Class QueueProcessingByXMLBase
         CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
                      & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
                      vbCrLf _
-                     & "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+                     & "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf _
                      & "      <PrintSetup>" & vbCrLf _
@@ -593,37 +594,7 @@ Public Class QueueProcessingByXMLBase
 
         'Return Result
     End Function
-    Public Function PalletLabels() As Long Implements IQueueProcessing.PalletLabels
-        Dim erc As Long
-        Dim CommandStr As System.String
-        Dim PrintByLabel As Boolean       ' True=Print by Label, False=Print by Batch
-        Dim LabelBatch As String
 
-        erc = QEnum.QueueConsumerErrorCodes.OK
-        PrintByLabel = IsBatchSerialized()
-        PrintByLabel = False
-        If PrintByLabel Then
-            LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
-                         & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
-                         & "      </QueryPrompt>" & vbCrLf
-        End If
-
-        CommandStr = "    <Print ReturnPrintData=""false"">" & vbCrLf _
-                      & $"      <Format CloseAtEndOfJob=""true"" SaveAtEndOfJob=""false"">{GetFormatFileName()}</Format>" &
-                      vbCrLf _
-                      & LabelBatch _
-                      & "      <PrintSetup>" & vbCrLf _
-                      & $"        <Printer>{m_PrinterName}</Printer>" & vbCrLf _
-                      & "        <UseDatabase>true</UseDatabase>" & vbCrLf _
-                      & "      </PrintSetup>" & vbCrLf _
-                      & "    </Print>" & vbCrLf
-        erc = BTCommandAdd(CommandStr)
-        Return erc
-    End Function
     Public Function Labels() As Long Implements IQueueProcessing.Labels
         Dim erc As Long
         Dim CommandStr As System.String
@@ -638,7 +609,7 @@ Public Class QueueProcessingByXMLBase
                          & $"        <Value>{Format(m_LabelId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         Else
-            LabelBatch = "      <QueryPrompt Name=""qpBatchId"">" & vbCrLf _
+            LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                          & $"        <Value>{Format(m_BatchId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
         End If
@@ -709,8 +680,6 @@ Public Class QueueProcessingByXMLBase
                         erc = Labels()
                     Case QEnum.QueueLabelType.Extras
                         erc = Extras()
-                    Case QEnum.QueueLabelType.PalletLabels
-                        erc = PalletLabels()
                     Case QEnum.QueueLabelType.BatchAfterFooter
                         erc = BatchAfterFooter()
                     Case QEnum.QueueLabelType.BatchAfterBlanks

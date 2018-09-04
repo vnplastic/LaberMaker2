@@ -17,6 +17,7 @@ Public Interface IQueueProcessing
     Property Status() As Long
     Property BTExe() As String
     Property TestMode As Boolean
+    Property LineJob As Integer
     ' Property JobStepInfo As JobInfo
 #End Region
     Function PrintJob(_job As JobToProcess) As Boolean
@@ -37,7 +38,6 @@ Public Interface IQueueProcessing
     Function BatchBeforeBlanks() As Long
     Function BatchBeforeHeader() As Long
     Function Labels() As Long
-    Function PalletLabels() As Long
     'TODO: Replace Label Step with Generic and Override in Implementations???
     Function Extras() As Long
     Function BatchAfterFooter() As Long

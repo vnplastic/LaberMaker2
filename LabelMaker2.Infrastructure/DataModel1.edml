@@ -27,6 +27,7 @@
           <EntitySet Name="VNA057TBB1_Pallet_Jobs" EntityType="VNDataModel.Store.VNA057TBB1_Pallet_Job" store:Type="Tables" Schema="dbo" Table="VNA057TBB1_Pallet_Job" />
           <EntitySet Name="VNA057VW15_AllJobs" EntityType="VNDataModel.Store.VNA057VW15_AllJobs" store:Type="Views" Schema="dbo" Table="VNA057VW15_AllJobs" />
           <EntitySet Name="VNA057VW16_Sales_Orders" EntityType="VNDataModel.Store.VNA057VW16_Sales_Orders" store:Type="Views" Schema="dbo" Table="VNA057VW16_Sales_Orders" />
+          <EntitySet Name="VNA057VWB2_Pallet_Job_Line_Infos" EntityType="VNDataModel.Store.VNA057VWB2_Pallet_Job_Line_Info" store:Type="Views" Schema="dbo" Table="VNA057VWB2_Pallet_Job_Line_Info" />
           <AssociationSet Name="FK_Jobs_JobTypes" Association="VNDataModel.Store.FK_Jobs_JobTypes">
             <End Role="JobTypes" EntitySet="JobTypes" />
             <End Role="Jobs" EntitySet="Jobs" />
@@ -95,6 +96,7 @@
           <Property Name="KNDY4__Sales_Order__c" Type="nchar" MaxLength="18" />
           <Property Name="Printed" Type="bit" Nullable="false" devart:DefaultValue="0" />
           <Property Name="SalesOrderName" Type="nvarchar" MaxLength="80" />
+          <Property Name="CreatedDate" Type="datetime" devart:DefaultValue="getdate()" />
         </EntityType>
         <EntityType Name="JobSteps">
           <Key>
@@ -178,6 +180,7 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="80" />
           <Property Name="SalesOrder" Type="nchar" MaxLength="18" />
           <Property Name="SalesOrderName" Type="nvarchar" MaxLength="80" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="VNA057VW04_TypesWithNames">
           <Key>
@@ -597,7 +600,6 @@
           <Property Name="PalletLabelCount" Type="int" />
           <Property Name="CustomerJobInfoId" Type="int" Nullable="false" />
           <Property Name="CustomerPrintName" Type="nvarchar" MaxLength="80" />
-          <Property Name="JobTypeId" Type="int" Nullable="false" />
           <Property Name="SOId" Type="varchar" MaxLength="18" />
           <Property Name="Reprint" Type="bit" devart:DefaultValue="0" />
           <Property Name="CustomerStockNumber" Type="nvarchar" MaxLength="140" />
@@ -640,6 +642,64 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="80" />
           <Property Name="LineNo" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="VNA057VWB2_Pallet_Job_Line_Info">
+          <Key>
+            <PropertyRef Name="SoldToCustId" />
+            <PropertyRef Name="JobTypeName" />
+            <PropertyRef Name="PrinterName" />
+            <PropertyRef Name="JobStepOrder" />
+            <PropertyRef Name="JobStepName" />
+            <PropertyRef Name="CustomerJobInfoId" />
+            <PropertyRef Name="SOId" />
+          </Key>
+          <Property Name="JobId" Type="int" />
+          <Property Name="LineNo" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="LinePalletCount" Type="decimal" Precision="38" Scale="14" />
+          <Property Name="CustomerStockNumber" Type="nvarchar" MaxLength="140" />
+          <Property Name="VNDesc" Type="nvarchar" MaxLength="255" />
+          <Property Name="VN_FCUSCHR1__c" Type="nvarchar" MaxLength="80" />
+          <Property Name="fcusrchr2" Type="nvarchar" MaxLength="80" />
+          <Property Name="fcusrchr3" Type="nvarchar" MaxLength="64" />
+          <Property Name="Pickup_Date__c" Type="datetime2" />
+          <Property Name="DeliveryNum" Type="varchar" MaxLength="150" />
+          <Property Name="ShipToCity" Type="nvarchar" MaxLength="40" />
+          <Property Name="ShipToCountry" Type="nvarchar" MaxLength="40" />
+          <Property Name="ShipToState" Type="nvarchar" MaxLength="20" />
+          <Property Name="ShipToStreet" Type="varchar(max)" />
+          <Property Name="ShipToZip" Type="nvarchar" MaxLength="20" />
+          <Property Name="ShipToCompany" Type="nvarchar" MaxLength="80" />
+          <Property Name="fsono" Type="nvarchar" MaxLength="6" />
+          <Property Name="fcustpono" Type="nvarchar" MaxLength="120" />
+          <Property Name="fshipvia" Type="nvarchar" MaxLength="80" />
+          <Property Name="fshptoaddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="SOStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="SoldToCustId" Type="nchar" Nullable="false" MaxLength="18" />
+          <Property Name="SoldToCompany" Type="nvarchar" MaxLength="80" />
+          <Property Name="SalesOrderName" Type="nvarchar" MaxLength="80" />
+          <Property Name="JobTypeName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Serialized" Type="bit" />
+          <Property Name="FormatName" Type="varchar" MaxLength="17" />
+          <Property Name="PrinterName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="JobStepOrder" Type="int" Nullable="false" />
+          <Property Name="CartonLabelCount" Type="decimal" Precision="29" Scale="0" />
+          <Property Name="CartonCount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="JobStepName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CustomerPrintName" Type="nvarchar" MaxLength="80" />
+          <Property Name="LabelCount" Type="int" />
+          <Property Name="LabelPerLine" Type="bit" />
+          <Property Name="NextUniqueLabelNo" Type="int" />
+          <Property Name="CustomerJobInfoId" Type="int" Nullable="false" />
+          <Property Name="SOId" Type="nchar" Nullable="false" MaxLength="18" />
+          <Property Name="Printed" Type="bit" />
+          <Property Name="UPCCOde" Type="nvarchar" MaxLength="16" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="80" />
+          <Property Name="ItemColor" Type="varchar" MaxLength="25" />
+          <Property Name="CaseQty" Type="int" />
+          <Property Name="SourceCountry" Type="nvarchar" MaxLength="18" />
+          <Property Name="UCC_Code" Type="nvarchar" MaxLength="25" />
+          <Property Name="CasesPerPallet" Type="decimal" Precision="37" Scale="19" />
+          <Property Name="PalletLabelCount" Type="decimal" Precision="38" Scale="6" />
         </EntityType>
         <Association Name="FK_Jobs_JobTypes">
           <End Role="JobTypes" Type="VNDataModel.Store.JobTypes" Multiplicity="1" />
@@ -799,6 +859,9 @@
         <Function Name="VNA057SPA2_Insert_New_Carton_Jobs" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="VNA057SPA2_Insert_New_Carton_Jobs">
           <Parameter Name="Reprint" Type="bit" Mode="In" />
         </Function>
+        <Function Name="VNA057SPB3_Insert_New_Pallet_Job_lines" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="VNA057SPB3_Insert_New_Pallet_Job_lines">
+          <Parameter Name="Reprint" Type="bit" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -827,6 +890,7 @@
           <EntitySet Name="TablePalletJobs" EntityType="VNDataModel.TablePalletJob" />
           <EntitySet Name="ViewAllJobs" EntityType="VNDataModel.ViewAllJob" />
           <EntitySet Name="ViewSalesOrders" EntityType="VNDataModel.ViewSalesOrder" />
+          <EntitySet Name="ViewPalletJobLineInfos" EntityType="VNDataModel.ViewPalletJobLineInfo" />
           <AssociationSet Name="FK_VNA057TB02_Job_VNA057TB01_JobTypeSet" Association="VNDataModel.FK_VNA057TB02_Job_VNA057TB01_JobType">
             <End Role="JobType" EntitySet="TableJobTypes" />
             <End Role="VNA057TB02Jobs" EntitySet="TableJobs" />
@@ -888,6 +952,9 @@
           <FunctionImport Name="InsertNewCartonJob" ed:Guid="b0b3c3d1-7dd6-43c1-8e2d-430fd8a98117">
             <Parameter Name="Reprint" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="InsertNewPalletJobLine" ed:Guid="df88be99-ffdb-48e4-9c85-f0be5cffc08e">
+            <Parameter Name="Reprint" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="TableJobType" ed:Guid="e01927e9-3fb1-4e30-86f1-6904389387f4">
           <Key>
@@ -910,6 +977,7 @@
           <Property Name="KNDY4SalesOrderC1" Type="String" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="e567407f-30fa-49d5-96e6-edf421d09f25" />
           <Property Name="Printed" Type="Boolean" Nullable="false" ed:ValidateRequired="true" ed:Guid="85b932f3-5ff6-46f7-9dca-dd4c24702d90" />
           <Property Name="SalesOrderName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="aaf0f33f-a536-4133-bad5-13c5fd7b013c" />
+          <Property Name="CreatedDate" Type="DateTime" ed:ValidateRequired="false" ed:Guid="12b9780a-4218-441f-9452-147f75544404" />
           <NavigationProperty Name="JobType" Relationship="VNDataModel.FK_VNA057TB02_Job_VNA057TB01_JobType" FromRole="VNA057TB02Jobs" ToRole="JobType" ed:Guid="f4c4b5ff-3421-45a1-8d66-c1995f259ab8" />
         </EntityType>
         <EntityType Name="TableJobStep" ed:Guid="448ab506-2196-479f-a708-a78ed2690318">
@@ -1013,6 +1081,7 @@
           <Property Name="CustomerName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="cdabd5ba-8561-4144-aefb-2bad0e927c7e" />
           <Property Name="SalesOrder" Type="String" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="de721dc9-33b2-4f16-9885-c089d86d04c3" />
           <Property Name="SalesOrderName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="c2a79c0d-fda0-4666-a1d4-982e2020a9fc" />
+          <Property Name="CreatedDate" Type="DateTime" ed:ValidateRequired="false" ed:Guid="5ecc031e-61ce-439d-a8cc-e7f48a4828a1" />
         </EntityType>
         <EntityType Name="ViewTypesWithName" ed:Guid="6b4d08a5-623f-4365-82df-d6645b4e886b">
           <Key>
@@ -1433,7 +1502,6 @@
           <Property Name="PalletLabelCount" Type="Int32" ed:ValidateRequired="false" ed:Guid="9673a97f-c1a7-41ec-8e31-52a7f83ae6c4" />
           <Property Name="CustomerJobInfoId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="e385f125-2e1e-4372-b0d7-485077f5b4a4" />
           <Property Name="CustomerPrintName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="f9bca924-8184-46fd-bc5c-e6c2c3f7d513" />
-          <Property Name="JobTypeId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="1f9893fa-5c20-4aca-8600-90ccf0a5373b" />
           <Property Name="SOId" Type="String" MaxLength="18" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="e92697e9-a8bb-4ca6-bae0-8fb7d29ce2bb" />
           <Property Name="Reprint" Type="Boolean" ed:ValidateRequired="false" ed:Guid="64cc2bf6-4534-4c83-a23e-e7384fb2db61" />
           <Property Name="CustomerStockNumber" Type="String" MaxLength="140" Unicode="true" ed:ValidateMaxLength="140" ed:ValidateRequired="false" ed:Guid="86234cab-ac2d-4266-b98d-09084d03b36c" />
@@ -1476,6 +1544,64 @@
           <Property Name="CustomerName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="8f9a5e19-f3df-4f38-bd9d-5adcf46a60b5" />
           <Property Name="LineNo" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="64de4294-e561-49b4-8b54-9a0b18b0aa3f" />
           <Property Name="ProductName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="04dd1462-23b0-421c-a921-a1d8a1e93830" />
+        </EntityType>
+        <EntityType Name="ViewPalletJobLineInfo" ed:Guid="97b91d8f-0382-49bd-b019-d77752fd960b">
+          <Key>
+            <PropertyRef Name="SoldToCustId" />
+            <PropertyRef Name="JobTypeName" />
+            <PropertyRef Name="PrinterName" />
+            <PropertyRef Name="JobStepOrder" />
+            <PropertyRef Name="JobStepName" />
+            <PropertyRef Name="CustomerJobInfoId" />
+            <PropertyRef Name="SOId" />
+          </Key>
+          <Property Name="JobId" Type="Int32" ed:ValidateRequired="false" ed:Guid="88a10c2d-468c-42a1-ac6a-171330baa424" />
+          <Property Name="LineNo" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="560ce813-3a25-4e25-9d1c-9035b756c5a7" />
+          <Property Name="LinePalletCount" Type="Decimal" Precision="38" Scale="14" ed:ValidateRequired="false" ed:Guid="32c86ec6-6520-402b-ba69-733119a49e78" />
+          <Property Name="CustomerStockNumber" Type="String" MaxLength="140" Unicode="true" ed:ValidateMaxLength="140" ed:ValidateRequired="false" ed:Guid="b67ab5bc-46a9-4aa7-9bf3-e9050ee5eda5" />
+          <Property Name="VNDesc" Type="String" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="false" ed:Guid="76c55175-925d-4e03-9b87-025ab9d5b878" />
+          <Property Name="VNFCUSCHR1C" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="9d4ee17a-5121-46f4-bcd5-4c3065551f25" />
+          <Property Name="Fcusrchr2" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="0a41208b-0608-40df-803a-928cc33a4817" />
+          <Property Name="Fcusrchr3" Type="String" MaxLength="64" Unicode="true" ed:ValidateMaxLength="64" ed:ValidateRequired="false" ed:Guid="c09bf80d-8e33-4fdc-a784-c9d6756f8539" />
+          <Property Name="PickupDateC" Type="DateTime" ed:ValidateRequired="false" ed:Guid="0c15bfbd-af5e-4594-b206-42885589c008" />
+          <Property Name="DeliveryNum" Type="String" MaxLength="150" ed:ValidateMaxLength="150" ed:ValidateRequired="false" ed:Guid="a57a2fd7-5d48-41c7-87e9-1ab0653ca11d" />
+          <Property Name="ShipToCity" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="false" ed:Guid="5b74a870-6228-4847-96f8-3deac77d82f2" />
+          <Property Name="ShipToCountry" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="false" ed:Guid="68609cff-a2e8-459f-89c6-f05ed16f66e0" />
+          <Property Name="ShipToState" Type="String" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="false" ed:Guid="5634eaae-b08b-4128-82dd-3e415d642001" />
+          <Property Name="ShipToStreet" Type="String" ed:ValidateRequired="false" ed:Guid="cc978401-c4cb-4245-af8f-7ac2c2cb883e" />
+          <Property Name="ShipToZip" Type="String" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="false" ed:Guid="fbdf98af-9763-4173-970d-78928ade2470" />
+          <Property Name="ShipToCompany" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="79e36f0b-ed03-49ca-ba92-f58254d4f631" />
+          <Property Name="Fsono" Type="String" MaxLength="6" Unicode="true" ed:ValidateMaxLength="6" ed:ValidateRequired="false" ed:Guid="4eb2f309-edd8-4a78-aaf2-2dcc267d150b" />
+          <Property Name="Fcustpono" Type="String" MaxLength="120" Unicode="true" ed:ValidateMaxLength="120" ed:ValidateRequired="false" ed:Guid="c820a9a5-d4fc-413e-9399-c45c239d3751" />
+          <Property Name="Fshipvia" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="cfdcd0a8-a431-4502-b3e0-fd89cda73c15" />
+          <Property Name="Fshptoaddr" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="cf79c761-176c-441e-9f71-4bae80bcc3f3" />
+          <Property Name="SOStatus" Type="String" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="false" ed:Guid="9d3d8aec-e0b2-402c-bcef-f8b067b342ec" />
+          <Property Name="SoldToCustId" Type="String" Nullable="false" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="true" ed:Guid="38daaee5-c4ae-454e-9ef8-3644a5cd8793" />
+          <Property Name="SoldToCompany" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="bd0472de-98c1-45b5-b185-9ef74fcaa9ae" />
+          <Property Name="SalesOrderName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="62e4f5c3-59fd-4c5b-a466-e2dad59fe181" />
+          <Property Name="JobTypeName" Type="String" Nullable="false" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="true" ed:Guid="ab2d63de-2d45-445e-80b1-766e121179da" />
+          <Property Name="Serialized" Type="Boolean" ed:ValidateRequired="false" ed:Guid="210cb89c-cee7-42b1-acf0-dbcf191c6b94" />
+          <Property Name="FormatName" Type="String" MaxLength="17" ed:ValidateMaxLength="17" ed:ValidateRequired="false" ed:Guid="9957e410-7f1a-4508-9046-41c9c3b60b29" />
+          <Property Name="PrinterName" Type="String" Nullable="false" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="true" ed:Guid="508b935f-fcf0-47d6-bf92-499bb49b3947" />
+          <Property Name="JobStepOrder" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="f9150990-0e5b-44c2-a3a9-c97468d53258" />
+          <Property Name="CartonLabelCount" Type="Decimal" Precision="29" Scale="0" ed:ValidateRequired="false" ed:Guid="a7aa917f-b332-4614-aa81-3b0e6d46556a" />
+          <Property Name="CartonCount" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="f35aa4fd-2efb-40a1-9d43-9e770734d945" />
+          <Property Name="JobStepName" Type="String" Nullable="false" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="true" ed:Guid="b76608fb-9f67-47aa-8d12-32a2d844ea6e" />
+          <Property Name="CustomerPrintName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="b9d8923d-14af-4064-936e-1ee42788c5ca" />
+          <Property Name="LabelCount" Type="Int32" ed:ValidateRequired="false" ed:Guid="289f2ae9-d85e-4873-ae36-696a9af8dd8a" />
+          <Property Name="LabelPerLine" Type="Boolean" ed:ValidateRequired="false" ed:Guid="3a26ce1d-b0c0-42e0-89ec-3b973bd0ee05" />
+          <Property Name="NextUniqueLabelNo" Type="Int32" ed:ValidateRequired="false" ed:Guid="a038d6c1-7bef-4939-b6f6-08b50ea922ea" />
+          <Property Name="CustomerJobInfoId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="e186727a-7c8c-4145-8656-66722b7acbe7" />
+          <Property Name="SOId" Type="String" Nullable="false" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="true" ed:Guid="640b019b-2930-43fe-b4a8-f219ae0746cc" />
+          <Property Name="Printed" Type="Boolean" ed:ValidateRequired="false" ed:Guid="1f773d8d-7670-4aac-bdf3-1b1b2c369a9d" />
+          <Property Name="UPCCOde" Type="String" MaxLength="16" Unicode="true" ed:ValidateMaxLength="16" ed:ValidateRequired="false" ed:Guid="0fa5e09c-6a9f-40a4-8a6a-c3870d7d75bc" />
+          <Property Name="ProductName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="0236df12-2087-40d8-a000-3c8b289d0d13" />
+          <Property Name="ItemColor" Type="String" MaxLength="25" ed:ValidateMaxLength="25" ed:ValidateRequired="false" ed:Guid="e60ad992-83ac-46f6-9aa1-e059c3950d46" />
+          <Property Name="CaseQty" Type="Int32" ed:ValidateRequired="false" ed:Guid="a14744a3-8b13-4866-aeb8-4840c42632b6" />
+          <Property Name="SourceCountry" Type="String" MaxLength="18" Unicode="true" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="2394efb3-6df9-47bb-8588-44680c852197" />
+          <Property Name="UCCCode" Type="String" MaxLength="25" Unicode="true" ed:ValidateMaxLength="25" ed:ValidateRequired="false" ed:Guid="23f3c5ea-ddfc-4876-8d48-e547281d5783" />
+          <Property Name="CasesPerPallet" Type="Decimal" Precision="37" Scale="19" ed:ValidateRequired="false" ed:Guid="057b8de4-c77c-4eff-938c-52db51ff5167" />
+          <Property Name="PalletLabelCount" Type="Decimal" Precision="38" Scale="6" ed:ValidateRequired="false" ed:Guid="19a8a2a0-f495-441a-982f-92d457fce0cd" />
         </EntityType>
         <Association Name="FK_VNA057TB02_Job_VNA057TB01_JobType" ed:Guid="670b7bb0-89b8-4e40-939b-5a29fdcd1fa7">
           <End Role="JobType" Type="VNDataModel.TableJobType" Multiplicity="1" />
@@ -1646,6 +1772,7 @@
                 <ScalarProperty Name="SalesOrderName" ColumnName="SalesOrderName" />
                 <ScalarProperty Name="KNDY4CustomerC1" ColumnName="KNDY4__Customer__c" />
                 <ScalarProperty Name="KNDY4SalesOrderC1" ColumnName="KNDY4__Sales_Order__c" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1731,6 +1858,7 @@
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="SalesOrderName" ColumnName="SalesOrderName" />
                 <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2120,7 +2248,6 @@
                 <ScalarProperty Name="PalletCount" ColumnName="PalletCount" />
                 <ScalarProperty Name="PalletLabelCount" ColumnName="PalletLabelCount" />
                 <ScalarProperty Name="CustomerJobInfoId" ColumnName="CustomerJobInfoId" />
-                <ScalarProperty Name="JobTypeId" ColumnName="JobTypeId" />
                 <ScalarProperty Name="SOId" ColumnName="SOId" />
                 <ScalarProperty Name="Reprint" ColumnName="Reprint" />
                 <ScalarProperty Name="LineNo" ColumnName="LineNo" />
@@ -2169,11 +2296,65 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ViewPalletJobLineInfos">
+            <EntityTypeMapping TypeName="VNDataModel.ViewPalletJobLineInfo">
+              <MappingFragment StoreEntitySet="VNA057VWB2_Pallet_Job_Line_Infos">
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="LineNo" ColumnName="LineNo" />
+                <ScalarProperty Name="LinePalletCount" ColumnName="LinePalletCount" />
+                <ScalarProperty Name="CustomerStockNumber" ColumnName="CustomerStockNumber" />
+                <ScalarProperty Name="VNDesc" ColumnName="VNDesc" />
+                <ScalarProperty Name="VNFCUSCHR1C" ColumnName="VN_FCUSCHR1__c" />
+                <ScalarProperty Name="Fcusrchr2" ColumnName="fcusrchr2" />
+                <ScalarProperty Name="Fcusrchr3" ColumnName="fcusrchr3" />
+                <ScalarProperty Name="PickupDateC" ColumnName="Pickup_Date__c" />
+                <ScalarProperty Name="DeliveryNum" ColumnName="DeliveryNum" />
+                <ScalarProperty Name="ShipToCity" ColumnName="ShipToCity" />
+                <ScalarProperty Name="ShipToCountry" ColumnName="ShipToCountry" />
+                <ScalarProperty Name="ShipToState" ColumnName="ShipToState" />
+                <ScalarProperty Name="ShipToStreet" ColumnName="ShipToStreet" />
+                <ScalarProperty Name="ShipToZip" ColumnName="ShipToZip" />
+                <ScalarProperty Name="ShipToCompany" ColumnName="ShipToCompany" />
+                <ScalarProperty Name="Fsono" ColumnName="fsono" />
+                <ScalarProperty Name="Fcustpono" ColumnName="fcustpono" />
+                <ScalarProperty Name="Fshipvia" ColumnName="fshipvia" />
+                <ScalarProperty Name="Fshptoaddr" ColumnName="fshptoaddr" />
+                <ScalarProperty Name="SOStatus" ColumnName="SOStatus" />
+                <ScalarProperty Name="SoldToCustId" ColumnName="SoldToCustId" />
+                <ScalarProperty Name="SoldToCompany" ColumnName="SoldToCompany" />
+                <ScalarProperty Name="SalesOrderName" ColumnName="SalesOrderName" />
+                <ScalarProperty Name="JobTypeName" ColumnName="JobTypeName" />
+                <ScalarProperty Name="Serialized" ColumnName="Serialized" />
+                <ScalarProperty Name="FormatName" ColumnName="FormatName" />
+                <ScalarProperty Name="PrinterName" ColumnName="PrinterName" />
+                <ScalarProperty Name="JobStepOrder" ColumnName="JobStepOrder" />
+                <ScalarProperty Name="CartonLabelCount" ColumnName="CartonLabelCount" />
+                <ScalarProperty Name="CartonCount" ColumnName="CartonCount" />
+                <ScalarProperty Name="JobStepName" ColumnName="JobStepName" />
+                <ScalarProperty Name="CustomerPrintName" ColumnName="CustomerPrintName" />
+                <ScalarProperty Name="LabelCount" ColumnName="LabelCount" />
+                <ScalarProperty Name="LabelPerLine" ColumnName="LabelPerLine" />
+                <ScalarProperty Name="NextUniqueLabelNo" ColumnName="NextUniqueLabelNo" />
+                <ScalarProperty Name="CustomerJobInfoId" ColumnName="CustomerJobInfoId" />
+                <ScalarProperty Name="SOId" ColumnName="SOId" />
+                <ScalarProperty Name="Printed" ColumnName="Printed" />
+                <ScalarProperty Name="UPCCOde" ColumnName="UPCCOde" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ItemColor" ColumnName="ItemColor" />
+                <ScalarProperty Name="CaseQty" ColumnName="CaseQty" />
+                <ScalarProperty Name="SourceCountry" ColumnName="SourceCountry" />
+                <ScalarProperty Name="UCCCode" ColumnName="UCC_Code" />
+                <ScalarProperty Name="CasesPerPallet" ColumnName="CasesPerPallet" />
+                <ScalarProperty Name="PalletLabelCount" ColumnName="PalletLabelCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="InsertNewCartonJobLine" FunctionName="VNDataModel.Store.VNA057SPA1_Insert_New_Carton_Job_lines" />
           <FunctionImportMapping FunctionImportName="InsertNewPalletJob" FunctionName="VNDataModel.Store.VNA057SPB1_Insert_New_Pallet_Jobs" />
           <FunctionImportMapping FunctionImportName="UpdatePalletJobInfo" FunctionName="VNDataModel.Store.VNA057SPB2_Update_Pallet_Job_Info" />
           <FunctionImportMapping FunctionImportName="RefreshSalesForce" FunctionName="VNDataModel.Store.VNA057SP02_RefreshSalesForce" />
           <FunctionImportMapping FunctionImportName="InsertNewCartonJob" FunctionName="VNDataModel.Store.VNA057SPA2_Insert_New_Carton_Jobs" />
+          <FunctionImportMapping FunctionImportName="InsertNewPalletJobLine" FunctionName="VNDataModel.Store.VNA057SPB3_Insert_New_Pallet_Job_lines" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

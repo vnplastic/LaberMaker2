@@ -821,6 +821,10 @@ Public MustInherit Class QueueProcessingInternalBase
         Throw New NotImplementedException
     End Sub
 
+    Public Sub RemoveJob(viewJobInfo As ViewJobInfo) Implements IQueueProcessing.RemoveJob
+        Throw New NotImplementedException
+    End Sub
+
 #Region "Properties"
     'Public Property BatchId As Long Implements IQueueProcessing.BatchId
     '    Get

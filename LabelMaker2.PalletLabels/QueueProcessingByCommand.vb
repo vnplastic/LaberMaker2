@@ -6,7 +6,7 @@ Imports LabelMaker2.Main.Data.VNDataModel
 Public Class QueueProcessingByCommand
     Inherits QueueProcessingByCommandBase
     Dim ctx As VNDataEntities
-    Private m_JobStepInfo As ViewPalletJobInfo
+    Private m_JobStepInfo As TablePalletJob
     Private m_UniqueLabelId As Integer
     Private log As NLog.Logger
 
@@ -19,66 +19,86 @@ Public Class QueueProcessingByCommand
         Try
             Dim j As TablePalletJob
             ctx = Context
+            Dim iJobId As Integer
+            Dim iJobStepOrder As Integer
+            Dim iLineNo As Integer
 
             j = ctx.TablePalletJobs.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).FirstOrDefault
             Dim currentPalletCount As Integer
 
             Dim custInfo As TableCustomerJobInfo
             custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
+            If j.Serialized Then m_UniqueLabelId = custInfo.NextUniqueLabelNo
 
             PrinterName = j.PrinterName
             JobId = _job.JobId
             ' j = ctx.CartonJobInfos.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
             If j.LabelPerLine = True Then
                 LineJob = True
-                Dim cJob As List(Of ViewPalletJobLineInfo)
-                cJob = ctx.ViewPalletJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
+                '  Dim cJob As List(Of ViewPalletJobLineInfo)
+                Dim cJob As List(Of TablePalletJob)
+                ' cJob = ctx.ViewPalletJobLineInfos.AsNoTracking.Where(Function(c) c.JobId = JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
+                cJob = ctx.TablePalletJobs.Where(Function(c) c.JobId = JobId).OrderBy(Function(c) c.JobStepOrder).ThenBy(Function(d) d.LineNo).ToList
 
                 Dim t As List(Of String)
-                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.LabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
+                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.PalletLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
 
                 For Each f In t
                     TemplateFile = f
                     AddFormat(TemplateFile)
                     Debug.Print(TemplateFile)
                 Next
-                For Each jInfo As ViewPalletJobLineInfo In cJob
+                For Each jInfo As TablePalletJob In cJob
                     currentPalletCount = jInfo.LinePalletCount
                     JobStepLineInfo = jInfo
+                    iJobId = jInfo.JobId
+                    iJobStepOrder = jInfo.JobStepOrder
+                    iLineNo = jInfo.LineNo
                     TemplateFile = JobStepLineInfo.FormatName
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
-                    Debug.Print(jInfo.JobStepName)
-                    If jInfo.JobStepName = "PalletLabel" Then
-                        m_UniqueLabelId = m_UniqueLabelId + jInfo.LinePalletCount
-                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
-                        ctx.SaveChanges()
-                    End If
+                    jInfo.NextUniqueLabelNo = m_UniqueLabelId
 
+                    Debug.Print(jInfo.JobStepName)
+                    If jInfo.JobStepName = "Label" Then
+                        ctx.SaveChanges()
+                        m_UniqueLabelId = m_UniqueLabelId + jInfo.LinePalletCount
+
+                        ' Dim curJobStep = ctx.TablePalletJobs.Where(Function(c) c.JobId = iJobId And c.JobStepOrder = iJobStepOrder And c.LineNo = iLineNo).FirstOrDefault
+                        ' jInfo.NextUniqueLabelNo = m_UniqueLabelId
+
+
+                    End If
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
 
                 Next
-
+                custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                ctx.SaveChanges()
 
                 ' ctx.SaveChanges()
 
 
             Else
                 LineJob = False
-                Dim cJob As List(Of ViewPalletJobInfo)
-                cJob = ctx.ViewPalletJobInfos.AsNoTracking.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
+                Dim cJob As List(Of TablePalletJob)
+                cJob = ctx.TablePalletJobs.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
 
                 Dim t As List(Of String)
-                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.LabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
+                t = cJob.Where(Function(c) Not c.FormatName Is Nothing And c.PalletLabelCount > 0).Select(Function(c) c.FormatName).Distinct.ToList()
 
                 For Each f In t
                     TemplateFile = f
                     AddFormat(TemplateFile)
                     Debug.Print(TemplateFile)
                 Next
-                For Each jInfo As ViewPalletJobInfo In cJob
+                For Each jInfo As TablePalletJob In cJob
                     JobStepInfo = jInfo
                     TemplateFile = JobStepInfo.FormatName
                     ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                     Debug.Print(jInfo.JobStepName)
+                    If jInfo.JobStepName = "Label" Then
+                        m_UniqueLabelId = m_UniqueLabelId + 1
+                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                        ctx.SaveChanges()
+                    End If
                 Next
             End If
         Catch e As Exception
@@ -93,7 +113,7 @@ Public Class QueueProcessingByCommand
         Return True
     End Function
 
-    Public Property JobStepLineInfo As ViewPalletJobLineInfo
+    Public Property JobStepLineInfo As TablePalletJob
 
 
     Public Overrides Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0)
@@ -121,7 +141,7 @@ Public Class QueueProcessingByCommand
                     jobInfo = ctx.TablePalletJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label").FirstOrDefault
                 Else
                     ctx.TablePalletJobs.RemoveRange(ctx.TablePalletJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label" And c.LineNo <> LineNo))
-                    jobInfo = ctx.TablePalletJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "PalletLabel").FirstOrDefault
+                    jobInfo = ctx.TablePalletJobs.Where(Function(c) c.JobId = inewJob And c.JobStepName = "Label").FirstOrDefault
                 End If
                 jobInfo.CartonLabelCount = LabelCount
                 Dim bh As Boolean = ctx.ChangeTracker.HasChanges()
@@ -159,6 +179,27 @@ Public Class QueueProcessingByCommand
 
     End Sub
 
+    Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
+        Dim job As TableJob
+        Dim palletJob As TablePalletJob
+        Dim JobId As Integer
+        Dim jobTypeID As Integer
+
+        JobId = viewJobInfo.JobId
+        jobTypeID = viewJobInfo.JobTypeId
+        job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
+        palletJob = Context.TablePalletJobs.Where(Function(c) c.JobId = JobId).FirstOrDefault
+        If Not job Is Nothing Then
+            Context.TableJobs.Remove(job)
+
+        End If
+        If Not palletJob Is Nothing Then
+            Context.TablePalletJobs.Remove(palletJob)
+
+        End If
+        Context.SaveChanges()
+    End Sub
+
     Public Overrides Function JobEnd() As Long
         If Not TestMode Then
             Dim PalletJob As List(Of TablePalletJob)
@@ -180,35 +221,39 @@ Public Class QueueProcessingByCommand
         Dim CommandStr As System.String
         Dim PrintByLabel As Boolean       ' True=Print by Label, False=Print by Batch
         Dim LabelBatch As String
-
         erc = QEnum.QueueConsumerErrorCodes.OK
         PrintByLabel = IsBatchSerialized()
-        PrintByLabel = False
-        If PrintByLabel Then
+        'PrintByLabel = False
+        If PrintByLabel And LineJob Then
             LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
                          & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
+            CommandStr = BTExe &
+                         $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                         If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
+                         vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                          & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
                          & "      </QueryPrompt>" & vbCrLf
+            CommandStr = BTExe &
+                         $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                         If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
+                         vbCrLf
         End If
-        CommandStr = BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
-                     vbCrLf
+
         erc = BTCommandAdd(CommandStr)
         Return erc
-        Return MyBase.Labels()
     End Function
 
     'Overloads Function PrintJob()
 
     'End Function
-    Private Property JobStepInfo As ViewPalletJobInfo
+    Private Property JobStepInfo As TablePalletJob
         Get
             Return m_JobStepInfo
         End Get
-        Set(value As ViewPalletJobInfo)
+        Set(value As TablePalletJob)
             m_JobStepInfo = value
         End Set
     End Property

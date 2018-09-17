@@ -87,6 +87,11 @@ Public Class QueueProcessingByCommand
                     TemplateFile = JobStepInfo.FormatName
                     ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                     Debug.Print(jInfo.JobStepName)
+                    If jInfo.JobStepName = "Label" Then
+                        m_UniqueLabelId = m_UniqueLabelId + jInfo.CartonCount
+                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                        ctx.SaveChanges()
+                    End If
                 Next
 
             End If
@@ -117,14 +122,16 @@ Public Class QueueProcessingByCommand
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                         If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         Else
             LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
-                         $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                         $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                         If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                          vbCrLf
         End If
 
@@ -208,6 +215,29 @@ Public Class QueueProcessingByCommand
 
     Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
         'Nothing to do in this module at the moment
+    End Sub
+
+    Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
+        Dim job As TableJob
+        Dim cartonJob As TableCartonJob
+        Dim JobId As Integer
+        Dim jobTypeID As Integer
+
+        JobId = viewJobInfo.JobId
+        jobTypeID = viewJobInfo.JobTypeId
+        job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
+        cartonJob = Context.TableCartonJobs.Where(Function(c) c.JobId = JobId).FirstOrDefault
+        If Not job Is Nothing Then
+            Context.TableJobs.Remove(job)
+
+        End If
+        If Not cartonJob Is Nothing Then
+            Context.TableCartonJobs.Remove(cartonJob)
+
+        End If
+        Context.SaveChanges()
+
+
     End Sub
 
     Private Property JobStepInfo As ViewCartonJobInfo

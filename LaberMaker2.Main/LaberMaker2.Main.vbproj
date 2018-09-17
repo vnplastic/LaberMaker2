@@ -148,7 +148,6 @@
     <Compile Include="FormSteps.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Globals.vb" />
     <Compile Include="Model\JobStep.vb" />
     <Compile Include="Model\JobsToProcess.vb" />
     <Compile Include="Model\JobType.vb" />

@@ -41,10 +41,12 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         Dim args As String() = Environment.GetCommandLineArgs
         If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then TestMode = True
+        If args.Count > 1 AndAlso args(1).ToUpper = "PRODTEST" Then ProdTestMode = True
 
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
+    Public Property ProdTestMode As Boolean
     Public Property LineJob As Integer Implements IQueueProcessing.LineJob
     Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
 
@@ -172,7 +174,9 @@ Public MustInherit Class QueueProcessingByCommandBase
                 End If
             Next
         End If
-
+        If Len(Result) = 0 Then
+            MsgBox("The Bartender format file- " & pTemplateFile & " could not be found", MsgBoxStyle.OkOnly, "Error")
+        End If
         Return Result
     End Function
 
@@ -247,8 +251,9 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
-                     vbCrLf
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
+        vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
         End If
@@ -262,7 +267,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -287,7 +293,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -299,7 +306,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{Format(m_JobId, "0")}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{Format(m_JobId, "0")}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -369,7 +377,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
         vbCrLf
         erc = BTCommandAdd(CommandStr)
         If erc = QEnum.QueueConsumerErrorCodes.OK Then
@@ -384,7 +393,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -396,7 +406,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -418,7 +429,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -430,7 +442,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -515,7 +528,8 @@ Public MustInherit Class QueueProcessingByCommandBase
                          & "      </QueryPrompt>" & vbCrLf
         End If
         CommandStr = m_BTExe &
-                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " & If(TestMode, "/PD", "/P") &
+                     $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(m_JobId, "0")}"" /PRN=""{m_PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                     If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
         erc = BTCommandAdd(CommandStr)
         Return erc
@@ -816,6 +830,8 @@ Public MustInherit Class QueueProcessingByCommandBase
     Public MustOverride Sub RefreshSalesforceData() Implements IQueueProcessing.RefreshSalesforceData
 
     Public MustOverride Sub RefreshLabelData(Optional SOId As String = Nothing) Implements IQueueProcessing.RefreshLabelData
+
+    Public MustOverride Sub RemoveJob(viewJobInfo As ViewJobInfo) Implements IQueueProcessing.RemoveJob
 
 
 

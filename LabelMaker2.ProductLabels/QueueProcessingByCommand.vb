@@ -212,6 +212,10 @@ Public Class QueueProcessingByCommand
         'Nothing to do in this module at the moment
     End Sub
 
+    Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
+        Throw New NotImplementedException
+    End Sub
+
     Private Property JobStepInfo As ViewCartonJobInfo
         Get
             Return m_JobStepInfo

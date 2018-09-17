@@ -29,7 +29,7 @@ Partial Class FormSalesOrderNumber
         Me.numLabels = New System.Windows.Forms.NumericUpDown()
         Me.chkLabelQty = New System.Windows.Forms.CheckBox()
         Me.cboJobTypes = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lblJobType = New System.Windows.Forms.Label()
         CType(Me.numLabels, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,15 +102,17 @@ Partial Class FormSalesOrderNumber
         Me.cboJobTypes.Name = "cboJobTypes"
         Me.cboJobTypes.Size = New System.Drawing.Size(121, 21)
         Me.cboJobTypes.TabIndex = 29
+        Me.cboJobTypes.Visible = False
         '
-        'Label2
+        'lblJobType
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(87, 78)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(60, 13)
-        Me.Label2.TabIndex = 30
-        Me.Label2.Text = "Label Type"
+        Me.lblJobType.AutoSize = True
+        Me.lblJobType.Location = New System.Drawing.Point(87, 78)
+        Me.lblJobType.Name = "lblJobType"
+        Me.lblJobType.Size = New System.Drawing.Size(60, 13)
+        Me.lblJobType.TabIndex = 30
+        Me.lblJobType.Text = "Label Type"
+        Me.lblJobType.Visible = False
         '
         'FormSalesOrderNumber
         '
@@ -119,7 +121,7 @@ Partial Class FormSalesOrderNumber
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(342, 173)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lblJobType)
         Me.Controls.Add(Me.cboJobTypes)
         Me.Controls.Add(Me.numLabels)
         Me.Controls.Add(Me.chkLabelQty)
@@ -142,5 +144,5 @@ Partial Class FormSalesOrderNumber
     Friend WithEvents numLabels As NumericUpDown
     Friend WithEvents chkLabelQty As CheckBox
     Friend WithEvents cboJobTypes As ComboBox
-    Friend WithEvents Label2 As Label
+    Friend WithEvents lblJobType As Label
 End Class

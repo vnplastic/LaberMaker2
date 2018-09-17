@@ -16,29 +16,29 @@ Imports System.Data.Entity.Infrastructure.MappingViews
 	
 Namespace EntityMappingGeneratedViews
 
-    <System.CodeDom.Compiler.GeneratedCode("Devart Entity Developer", "")> _
-	Public Class ViewsForBaseEntitySets57e2ac7ed4134521a08b6a20b0a089eb
-	  Inherits DbMappingViewCache
-	
-		Private Shared cachedViews As Dictionary(Of string, DbMappingView) = Nothing
-		Private Shared syncRoot = New object()
+    <System.CodeDom.Compiler.GeneratedCode("Devart Entity Developer", "")>
+    Public Class ViewsForBaseEntitySets57e2ac7ed4134521a08b6a20b0a089eb
+        Inherits DbMappingViewCache
 
-		Public Sub New()
-		End Sub
-		
-		Public Overrides ReadOnly Property MappingHashValue As String
-		  Get
- 		    Return "e3ab39933ddcfb1bfcc0edbd907288926aae92af3a285823ad6ea81a80c17545"
-		  End Get
-	    End Property
+        Private Shared cachedViews As Dictionary(Of String, DbMappingView) = Nothing
+        Private Shared syncRoot = New Object()
 
-		Public Overrides Function GetView(entitySet As EntitySetBase) As DbMappingView
-		
-			If (cachedViews Is Nothing) Then
-			  SyncLock syncRoot
-			    If (cachedViews Is Nothing) Then
-			      FillCache()
-				End If
+        Public Sub New()
+        End Sub
+
+        Public Overrides ReadOnly Property MappingHashValue As String
+            Get
+                Return "e3ab39933ddcfb1bfcc0edbd907288926aae92af3a285823ad6ea81a80c17545"
+            End Get
+        End Property
+
+        Public Overrides Function GetView(entitySet As EntitySetBase) As DbMappingView
+
+            If (cachedViews Is Nothing) Then
+                SyncLock syncRoot
+                    If (cachedViews Is Nothing) Then
+                        FillCache()
+                    End If
 			  End SyncLock
 			End If
 

@@ -38,7 +38,7 @@ Public Interface IQueueProcessing
     Function BatchBeforeBlanks() As Long
     Function BatchBeforeHeader() As Long
     Function Labels() As Long
-    'TODO: Replace Label Step with Generic and Override in Implementations???
+    '
     Function Extras() As Long
     Function BatchAfterFooter() As Long
     Function BatchAfterBlanks() As Long
@@ -63,4 +63,5 @@ Public Interface IQueueProcessing
     Sub CreateReprintJob(SOId As String, LabelCount As Integer, LabelPerLine As Boolean, Optional LineNo As Integer = 0)
     Sub RefreshSalesforceData()
     Sub RefreshLabelData(Optional SOId As String = Nothing)
+    Sub RemoveJob(viewJobInfo As ViewJobInfo)
 End Interface

@@ -10,10 +10,11 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("LaberMaker2.Main")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("LaberMaker2.Main")>
-<Assembly: AssemblyCopyright("Copyright ©  2018")>
+<Assembly: AssemblyCompany("VanNess Pets")>
+<Assembly: AssemblyProduct("LaberMaker2")>
+<Assembly: AssemblyCopyright("Copyright © 2018 VanNess Pets")>
 <Assembly: AssemblyTrademark("")>
+
 
 <Assembly: ComVisible(False)>
 
@@ -31,5 +32,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1.0.0.1")>
+<Assembly: AssemblyFileVersion("1.0.0.1")>

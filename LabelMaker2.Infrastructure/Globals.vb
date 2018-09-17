@@ -6,6 +6,9 @@ Imports IniParser.Model
 
 Public Module Globals
     Private _logger As NLog.Logger
+    Private _mode As String
+    Private _btLogin As String
+
     Public ReadOnly Property ConnString() As String
         Get
             Return GetConnString()
@@ -20,6 +23,25 @@ Public Module Globals
                 Return _logger
             End If
 
+        End Get
+
+    End Property
+    Public ReadOnly Property Mode() As String
+        Get
+            Dim args As String() = Environment.GetCommandLineArgs
+            If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then _mode = "Test"
+            If args.Count > 1 AndAlso args(1).ToUpper = "PRODTEST" Then _mode = "PRODTEST"
+            Return _mode
+        End Get
+
+    End Property
+    Public ReadOnly Property BTLogin() As String
+        Get
+            If Mode = "PRODTEST" Then
+                _btLogin = "/UID=sa /PWD=400BrightonRoad"
+            Else _btLogin = ""
+            End If
+            Return _btLogin
         End Get
 
     End Property

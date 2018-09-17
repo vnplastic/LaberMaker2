@@ -74,7 +74,8 @@ Public Class FormMainByCust
     End Sub
 
     Private Sub PopulateOrders()
-
+        Dim jobType As Integer
+        'ToDo: Need to fix display of orders if multiple types of labels and only one type printed
         Dim jobTypesForCust = ctx.TableCustomerJobInfos.AsNoTracking.Where(Function(c) c.KNDY4CustomerC1 = currentCustomer).Include(Function(c) c.JobType) _
                 .OrderBy(Function(d) d.JobType.JobTypeName).ToList
 
@@ -86,18 +87,28 @@ Public Class FormMainByCust
                 .GroupBy(Function(c) c.SalesOrder) _
                 .Select(Function(x) x.FirstOrDefault).ToList
 
-        lstSalesOrders.Items.Clear()
 
 
-        For Each j In jobs
-            Dim job As SalesOrdersToProcess = New SalesOrdersToProcess
-            job.SalesOrder = j.SalesOrderName
-            job.SOId = j.SalesOrder
-            Dim item = lstSalesOrders.Items.Add(job)
-            lstSalesOrders.ValueMember = "SOId"
-            lstSalesOrders.DisplayMember = "SalesOrder"
+
+        'lstSalesOrders.Items.Clear()
+
+
+        'For Each j In jobs
+        '    Dim job As SalesOrdersToProcess = New SalesOrdersToProcess
+        '    job.SalesOrder = j.SalesOrderName
+        '    job.SOId = j.SalesOrder
+        '    Dim item = lstSalesOrders.Items.Add(job)
+        '    lstSalesOrders.ValueMember = "SOId"
+        '    lstSalesOrders.DisplayMember = "SalesOrder"
+        'Next
+        'grpLabeType.Controls.Clear()
+        For Each tbPage As TabPage In tabsLabelTypes.TabPages
+            Dim lstboxName = "lst" + Mid(tbPage.Name, 4)
+            Dim ctrl As CheckedListBox
+            ctrl = tbPage.Controls.Find(lstboxName, True).FirstOrDefault
+            If Not ctrl Is Nothing Then RemoveHandler ctrl.ItemCheck, AddressOf lstBoxes_ItemCheck
         Next
-        grpLabeType.Controls.Clear()
+        tabsLabelTypes.TabPages.Clear()
 
         Dim currentTop As Integer = 0
         For Each jt As TableCustomerJobInfo In jobTypesForCust
@@ -107,22 +118,57 @@ Public Class FormMainByCust
             '    m_LoadedJobTypes.Add(jt.JobTypeId, tmpDLL.QueueProcessor)
             '    Debug.WriteLine("Loaded " + instanceDll)
             'End If
-
-            Dim chkBox As New CheckBox
-            chkBox.Text = jt.JobTypeName
-            chkBox.Checked = True
-            chkBox.Tag = jt.JobTypeId
-            chkBox.Top = currentTop
-            currentTop = chkBox.Top + chkBox.Height
-
-            grpLabeType.Controls.Add(chkBox)
+            jobType = jt.JobTypeId
+            If Not jobsNotPrinted.Where(Function(c) c.JobTypeId = jobType).FirstOrDefault Is Nothing Then
+                Dim chkListBox As New CheckedListBox
+                Dim tabPage As New TabPage
+                tabPage.Name = "tab" + jt.JobTypeName
+                tabPage.Text = jt.JobTypeName
+                tabPage.Tag = jt.JobTypeId
 
 
-            'Int h = lst.ItemHeight * lst.Items.Count; 
-            'lst.Height = h + lst.Height - lst.ClientSize.Height; 
 
+                'chkBox.Text = jt.JobTypeName
+                'chkBox.Checked = True
+                'chkBox.Tag = jt.JobTypeId
+                'chkBox.Top = currentTop
+                'currentTop = chkBox.Top + chkBox.Height
+
+                tabsLabelTypes.TabPages.Add(tabPage)
+                chkListBox.Name = "lst" + jt.JobTypeName
+                chkListBox.Dock = DockStyle.Fill
+                chkListBox.Font = New Font(Me.Font.FontFamily, 10, FontStyle.Regular)
+
+
+                ' chkListBox.Font = New Font(Me.Font, FontStyle.Regular)
+                Dim jobs2 = jobsNotPrinted _
+                .Where(Function(c) c.JobTypeId = jobType) _
+                        .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName}) _
+                        .GroupBy(Function(c) c.SalesOrder) _
+                        .Select(Function(x) x.FirstOrDefault).ToList
+
+                For Each j In jobs2
+                    Dim job As SalesOrdersToProcess = New SalesOrdersToProcess
+                    job.SalesOrder = j.SalesOrderName
+                    job.SOId = j.SalesOrder
+                    Dim item = chkListBox.Items.Add(job)
+
+                Next
+                chkListBox.ValueMember = "SOId"
+                chkListBox.DisplayMember = "SalesOrder"
+                tabPage.Controls.Add(chkListBox)
+                AddHandler chkListBox.ItemCheck, AddressOf lstBoxes_ItemCheck
+
+                'Dim lstBox As New ListBox
+                'grpLabeType.Controls.Add(chkBox)
+
+
+                'Int h = lst.ItemHeight * lst.Items.Count; 
+                'lst.Height = h + lst.Height - lst.ClientSize.Height; 
+            End If
 
         Next
+
     End Sub
 
 
@@ -182,40 +228,46 @@ Public Class FormMainByCust
             'Dim ji As JobInfo
             Dim so As SalesOrdersToProcess
             Dim SalesOrder As String
+            Dim lstBox As CheckedListBox
+            Dim tabPage As TabPage
 
-            For Ix = 1 To lstSalesOrders.Items.Count
-                If lstSalesOrders.GetItemChecked(Ix - 1) = True Then
+            tabPage = tabsLabelTypes.SelectedTab
+            lstBox = tabPage.Controls.Find("lst" + Mid(tabPage.Name, 4), True).FirstOrDefault
+
+
+            For Ix = 1 To lstBox.Items.Count
+                If lstBox.GetItemChecked(Ix - 1) = True Then
                     ' ji = lstSalesOrders.Items(Ix - 1)
                     ' Dim jTemp As JobToProcess
                     'j.JobId = ji.JobId
                     'j.SalesOrder = lstSalesOrders.Items(Ix - 1) 'ji.SalesOrderName
 
-                    so = lstSalesOrders.Items(Ix - 1)
+                    so = lstBox.Items(Ix - 1)
                     SalesOrder = so.SalesOrder
 
 
 
-                    For Iy = 1 To grpLabeType.Controls.Count
-                        If TypeOf grpLabeType.Controls(Iy - 1) Is CheckBox Then
-                            Dim chk As CheckBox = grpLabeType.Controls(Iy - 1)
-                            If chk.Checked = True Then
-                                ' ji = chk.Tag
-                                ' Dim jTemp As JobToProcess
-                                'j.JobId = ji.JobId
-                                'j.SalesOrder = ji.SalesOrderName
-                                Dim Proc As IQueueProcessing
-                                Proc = m_LoadedJobTypes(chk.Tag)
-                                Dim Q = Proc
-                                lTypeId = chk.Tag
-                                ji = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = lTypeId And c.SalesOrderName = SalesOrder).FirstOrDefault
-                                j.JobId = ji.JobId
-                                j.SalesOrder = so.SalesOrder
-                                Q.SetContext(ctx)
-                                Q.PrintJob(j)
-                                MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
-                            End If
-                        End If
-                    Next
+                    'For Iy = 1 To grpLabeType.Controls.Count
+                    '    If TypeOf grpLabeType.Controls(Iy - 1) Is CheckBox Then
+                    '        Dim chk As CheckBox = grpLabeType.Controls(Iy - 1)
+                    '        If chk.Checked = True Then
+                    ' ji = chk.Tag
+                    ' Dim jTemp As JobToProcess
+                    'j.JobId = ji.JobId
+                    'j.SalesOrder = ji.SalesOrderName
+                    Dim Proc As IQueueProcessing
+                    Proc = m_LoadedJobTypes(tabPage.Tag)
+                    Dim Q = Proc
+                    lTypeId = tabPage.Tag
+                    ji = ctx.ViewJobNotPrinteds.Where(Function(c) c.JobTypeId = lTypeId And c.SalesOrderName = SalesOrder).FirstOrDefault
+                    j.JobId = ji.JobId
+                    j.SalesOrder = so.SalesOrder
+                    Q.SetContext(ctx)
+                    Q.PrintJob(j)
+                    ' MessageBox.Show("We'll print " & j.SalesOrder & " here") 'Select(Function(c) c.SalesOrderName).FirstOrDefault & " here")
+                    '        End If
+                    '    End If
+                    'Next
                 End If
             Next
 
@@ -228,14 +280,24 @@ Public Class FormMainByCust
     End Sub
 
     Private Sub btnSelectAll_Click(sender As Object, e As EventArgs) Handles btnSelectAll.Click
-        For Ix = 1 To lstSalesOrders.Items.Count
-            lstSalesOrders.SetItemChecked(Ix - 1, True)
+        Dim lstBox As CheckedListBox
+        Dim tabPage As TabPage
+
+        tabPage = tabsLabelTypes.SelectedTab
+        lstBox = tabPage.Controls.Find("lst" + Mid(tabPage.Name, 4), True).FirstOrDefault
+        For Ix = 1 To lstBox.Items.Count
+            lstBox.SetItemChecked(Ix - 1, True)
         Next
     End Sub
 
     Private Sub btnDeselectAll_Click(sender As Object, e As EventArgs) Handles btnDeselectAll.Click
-        For Ix = 1 To lstSalesOrders.Items.Count
-            lstSalesOrders.SetItemChecked(Ix - 1, False)
+        Dim lstBox As CheckedListBox
+        Dim tabPage As TabPage
+
+        tabPage = tabsLabelTypes.SelectedTab
+        lstBox = tabPage.Controls.Find("lst" + Mid(tabPage.Name, 4), True).FirstOrDefault
+        For Ix = 1 To lstBox.Items.Count
+            lstBox.SetItemChecked(Ix - 1, False)
         Next
     End Sub
 
@@ -249,10 +311,12 @@ Public Class FormMainByCust
         Dim frm As New FormPrintSO
 
         frm.Show()
+        PopulateOrders()
     End Sub
 
-    Private Sub lstSalesOrders_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles lstSalesOrders.ItemCheck
-        If lstSalesOrders.CheckedItems.Count = 1 And e.NewValue = CheckState.Unchecked Then
+
+    Private Sub lstBoxes_ItemCheck(sender As Object, e As ItemCheckEventArgs)
+        If sender.CheckedItems.Count = 1 And e.NewValue = CheckState.Unchecked Then
             ' The collection Is about to be emptied: there 's just one item checked, and it's being unchecked at this moment
             btnPrintLabels.Enabled = False
             'btnReprint.Enabled = False
@@ -265,7 +329,6 @@ Public Class FormMainByCust
         End If
 
     End Sub
-
     Private Sub btnRefreshSF_Click(sender As Object, e As EventArgs) Handles btnRefreshSF.Click
         Try
             ctx.Database.CommandTimeout = 120
@@ -305,4 +368,6 @@ Public Class FormMainByCust
 
         Next
     End Sub
+
+
 End Class

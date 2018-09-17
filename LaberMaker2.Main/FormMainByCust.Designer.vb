@@ -34,14 +34,13 @@ Partial Class FormMainByCust
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.lstSalesOrders = New System.Windows.Forms.CheckedListBox()
         Me.btnRefreshData = New System.Windows.Forms.Button()
         Me.btnRefreshSF = New System.Windows.Forms.Button()
         Me.btnReprint = New System.Windows.Forms.Button()
         Me.btnDeselectAll = New System.Windows.Forms.Button()
         Me.btnSelectAll = New System.Windows.Forms.Button()
         Me.btnPrintLabels = New System.Windows.Forms.Button()
-        Me.grpLabeType = New System.Windows.Forms.GroupBox()
+        Me.tabsLabelTypes = New System.Windows.Forms.TabControl()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -55,10 +54,11 @@ Partial Class FormMainByCust
         '
         'MenuStrip1
         '
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.UtilityToolStripMenuItem, Me.AboutToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(633, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(633, 25)
         Me.MenuStrip1.TabIndex = 23
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -66,57 +66,57 @@ Partial Class FormMainByCust
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 21)
         Me.FileToolStripMenuItem.Text = "&File"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(92, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(96, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'UtilityToolStripMenuItem
         '
         Me.UtilityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.JobStepsToolStripMenuItem, Me.CustomerProfilesToolStripMenuItem, Me.CustomerJobInfoToolStripMenuItem, Me.ReprintLabelsToolStripMenuItem})
         Me.UtilityToolStripMenuItem.Name = "UtilityToolStripMenuItem"
-        Me.UtilityToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
+        Me.UtilityToolStripMenuItem.Size = New System.Drawing.Size(52, 21)
         Me.UtilityToolStripMenuItem.Text = "&Utility"
         '
         'JobStepsToolStripMenuItem
         '
         Me.JobStepsToolStripMenuItem.Name = "JobStepsToolStripMenuItem"
-        Me.JobStepsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.JobStepsToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.JobStepsToolStripMenuItem.Text = "Job Steps"
         '
         'CustomerProfilesToolStripMenuItem
         '
         Me.CustomerProfilesToolStripMenuItem.Name = "CustomerProfilesToolStripMenuItem"
-        Me.CustomerProfilesToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.CustomerProfilesToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.CustomerProfilesToolStripMenuItem.Text = "Customer Profiles"
         '
         'CustomerJobInfoToolStripMenuItem
         '
         Me.CustomerJobInfoToolStripMenuItem.Name = "CustomerJobInfoToolStripMenuItem"
-        Me.CustomerJobInfoToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.CustomerJobInfoToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.CustomerJobInfoToolStripMenuItem.Text = "Customer Job Info"
         '
         'ReprintLabelsToolStripMenuItem
         '
         Me.ReprintLabelsToolStripMenuItem.Name = "ReprintLabelsToolStripMenuItem"
-        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.ReprintLabelsToolStripMenuItem.Text = "Reprint Labels"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(55, 21)
         Me.AboutToolStripMenuItem.Text = "&About"
         '
         'SplitContainer1
         '
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 24)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 25)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -126,16 +126,17 @@ Partial Class FormMainByCust
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(633, 471)
+        Me.SplitContainer1.Size = New System.Drawing.Size(633, 470)
         Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 24
         '
         'GroupBox1
         '
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(101, 469)
+        Me.GroupBox1.Size = New System.Drawing.Size(101, 468)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Customer"
@@ -148,7 +149,7 @@ Partial Class FormMainByCust
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lstSalesOrders)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.tabsLabelTypes)
         '
         'SplitContainer2.Panel2
         '
@@ -158,23 +159,14 @@ Partial Class FormMainByCust
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDeselectAll)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSelectAll)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrintLabels)
-        Me.SplitContainer2.Panel2.Controls.Add(Me.grpLabeType)
-        Me.SplitContainer2.Size = New System.Drawing.Size(524, 469)
-        Me.SplitContainer2.SplitterDistance = 145
+        Me.SplitContainer2.Size = New System.Drawing.Size(524, 468)
+        Me.SplitContainer2.SplitterDistance = 251
         Me.SplitContainer2.TabIndex = 0
-        '
-        'lstSalesOrders
-        '
-        Me.lstSalesOrders.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lstSalesOrders.FormattingEnabled = True
-        Me.lstSalesOrders.Location = New System.Drawing.Point(0, 0)
-        Me.lstSalesOrders.Name = "lstSalesOrders"
-        Me.lstSalesOrders.Size = New System.Drawing.Size(145, 469)
-        Me.lstSalesOrders.TabIndex = 0
         '
         'btnRefreshData
         '
-        Me.btnRefreshData.Location = New System.Drawing.Point(145, 326)
+        Me.btnRefreshData.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRefreshData.Location = New System.Drawing.Point(49, 328)
         Me.btnRefreshData.Name = "btnRefreshData"
         Me.btnRefreshData.Size = New System.Drawing.Size(176, 34)
         Me.btnRefreshData.TabIndex = 6
@@ -183,7 +175,8 @@ Partial Class FormMainByCust
         '
         'btnRefreshSF
         '
-        Me.btnRefreshSF.Location = New System.Drawing.Point(145, 268)
+        Me.btnRefreshSF.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRefreshSF.Location = New System.Drawing.Point(49, 270)
         Me.btnRefreshSF.Name = "btnRefreshSF"
         Me.btnRefreshSF.Size = New System.Drawing.Size(176, 34)
         Me.btnRefreshSF.TabIndex = 5
@@ -192,7 +185,8 @@ Partial Class FormMainByCust
         '
         'btnReprint
         '
-        Me.btnReprint.Location = New System.Drawing.Point(145, 207)
+        Me.btnReprint.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReprint.Location = New System.Drawing.Point(49, 209)
         Me.btnReprint.Name = "btnReprint"
         Me.btnReprint.Size = New System.Drawing.Size(176, 34)
         Me.btnReprint.TabIndex = 4
@@ -201,7 +195,8 @@ Partial Class FormMainByCust
         '
         'btnDeselectAll
         '
-        Me.btnDeselectAll.Location = New System.Drawing.Point(145, 142)
+        Me.btnDeselectAll.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDeselectAll.Location = New System.Drawing.Point(49, 144)
         Me.btnDeselectAll.Name = "btnDeselectAll"
         Me.btnDeselectAll.Size = New System.Drawing.Size(176, 34)
         Me.btnDeselectAll.TabIndex = 3
@@ -210,7 +205,8 @@ Partial Class FormMainByCust
         '
         'btnSelectAll
         '
-        Me.btnSelectAll.Location = New System.Drawing.Point(145, 83)
+        Me.btnSelectAll.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSelectAll.Location = New System.Drawing.Point(49, 85)
         Me.btnSelectAll.Name = "btnSelectAll"
         Me.btnSelectAll.Size = New System.Drawing.Size(176, 34)
         Me.btnSelectAll.TabIndex = 2
@@ -220,21 +216,23 @@ Partial Class FormMainByCust
         'btnPrintLabels
         '
         Me.btnPrintLabels.Enabled = False
-        Me.btnPrintLabels.Location = New System.Drawing.Point(145, 23)
+        Me.btnPrintLabels.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintLabels.Location = New System.Drawing.Point(49, 25)
         Me.btnPrintLabels.Name = "btnPrintLabels"
         Me.btnPrintLabels.Size = New System.Drawing.Size(176, 34)
         Me.btnPrintLabels.TabIndex = 1
         Me.btnPrintLabels.Text = "Print Labels"
         Me.btnPrintLabels.UseVisualStyleBackColor = True
         '
-        'grpLabeType
+        'tabsLabelTypes
         '
-        Me.grpLabeType.Location = New System.Drawing.Point(3, 4)
-        Me.grpLabeType.Name = "grpLabeType"
-        Me.grpLabeType.Size = New System.Drawing.Size(112, 465)
-        Me.grpLabeType.TabIndex = 0
-        Me.grpLabeType.TabStop = False
-        Me.grpLabeType.Text = "Label Types"
+        Me.tabsLabelTypes.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabsLabelTypes.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tabsLabelTypes.Location = New System.Drawing.Point(0, 0)
+        Me.tabsLabelTypes.Name = "tabsLabelTypes"
+        Me.tabsLabelTypes.SelectedIndex = 0
+        Me.tabsLabelTypes.Size = New System.Drawing.Size(251, 468)
+        Me.tabsLabelTypes.TabIndex = 0
         '
         'FormMainByCust
         '
@@ -271,8 +269,7 @@ Partial Class FormMainByCust
     Friend WithEvents CustomerProfilesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CustomerJobInfoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents lstSalesOrders As CheckedListBox
-    Friend WithEvents grpLabeType As GroupBox
+
     Friend WithEvents btnPrintLabels As Button
     Friend WithEvents btnDeselectAll As Button
     Friend WithEvents btnSelectAll As Button
@@ -280,4 +277,5 @@ Partial Class FormMainByCust
     Friend WithEvents btnReprint As Button
     Friend WithEvents btnRefreshData As Button
     Friend WithEvents btnRefreshSF As Button
+    Friend WithEvents tabsLabelTypes As TabControl
 End Class

@@ -76,8 +76,10 @@ Public Class FormSalesOrderNumber
 
 
                 'If jobTypes.Count > 1 Then
-                MsgBox("There are multiple labesl types for this sales order, select which labels you are reprinting from the DropDown", MsgBoxStyle.OkOnly,
+                MsgBox("There are multiple labesl types for this sales order, select which labels you are reprinting/deleting from the DropDown", MsgBoxStyle.OkOnly,
                    "LabelMaker:Problem")
+                cboJobTypes.Visible = True
+                lblJobType.Visible = True
                 Return
             Else
                 If cboJobTypes.SelectedIndex <> -1 Then
@@ -86,6 +88,8 @@ Public Class FormSalesOrderNumber
                     JobTypeId = types.FirstOrDefault.JobTypeId
 
                 End If
+                cboJobTypes.Visible = False
+                lblJobType.Visible = False
             End If
         Else
             MsgBox("There are no labesl types for this sales order", MsgBoxStyle.OkOnly,

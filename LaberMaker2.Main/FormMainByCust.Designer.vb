@@ -34,13 +34,13 @@ Partial Class FormMainByCust
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.tabsLabelTypes = New System.Windows.Forms.TabControl()
         Me.btnRefreshData = New System.Windows.Forms.Button()
         Me.btnRefreshSF = New System.Windows.Forms.Button()
         Me.btnReprint = New System.Windows.Forms.Button()
         Me.btnDeselectAll = New System.Windows.Forms.Button()
         Me.btnSelectAll = New System.Windows.Forms.Button()
         Me.btnPrintLabels = New System.Windows.Forms.Button()
-        Me.tabsLabelTypes = New System.Windows.Forms.TabControl()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -163,6 +163,16 @@ Partial Class FormMainByCust
         Me.SplitContainer2.SplitterDistance = 251
         Me.SplitContainer2.TabIndex = 0
         '
+        'tabsLabelTypes
+        '
+        Me.tabsLabelTypes.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabsLabelTypes.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tabsLabelTypes.Location = New System.Drawing.Point(0, 0)
+        Me.tabsLabelTypes.Name = "tabsLabelTypes"
+        Me.tabsLabelTypes.SelectedIndex = 0
+        Me.tabsLabelTypes.Size = New System.Drawing.Size(251, 468)
+        Me.tabsLabelTypes.TabIndex = 0
+        '
         'btnRefreshData
         '
         Me.btnRefreshData.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -180,7 +190,7 @@ Partial Class FormMainByCust
         Me.btnRefreshSF.Name = "btnRefreshSF"
         Me.btnRefreshSF.Size = New System.Drawing.Size(176, 34)
         Me.btnRefreshSF.TabIndex = 5
-        Me.btnRefreshSF.Text = "Refresh Salesforce Date"
+        Me.btnRefreshSF.Text = "Refresh Salesforce Data"
         Me.btnRefreshSF.UseVisualStyleBackColor = True
         '
         'btnReprint
@@ -223,16 +233,6 @@ Partial Class FormMainByCust
         Me.btnPrintLabels.TabIndex = 1
         Me.btnPrintLabels.Text = "Print Labels"
         Me.btnPrintLabels.UseVisualStyleBackColor = True
-        '
-        'tabsLabelTypes
-        '
-        Me.tabsLabelTypes.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tabsLabelTypes.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tabsLabelTypes.Location = New System.Drawing.Point(0, 0)
-        Me.tabsLabelTypes.Name = "tabsLabelTypes"
-        Me.tabsLabelTypes.SelectedIndex = 0
-        Me.tabsLabelTypes.Size = New System.Drawing.Size(251, 468)
-        Me.tabsLabelTypes.TabIndex = 0
         '
         'FormMainByCust
         '

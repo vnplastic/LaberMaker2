@@ -8,7 +8,7 @@ Public Class FormSteps
     Private Sub FormSteps_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         jobSteps = dbContext.TableJobSteps.Include("JobType").ToList()
 
-        'Dim var = From j In jobSteps Select j.JobType.JobTypeName, j.JobStepName, j.JobStepOrder, j.JobTypeId Order By JobTypeId, JobStepOrder
+        Dim var = From j In jobSteps Select j.JobType.JobTypeName, j.JobStepName, j.JobStepOrder, j.JobTypeId Order By JobTypeId, JobStepOrder
 
         'grdSteps.Columns.Add("JobTypeName", "Job Type Name")
         'grdSteps.Columns("JobTypeName").DataPropertyName = "JobTypeName"
@@ -21,7 +21,7 @@ Public Class FormSteps
         'grdSteps.Columns("JobTypeId").DataPropertyName = "JobTypeId"
         'grdSteps.Columns("JobTypeId").Visible = False
 
-        jobBindingSource.DataSource = jobSteps
+        jobBindingSource.DataSource = var 'jobSteps
 
         grdSteps.DataSource = jobBindingSource
         grdSteps.Refresh()

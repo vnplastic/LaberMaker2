@@ -12,6 +12,20 @@ Public Class FormMainByCust
     Dim jobTypes As List(Of LabelMaker2.Main.Data.VNDataModel.TableJobType)
     Dim log As Logger
     Dim currentCustomer As String
+    Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim conn As String = Globals.GetEFConnectionString
+        log = NLog.LogManager.GetCurrentClassLogger
+        log.Trace("LabelMaker2 starting up")
+        Try
+            ctx = New VNDataEntities(conn)
+            LoadLabelTypeModules()
+            GetCustomersWithJobs()
+        Catch ex As Exception
+            MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
+            log.Debug(ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+    End Sub
 #Region "Job Control"
     Private Sub GetCustomersWithJobs()
         Try
@@ -173,20 +187,7 @@ Public Class FormMainByCust
 
 
 #End Region
-    Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim conn As String = Globals.GetEFConnectionString
-        log = NLog.LogManager.GetCurrentClassLogger
-        log.Trace("LabelMaker2 starting up")
-        Try
-            ctx = New VNDataEntities(conn)
-            LoadLabelTypeModules()
-            GetCustomersWithJobs()
-        Catch ex As Exception
-            MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
-            log.Debug(ex.Message & vbCrLf & ex.StackTrace)
-        End Try
 
-    End Sub
 
     Private Sub JobStepsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JobStepsToolStripMenuItem.Click
         Dim frmSTeps As New FormSteps

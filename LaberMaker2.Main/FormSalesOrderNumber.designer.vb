@@ -80,8 +80,9 @@ Partial Class FormSalesOrderNumber
         Me.numLabels.Enabled = False
         Me.numLabels.Location = New System.Drawing.Point(183, 50)
         Me.numLabels.Margin = New System.Windows.Forms.Padding(2)
+        Me.numLabels.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.numLabels.Name = "numLabels"
-        Me.numLabels.Size = New System.Drawing.Size(38, 20)
+        Me.numLabels.Size = New System.Drawing.Size(61, 20)
         Me.numLabels.TabIndex = 28
         '
         'chkLabelQty

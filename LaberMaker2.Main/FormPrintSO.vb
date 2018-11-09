@@ -69,7 +69,7 @@ Public Class FormPrintSO
                 jobToReprint = jobs.FirstOrDefault
                 If jobToReprint.LabelPerLine = True Then
                     Debug.Print("Line Item Batch")
-                    If MsgBox("If you want to print a specific line item, select ok, Otherwise ALL labels for ALL line items will be printed", MsgBoxStyle.OkCancel) _
+                    If MsgBox("If you want to print a specific line item, select ok, Otherwise select cancel for printing ALL line items", MsgBoxStyle.OkCancel) _
                         = MsgBoxResult.Ok Then
 
                         FormLineSelection.SOId = jobToReprint.SOId

@@ -181,20 +181,20 @@ Public Class QueueProcessingByCommand
 
     Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
         Dim job As TableJob
-        Dim palletJob As TablePalletJob
+        Dim palletJob As List(Of TablePalletJob)
         Dim JobId As Integer
         Dim jobTypeID As Integer
 
         JobId = viewJobInfo.JobId
         jobTypeID = viewJobInfo.JobTypeId
         job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
-        palletJob = Context.TablePalletJobs.Where(Function(c) c.JobId = JobId).FirstOrDefault
+        palletJob = Context.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList()
         If Not job Is Nothing Then
             Context.TableJobs.Remove(job)
 
         End If
         If Not palletJob Is Nothing Then
-            Context.TablePalletJobs.Remove(palletJob)
+            Context.TablePalletJobs.RemoveRange(palletJob)
 
         End If
         Context.SaveChanges()

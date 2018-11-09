@@ -89,7 +89,6 @@ Public Class FormMainByCust
 
     Private Sub PopulateOrders()
         Dim jobType As Integer
-        'ToDo: Need to fix display of orders if multiple types of labels and only one type printed
         Dim jobTypesForCust = ctx.TableCustomerJobInfos.AsNoTracking.Where(Function(c) c.KNDY4CustomerC1 = currentCustomer).Include(Function(c) c.JobType) _
                 .OrderBy(Function(d) d.JobType.JobTypeName).ToList
 
@@ -306,12 +305,15 @@ Public Class FormMainByCust
         Dim frm As New FormPrintSO
 
         frm.Show()
+        GetCustomersWithJobs()
+        PopulateOrders()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnReprint.Click
         Dim frm As New FormPrintSO
 
         frm.Show()
+        GetCustomersWithJobs()
         PopulateOrders()
     End Sub
 
@@ -363,9 +365,12 @@ Public Class FormMainByCust
     Private Sub btnRefreshData_Click(sender As Object, e As EventArgs) Handles btnRefreshData.Click
         For Each mt In m_LoadedJobTypes
             Dim Proc As IQueueProcessing
+
             Proc = mt.Value
             Proc.SetContext(ctx)
             Proc.RefreshLabelData(Nothing)
+            GetCustomersWithJobs()
+            PopulateOrders()
 
         Next
     End Sub

@@ -30,7 +30,8 @@ Public Class QueueProcessingByCommand
             custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
             If j.Serialized Then m_UniqueLabelId = custInfo.NextUniqueLabelNo
 
-            PrinterName = j.PrinterName
+            PrinterName = If(LocalTestMode, "Adobe PDF", j.PrinterName)
+            'PrinterName = j.PrinterName
             JobId = _job.JobId
             ' j = ctx.CartonJobInfos.Where(Function(c) c.JobId = _job.JobId).OrderBy(Function(c) c.JobStepOrder).ToList
             If j.LabelPerLine = True Then
@@ -123,6 +124,7 @@ Public Class QueueProcessingByCommand
             Dim newJob As TableJob
             newJob = ctx.TableJobs.Where(Function(c) c.KNDY4SalesOrderC1 = SOId And c.JobTypeId = 2).FirstOrDefault
             newJob.Printed = 0
+            newJob.Reprint = 1
             ctx.TableJobs.Add(newJob)
             ctx.SaveChanges()
 

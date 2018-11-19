@@ -31,6 +31,7 @@ Public Module Globals
             Dim args As String() = Environment.GetCommandLineArgs
             If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then _mode = "Test"
             If args.Count > 1 AndAlso args(1).ToUpper = "PRODTEST" Then _mode = "PRODTEST"
+            If args.Count > 1 AndAlso args(1).ToUpper = "LOCALTEST" Then _mode = "LOCALTEST"
             Return _mode
         End Get
 

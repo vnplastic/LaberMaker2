@@ -96,6 +96,8 @@
           <Property Name="KNDY4__Sales_Order__c" Type="nchar" MaxLength="18" />
           <Property Name="Printed" Type="bit" Nullable="false" devart:DefaultValue="0" />
           <Property Name="SalesOrderName" Type="nvarchar" MaxLength="80" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Reprint" Type="bit" devart:DefaultValue="0" />
           <Property Name="CreatedDate" Type="datetime" devart:DefaultValue="getdate()" />
         </EntityType>
         <EntityType Name="JobSteps">
@@ -655,7 +657,7 @@
           </Key>
           <Property Name="JobId" Type="int" />
           <Property Name="LineNo" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="LinePalletCount" Type="decimal" Precision="38" Scale="14" />
+          <Property Name="LinePalletCount" Type="decimal" Precision="38" Scale="0" />
           <Property Name="CustomerStockNumber" Type="nvarchar" MaxLength="140" />
           <Property Name="VNDesc" Type="nvarchar" MaxLength="255" />
           <Property Name="VN_FCUSCHR1__c" Type="nvarchar" MaxLength="80" />
@@ -699,7 +701,7 @@
           <Property Name="SourceCountry" Type="nvarchar" MaxLength="18" />
           <Property Name="UCC_Code" Type="nvarchar" MaxLength="25" />
           <Property Name="CasesPerPallet" Type="decimal" Precision="37" Scale="19" />
-          <Property Name="PalletLabelCount" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="PalletLabelCount" Type="decimal" Precision="38" Scale="0" />
         </EntityType>
         <Association Name="FK_Jobs_JobTypes">
           <End Role="JobTypes" Type="VNDataModel.Store.JobTypes" Multiplicity="1" />
@@ -977,6 +979,8 @@
           <Property Name="KNDY4SalesOrderC1" Type="String" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="e567407f-30fa-49d5-96e6-edf421d09f25" />
           <Property Name="Printed" Type="Boolean" Nullable="false" ed:ValidateRequired="true" ed:Guid="85b932f3-5ff6-46f7-9dca-dd4c24702d90" />
           <Property Name="SalesOrderName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="aaf0f33f-a536-4133-bad5-13c5fd7b013c" />
+          <Property Name="CustomerName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="35012a5a-649c-4f7b-8a5b-b1c4c149f492" />
+          <Property Name="Reprint" Type="Boolean" ed:ValidateRequired="false" ed:Guid="eaac644e-8ed2-4969-9e47-a4c195860c24" />
           <Property Name="CreatedDate" Type="DateTime" ed:ValidateRequired="false" ed:Guid="12b9780a-4218-441f-9452-147f75544404" />
           <NavigationProperty Name="JobType" Relationship="VNDataModel.FK_VNA057TB02_Job_VNA057TB01_JobType" FromRole="VNA057TB02Jobs" ToRole="JobType" ed:Guid="f4c4b5ff-3421-45a1-8d66-c1995f259ab8" />
         </EntityType>
@@ -1557,7 +1561,7 @@
           </Key>
           <Property Name="JobId" Type="Int32" ed:ValidateRequired="false" ed:Guid="88a10c2d-468c-42a1-ac6a-171330baa424" />
           <Property Name="LineNo" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="560ce813-3a25-4e25-9d1c-9035b756c5a7" />
-          <Property Name="LinePalletCount" Type="Decimal" Precision="38" Scale="14" ed:ValidateRequired="false" ed:Guid="32c86ec6-6520-402b-ba69-733119a49e78" />
+          <Property Name="LinePalletCount" Type="Decimal" Precision="38" Scale="0" ed:ValidateRequired="false" ed:Guid="32c86ec6-6520-402b-ba69-733119a49e78" />
           <Property Name="CustomerStockNumber" Type="String" MaxLength="140" Unicode="true" ed:ValidateMaxLength="140" ed:ValidateRequired="false" ed:Guid="b67ab5bc-46a9-4aa7-9bf3-e9050ee5eda5" />
           <Property Name="VNDesc" Type="String" MaxLength="255" Unicode="true" ed:ValidateMaxLength="255" ed:ValidateRequired="false" ed:Guid="76c55175-925d-4e03-9b87-025ab9d5b878" />
           <Property Name="VNFCUSCHR1C" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="9d4ee17a-5121-46f4-bcd5-4c3065551f25" />
@@ -1601,7 +1605,7 @@
           <Property Name="SourceCountry" Type="String" MaxLength="18" Unicode="true" ed:ValidateMaxLength="18" ed:ValidateRequired="false" ed:Guid="2394efb3-6df9-47bb-8588-44680c852197" />
           <Property Name="UCCCode" Type="String" MaxLength="25" Unicode="true" ed:ValidateMaxLength="25" ed:ValidateRequired="false" ed:Guid="23f3c5ea-ddfc-4876-8d48-e547281d5783" />
           <Property Name="CasesPerPallet" Type="Decimal" Precision="37" Scale="19" ed:ValidateRequired="false" ed:Guid="057b8de4-c77c-4eff-938c-52db51ff5167" />
-          <Property Name="PalletLabelCount" Type="Decimal" Precision="38" Scale="6" ed:ValidateRequired="false" ed:Guid="19a8a2a0-f495-441a-982f-92d457fce0cd" />
+          <Property Name="PalletLabelCount" Type="Decimal" Precision="38" Scale="0" ed:ValidateRequired="false" ed:Guid="19a8a2a0-f495-441a-982f-92d457fce0cd" />
         </EntityType>
         <Association Name="FK_VNA057TB02_Job_VNA057TB01_JobType" ed:Guid="670b7bb0-89b8-4e40-939b-5a29fdcd1fa7">
           <End Role="JobType" Type="VNDataModel.TableJobType" Multiplicity="1" />
@@ -1773,6 +1777,8 @@
                 <ScalarProperty Name="KNDY4CustomerC1" ColumnName="KNDY4__Customer__c" />
                 <ScalarProperty Name="KNDY4SalesOrderC1" ColumnName="KNDY4__Sales_Order__c" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Reprint" ColumnName="Reprint" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -9,6 +9,13 @@ Public Class FormJobSteps
     Dim icurrentCustJob As Integer
     Dim lstStepsIncluded As List(Of TableJobStep)
     Dim lstStepsAvailable As List(Of TableJobStep)
+    Dim curPrinterCompatibility As Integer
+    Dim curSourceType As Integer
+    Dim curDeliverType As Integer
+    Dim curLabelOriantation As Integer
+    Dim curLabelSize As Integer
+    Dim curLabelCount As Integer
+
 
     Dim isDirty As Boolean
     Dim currentStep As New TableCustomerJobStep
@@ -224,8 +231,13 @@ Public Class FormJobSteps
                 If newStep.SourceTypeId Is Nothing Then cboSourceType.SelectedIndex = -1 Else cboSourceType.SelectedValue = newStep.SourceTypeId
                 If newStep.LabelCount Is Nothing Then numLabelCount.Value = 0 Else numLabelCount.Value = newStep.LabelCount
                 currentStep = newStep
-
-                End If
+                curLabelCount = numLabelCount.Value
+                curSourceType = cboSourceType.SelectedIndex
+                curLabelSize = cboLabelSize.SelectedIndex
+                curLabelSize = cboLabelOrientation.SelectedIndex
+                curPrinterCompatibility = cboPrinterCompatibility.SelectedIndex
+                isDirty = False
+            End If
             End If
     End Sub
 
@@ -236,8 +248,37 @@ Public Class FormJobSteps
     End Sub
 
 
-    Private Sub SettingChanged(sender As Object, e As EventArgs) Handles cboPrinterCompatibility.ValueMemberChanged, numLabelCount.ValueChanged, cboSourceType.ValueMemberChanged, cboLabelSize.ValueMemberChanged, cboLabelOrientation.ValueMemberChanged, cboDeliveryType.ValueMemberChanged, cboPrinterCompatibility.SelectedIndexChanged, cboLabelSize.SelectedIndexChanged, cboSourceType.SelectedIndexChanged, cboLabelOrientation.SelectedIndexChanged, cboDeliveryType.SelectedIndexChanged
-        isDirty = If(frmLoading, False, True)
+    Private Sub SettingChanged(sender As Object, e As EventArgs) Handles cboPrinterCompatibility.ValueMemberChanged,
+                                                                    numLabelCount.ValueChanged,
+                                                                    cboSourceType.ValueMemberChanged,
+                                                                         cboLabelSize.ValueMemberChanged,
+                                                                         cboLabelOrientation.ValueMemberChanged,
+                                                                         cboDeliveryType.ValueMemberChanged,
+                                                                         cboPrinterCompatibility.SelectedIndexChanged,
+                                                                         cboLabelSize.SelectedIndexChanged,
+                                                                         cboSourceType.SelectedIndexChanged,
+                                                                         cboLabelOrientation.SelectedIndexChanged,
+                                                                         cboDeliveryType.SelectedIndexChanged
+
+        If frmLoading Then
+            isDirty = False
+            Return
+        End If
+
+        If curPrinterCompatibility = cboPrinterCompatibility.SelectedIndex _
+            AndAlso curLabelCount = numLabelCount.Value _
+            AndAlso curSourceType = cboSourceType.SelectedIndex _
+            AndAlso curLabelSize = cboLabelSize.SelectedIndex _
+            AndAlso curLabelSize = cboLabelOrientation.SelectedIndex _
+            AndAlso curPrinterCompatibility = cboPrinterCompatibility.SelectedIndex _
+        Then
+            isDirty = False
+            Return
+        End If
+        isDirty = True
+
+
+
     End Sub
     Private Sub SaveChanges()
         Dim iCustInfoId As Integer = lst(icurrentCustJob).CustomerJobInfoId

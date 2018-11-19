@@ -42,11 +42,13 @@ Public MustInherit Class QueueProcessingByCommandBase
         Dim args As String() = Environment.GetCommandLineArgs
         If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then TestMode = True
         If args.Count > 1 AndAlso args(1).ToUpper = "PRODTEST" Then ProdTestMode = True
+        If args.Count > 1 AndAlso args(1).ToUpper = "LOCALTEST" Then LocalTestMode = True
 
     End Sub
 
     Public Property TestMode As Boolean Implements IQueueProcessing.TestMode
     Public Property ProdTestMode As Boolean
+    Public Property LocalTestMode As Boolean
     Public Property LineJob As Integer Implements IQueueProcessing.LineJob
     Public MustOverride Function PrintJob(_job As JobToProcess) As Boolean Implements IQueueProcessing.PrintJob
 
@@ -229,7 +231,8 @@ Public MustInherit Class QueueProcessingByCommandBase
         End If
 
         m_PrinterId = m_AttachedPrinterId
-        m_PrinterName = m_AttachedPrinterName
+        m_PrinterName = If(LocalTestMode, "Adobe PDF", m_AttachedPrinterName)
+        ' m_PrinterName = m_AttachedPrinterName
 
         Return erc
     End Function

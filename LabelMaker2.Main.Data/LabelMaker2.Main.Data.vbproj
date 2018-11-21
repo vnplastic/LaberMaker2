@@ -81,8 +81,6 @@
     <Compile Include="DataModel1.AddressJobInfo.vb" />
     <Compile Include="DataModel1.CartonJob.vb" />
     <Compile Include="DataModel1.CartonJobInfo.vb" />
-    <Compile Include="DataModel1.CartonJobLine.vb" />
-    <Compile Include="DataModel1.CartonJobLineInfo.vb" />
     <Compile Include="DataModel1.CustomerJobInfo.vb" />
     <Compile Include="DataModel1.CustomerJobStep.vb" />
     <Compile Include="DataModel1.CustomerSoldTo.vb" />
@@ -98,7 +96,6 @@
       <DependentUpon>DataModel1.TableCartonJob.vb</DependentUpon>
     </Compile>
     <Compile Include="DataModel1.TableCartonJob.vb" />
-    <Compile Include="DataModel1.TableCartonJobLine.vb" />
     <Compile Include="DataModel1.TableCustomerJobInfo.Generated.vb">
       <DependentUpon>DataModel1.TableCustomerJobInfo.vb</DependentUpon>
     </Compile>

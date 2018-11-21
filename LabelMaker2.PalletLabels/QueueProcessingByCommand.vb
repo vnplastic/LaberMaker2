@@ -50,31 +50,30 @@ Public Class QueueProcessingByCommand
                     Debug.Print(TemplateFile)
                 Next
                 For Each jInfo As TablePalletJob In cJob
-                    currentPalletCount = jInfo.LinePalletCount
-                    JobStepLineInfo = jInfo
-                    iJobId = jInfo.JobId
-                    iJobStepOrder = jInfo.JobStepOrder
-                    iLineNo = jInfo.LineNo
+                    'currentPalletCount = jInfo.LinePalletCount
+                    'JobStepLineInfo = jInfo
+                    'iJobId = jInfo.JobId
+                    'iJobStepOrder = jInfo.JobStepOrder
+                    'iLineNo = jInfo.LineNo
                     TemplateFile = JobStepLineInfo.FormatName
-                    jInfo.NextUniqueLabelNo = m_UniqueLabelId
 
                     Debug.Print(jInfo.JobStepName)
-                    If jInfo.JobStepName = "Label" Then
-                        ctx.SaveChanges()
+                    If jInfo.JobStepName = "Label" And j.Serialized Then
+
+
+                        jInfo.NextUniqueLabelNo = m_UniqueLabelId
                         m_UniqueLabelId = m_UniqueLabelId + jInfo.LinePalletCount
+                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
 
-                        ' Dim curJobStep = ctx.TablePalletJobs.Where(Function(c) c.JobId = iJobId And c.JobStepOrder = iJobStepOrder And c.LineNo = iLineNo).FirstOrDefault
-                        ' jInfo.NextUniqueLabelNo = m_UniqueLabelId
-
-
+                        ctx.SaveChanges()
                     End If
+
+
+
+
                     ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
 
                 Next
-                custInfo.NextUniqueLabelNo = m_UniqueLabelId
-                ctx.SaveChanges()
-
-                ' ctx.SaveChanges()
 
 
             Else
@@ -93,13 +92,20 @@ Public Class QueueProcessingByCommand
                 For Each jInfo As TablePalletJob In cJob
                     JobStepInfo = jInfo
                     TemplateFile = JobStepInfo.FormatName
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
-                    Debug.Print(jInfo.JobStepName)
-                    If jInfo.JobStepName = "Label" Then
-                        m_UniqueLabelId = m_UniqueLabelId + 1
+                    If jInfo.JobStepName = "Label" And j.Serialized Then
+
+
+                        jInfo.NextUniqueLabelNo = m_UniqueLabelId
+                        m_UniqueLabelId = m_UniqueLabelId + jInfo.PalletCount
                         custInfo.NextUniqueLabelNo = m_UniqueLabelId
+
                         ctx.SaveChanges()
                     End If
+
+
+
+
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Next
             End If
         Catch e As Exception

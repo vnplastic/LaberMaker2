@@ -30,10 +30,10 @@ Public Class QueueProcessingByCommand
             Me.JobId = _job.JobId
 
             j = ctx.TableCartonJobs.AsNoTracking.Where(Function(c) c.JobId = JobId).FirstOrDefault
-            If j.Serialized Then m_UniqueLabelId = j.NextUniqueLabelNo
+
             Dim custInfo As TableCustomerJobInfo
             custInfo = ctx.TableCustomerJobInfos.Where(Function(c) c.CustomerJobInfoId = j.CustomerJobInfoId).FirstOrDefault
-
+            If j.Serialized Then m_UniqueLabelId = custInfo.NextUniqueLabelNo
             PrinterName = If(LocalTestMode, "Adobe PDF", j.PrinterName)
             'PrinterName = j.PrinterName
 
@@ -55,13 +55,23 @@ Public Class QueueProcessingByCommand
                     currentCartonCount = jInfo.LineCartonCount
                     JobStepLineInfo = jInfo
                     TemplateFile = JobStepLineInfo.FormatName
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
-                    Debug.Print(jInfo.JobStepName)
-                    If jInfo.JobStepName = "Label" Then
+                    If jInfo.JobStepName = "Label" And j.Serialized Then
+                        'Todo: Can this all be changed to use table directly?
+
+                        Dim curLine As TableCartonJob
+                        curLine = ctx.TableCartonJobs.Single(Function(c) c.JobId = jInfo.JobId _
+                                                                         And c.JobStepOrder = jInfo.JobStepOrder _
+                                                                         And c.LineNo = jInfo.LineNo)
+
+                        curLine.NextUniqueLabelNo = m_UniqueLabelId
+
                         m_UniqueLabelId = m_UniqueLabelId + jInfo.LineCartonCount
                         custInfo.NextUniqueLabelNo = m_UniqueLabelId
                         ctx.SaveChanges()
                     End If
+
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+                    Debug.Print(jInfo.JobStepName)
 
 
                 Next
@@ -86,13 +96,22 @@ Public Class QueueProcessingByCommand
                 For Each jInfo As ViewCartonJobInfo In cJob
                     JobStepInfo = jInfo
                     TemplateFile = JobStepInfo.FormatName
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+
                     Debug.Print(jInfo.JobStepName)
-                    If jInfo.JobStepName = "Label" Then
+                    If jInfo.JobStepName = "Label" And j.Serialized Then
+
+                        Dim curLine As TableCartonJob
+                        curLine = ctx.TableCartonJobs.Single(Function(c) c.JobId = jInfo.JobId _
+                                                                         And c.JobStepOrder = jInfo.JobStepOrder _
+                                                                         And c.LineNo = jInfo.LineNo)
+
+                        curLine.NextUniqueLabelNo = m_UniqueLabelId
+
                         m_UniqueLabelId = m_UniqueLabelId + jInfo.CartonCount
                         custInfo.NextUniqueLabelNo = m_UniqueLabelId
                         ctx.SaveChanges()
                     End If
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Next
 
             End If

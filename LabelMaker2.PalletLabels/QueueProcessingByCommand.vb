@@ -1,4 +1,5 @@
-﻿Imports System.Data.Entity.Validation
+﻿Imports System.Data.Entity.Infrastructure
+Imports System.Data.Entity.Validation
 Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 
@@ -108,11 +109,18 @@ Public Class QueueProcessingByCommand
                     ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Next
             End If
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to print job", e)
         Catch e As Exception
             '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
             log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
 
             Throw New Exception("An Error occured trying to print job", e)
+
         End Try
 
 
@@ -166,25 +174,59 @@ Public Class QueueProcessingByCommand
 
 
             End If
-        Catch e As DbEntityValidationException
-            MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
-            Log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred creating reprint job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to create reprint job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred creating reprint job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to create reprint job", e)
+
         End Try
     End Sub
 
     Public Overrides Sub RefreshSalesforceData()
+        Try
+            Context.InsertNewPalletJob(False)
+            Context.InsertNewPalletJobLine(False)
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred refreshing data" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
-        Context.InsertNewPalletJob(False)
-        Context.InsertNewPalletJobLine(False)
+            Throw New Exception("An Error occured trying to print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred refreshing data" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("Error occurred refreshing data", e)
+
+        End Try
     End Sub
 
     Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
-        If String.IsNullOrEmpty(SOId) Then
-            Context.UpdatePalletJobInfo("")
-        Else
-            Context.UpdatePalletJobInfo(SOId)
-        End If
+        Try
+            If String.IsNullOrEmpty(SOId) Then
+                Context.UpdatePalletJobInfo("")
+            Else
+                Context.UpdatePalletJobInfo(SOId)
+            End If
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred refreshing data" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
+            Throw New Exception("An Error occured trying to print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred refreshing data" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("Error occurred refreshing data", e)
+        End Try
     End Sub
 
     Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
@@ -192,36 +234,62 @@ Public Class QueueProcessingByCommand
         Dim palletJob As List(Of TablePalletJob)
         Dim JobId As Integer
         Dim jobTypeID As Integer
+        Try
+            JobId = viewJobInfo.JobId
+            jobTypeID = viewJobInfo.JobTypeId
+            job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
+            palletJob = Context.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList()
+            If Not job Is Nothing Then
+                Context.TableJobs.Remove(job)
 
-        JobId = viewJobInfo.JobId
-        jobTypeID = viewJobInfo.JobTypeId
-        job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
-        palletJob = Context.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList()
-        If Not job Is Nothing Then
-            Context.TableJobs.Remove(job)
+            End If
+            If Not palletJob Is Nothing Then
+                Context.TablePalletJobs.RemoveRange(palletJob)
 
-        End If
-        If Not palletJob Is Nothing Then
-            Context.TablePalletJobs.RemoveRange(palletJob)
+            End If
+            Context.SaveChanges()
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred removing the job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
-        End If
-        Context.SaveChanges()
+            Throw New Exception("An Error occured removing print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred removing the job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+        Throw New Exception("An Error occured removing the print job", e)
+
+        End Try
     End Sub
 
     Public Overrides Function JobEnd() As Long
-        If Not TestMode Then
-            Dim PalletJob As List(Of TablePalletJob)
-            PalletJob = ctx.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList
-            For Each cj In PalletJob
-                cj.Printed = True
-            Next
-            ' End If
+        Try
+            If Not TestMode Then
+                Dim PalletJob As List(Of TablePalletJob)
+                PalletJob = ctx.TablePalletJobs.Where(Function(c) c.JobId = JobId).ToList
+                For Each cj In PalletJob
+                    cj.Printed = True
+                Next
+                ' End If
 
 
-            ctx.SaveChanges()
-        End If
+                ctx.SaveChanges()
+            End If
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred ending the print job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
+            Throw New Exception("An Error occured ending the print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred ending the print job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("Error occurred ending the print job", e)
+        End Try
         Return MyBase.JobEnd()
+
     End Function
 
     Public Overrides Function Labels() As Long

@@ -1,4 +1,5 @@
-﻿Imports System.Data.Entity.Validation
+﻿Imports System.Data.Entity.Infrastructure
+Imports System.Data.Entity.Validation
 Imports System.Windows.Forms
 Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
@@ -116,12 +117,18 @@ Public Class QueueProcessingByCommand
 
             End If
 
-        Catch ex As Exception
-            Debug.WriteLine(ex, ex.Message & vbCrLf & ex.StackTrace)
-            ' MessageBox.Show("An error occurred trying to print Carton labels", "Error")
-            log.Debug(ex.Message & vbCrLf & ex.StackTrace)
-            Throw New Exception("An Error occured trying to print job", ex)
-            Throw
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to print job", e)
+
         End Try
 
 
@@ -168,15 +175,29 @@ Public Class QueueProcessingByCommand
         '    Next
         'Else
         'Todo:Is there a bug from converting to single Job Table?????
-        Dim CartonJob As List(Of TableCartonJob)
+        Try
+            Dim CartonJob As List(Of TableCartonJob)
             CartonJob = ctx.TableCartonJobs.Where(Function(c) c.JobId = JobId).ToList
             For Each cj In CartonJob
                 cj.Printed = True
             Next
-        ' End If
+            ' End If
 
 
-        ctx.SaveChanges()
+            ctx.SaveChanges()
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred ending the job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+
+            Throw New Exception("An Error occured ending the print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred ending the job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to end the print job", e)
+
+        End Try
         Return MyBase.JobEnd()
 
     End Function
@@ -221,17 +242,39 @@ Public Class QueueProcessingByCommand
 
 
             End If
-        Catch e As DbEntityValidationException
-            MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
-            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred creating the reprint job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to create the reprint job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred creating the reprint job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured trying to create the reprint job", e)
+
         End Try
 
     End Sub
 
     Public Overrides Sub RefreshSalesforceData()
+        Try
+            Context.InsertNewCartonJob(False)
+            Context.InsertNewCartonJobLine(False)
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred refreshing the data" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
-        Context.InsertNewCartonJob(False)
-        Context.InsertNewCartonJobLine(False)
+            Throw New Exception("An Error occured refreshing the data", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred refreshing the data" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured refreshing the data", e)
+
+        End Try
     End Sub
 
     Public Overrides Sub RefreshLabelData(Optional SOId As String = Nothing)
@@ -239,24 +282,38 @@ Public Class QueueProcessingByCommand
     End Sub
 
     Public Overrides Sub RemoveJob(viewJobInfo As ViewJobInfo)
+
         Dim job As TableJob
-        Dim cartonJob As List(Of TableCartonJob)
-        Dim JobId As Integer
-        Dim jobTypeID As Integer
+            Dim cartonJob As List(Of TableCartonJob)
+            Dim JobId As Integer
+            Dim jobTypeID As Integer
+        Try
+            JobId = viewJobInfo.JobId
+            jobTypeID = viewJobInfo.JobTypeId
+            job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
+            cartonJob = Context.TableCartonJobs.Where(Function(c) c.JobId = JobId).ToList()
+            If Not job Is Nothing Then
+                Context.TableJobs.Remove(job)
 
-        JobId = viewJobInfo.JobId
-        jobTypeID = viewJobInfo.JobTypeId
-        job = Context.TableJobs.Where(Function(c) c.JobId = JobId And c.JobTypeId = jobTypeID).FirstOrDefault
-        cartonJob = Context.TableCartonJobs.Where(Function(c) c.JobId = JobId).ToList()
-        If Not job Is Nothing Then
-            Context.TableJobs.Remove(job)
+            End If
+            If Not cartonJob Is Nothing Then
+                Context.TableCartonJobs.RemoveRange(cartonJob)
 
-        End If
-        If Not cartonJob Is Nothing Then
-            Context.TableCartonJobs.RemoveRange(cartonJob)
+            End If
+            Context.SaveChanges()
+        Catch e As DbUpdateException
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            Dim eInner = e.InnerException
+            log.Debug("Error occurred removing the job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
-        End If
-        Context.SaveChanges()
+            Throw New Exception("An Error occured removing print job", e)
+        Catch e As Exception
+            '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
+            log.Debug("Error occurred removing the job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+
+            Throw New Exception("An Error occured removing the print job", e)
+
+        End Try
 
 
     End Sub

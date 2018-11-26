@@ -16,6 +16,7 @@ Public Class FormMainByCust
         Dim conn As String = Globals.GetEFConnectionString
         log = NLog.LogManager.GetCurrentClassLogger
         log.Trace("LabelMaker2 starting up")
+        Cursor.Current = Cursors.WaitCursor
         Try
             ctx = New VNDataEntities(conn)
             LoadLabelTypeModules()
@@ -23,6 +24,8 @@ Public Class FormMainByCust
         Catch ex As Exception
             MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
             log.Debug(ex.Message & vbCrLf & ex.StackTrace)
+        Finally
+            Cursor.Current = Cursors.Default
         End Try
 
     End Sub
@@ -335,6 +338,7 @@ Public Class FormMainByCust
     Private Sub btnRefreshSF_Click(sender As Object, e As EventArgs) Handles btnRefreshSF.Click
         Try
             ctx.Database.CommandTimeout = 120
+            Cursor.Current = Cursors.WaitCursor
             ctx.RefreshSalesForce()
         Catch ex As Exception
             MsgBox("An error occurred refreshing Salesforce Data", MsgBoxStyle.OkOnly, "Error")
@@ -348,6 +352,7 @@ Public Class FormMainByCust
             Proc.RefreshSalesforceData()
 
         Next
+        Cursor.Current = Cursors.Default
     End Sub
     Private Sub LoadLabelTypeModules()
         Dim ModuleTypes = ctx.TableJobTypes.Where(Function(c) c.Active = True).ToList
@@ -365,12 +370,13 @@ Public Class FormMainByCust
     Private Sub btnRefreshData_Click(sender As Object, e As EventArgs) Handles btnRefreshData.Click
         For Each mt In m_LoadedJobTypes
             Dim Proc As IQueueProcessing
-
+            Cursor.Current = Cursors.WaitCursor
             Proc = mt.Value
             Proc.SetContext(ctx)
             Proc.RefreshLabelData(Nothing)
             GetCustomersWithJobs()
             PopulateOrders()
+            Cursor.Current = Cursors.Default
 
         Next
     End Sub

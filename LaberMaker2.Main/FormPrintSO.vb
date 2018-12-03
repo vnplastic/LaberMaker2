@@ -8,7 +8,8 @@ Public Class FormPrintSO
     Dim log As Logger
     Public Property q As IQueueProcessing
     Private Sub FormPrintSO_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ctx = New VNDataEntities
+        Dim conn As String = Globals.GetEFConnectionString
+        ctx = New VNDataEntities(conn)
         log = NLog.LogManager.GetCurrentClassLogger
     End Sub
     Private Sub btnNewJob_Click(sender As System.Object, e As System.EventArgs) Handles btnNewJob.Click

@@ -1,4 +1,5 @@
 ﻿Imports LabelMaker2.Main.Data.VNDataModel
+Imports LabelMaker2.Infrastructure
 
 Public Class FormLineSelection
     Public Property fsono As String
@@ -31,7 +32,9 @@ Public Class FormLineSelection
 
 
     Private Sub FormLineSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ctx = New VNDataEntities
+        Dim conn As String = Globals.GetEFConnectionString
+        ctx = New VNDataEntities(conn)
+
 
 
         lines = ctx.ViewSalesOrders.AsNoTracking.Where(Function(c) c.SalesOrderId = SOId).ToList

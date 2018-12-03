@@ -1,8 +1,10 @@
 ﻿Option Explicit On
+
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class FormCustomerProfile
-    Dim ctx As New VNDataEntities
+    Dim ctx As VNDataEntities
     Dim custBindingSource As New BindingSource
     Dim lst As List(Of LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo) = New List(Of LabelMaker2.Main.Data.VNDataModel.TableCustomerJobInfo)
     Dim newcustBindingSource As New BindingSource
@@ -16,6 +18,8 @@ Public Class FormCustomerProfile
 
 
     Private Sub FormCustomerProfile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim conn As String = Globals.GetEFConnectionString
+        ctx = New VNDataEntities(conn)
         log = NLog.LogManager.GetLogger("Logfile")
         log.Trace("Customer Profile Form Starting Up....")
         grdCustomerProfiles.AutoGenerateColumns = False
@@ -25,7 +29,7 @@ Public Class FormCustomerProfile
         lst = ctx.TableCustomerJobInfos.Include("JobType").Include("Printer").OrderBy(Function(c) c.CustomerName).ToList()
 
         custBindingSource.DataSource = lst
-        grdCustomerProfiles.ColumnCount = 2
+        grdCustomerProfiles.ColumnCount = 3
         grdCustomerProfiles.Columns(0).Name = "CustomerName"
         grdCustomerProfiles.Columns(0).HeaderText = "Customer Name"
         grdCustomerProfiles.Columns(0).DataPropertyName = "CustomerName"
@@ -41,6 +45,11 @@ Public Class FormCustomerProfile
         grdCustomerProfiles.Columns(1).Name = "CustomerShortName"
         grdCustomerProfiles.Columns(1).HeaderText = "Cust Short Name"
         grdCustomerProfiles.Columns(1).DataPropertyName = "CustomerShortName"
+
+
+        grdCustomerProfiles.Columns(2).Name = "CustNo"
+        grdCustomerProfiles.Columns(2).HeaderText = "Customer No"
+        grdCustomerProfiles.Columns(2).DataPropertyName = "CustNo"
 
         Dim col As New DataGridViewComboBoxColumn
         'lst2 = lst.Select(Function(c) c.JobType).ToList()
@@ -172,6 +181,8 @@ Public Class FormCustomerProfile
         chkSerialized.Checked = False
         chkPerLineLabel.Checked = False
         txtLabelName.Text = ""
+        txtCustNo.Text = ""
+        txtNextLabel.Text = ""
         grdCustomerProfiles.Rows(0).Selected = True
     End Sub
 
@@ -204,6 +215,10 @@ Public Class FormCustomerProfile
             chkPerLineLabel.Checked = If(t.LabelPerLine Is Nothing, False, t.LabelPerLine)
             chkSerialized.Checked = If(t.Serialized Is Nothing, False, t.Serialized)
             txtLabelName.Text = t.CustomerPrintName
+            txtCustNo.Text = t.CustNo
+            txtNextLabel.Text = t.NextUniqueLabelNo
+
+
             'cboCustomer.SelectedText = t.CustomerName
         End If
     End Sub

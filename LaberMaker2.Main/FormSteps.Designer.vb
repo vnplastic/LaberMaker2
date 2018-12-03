@@ -22,6 +22,7 @@ Partial Class FormSteps
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSteps))
         Me.grdSteps = New System.Windows.Forms.DataGridView()
         CType(Me.grdSteps, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,6 +42,7 @@ Partial Class FormSteps
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(486, 263)
         Me.Controls.Add(Me.grdSteps)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FormSteps"
         Me.Text = "Defined Steps"
         CType(Me.grdSteps, System.ComponentModel.ISupportInitialize).EndInit()

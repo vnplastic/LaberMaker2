@@ -22,6 +22,7 @@ Partial Class FormLineSelection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormLineSelection))
         Me.lstLineItems = New System.Windows.Forms.ListBox()
         Me.btnSelect = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -31,7 +32,7 @@ Partial Class FormLineSelection
         '
         Me.lstLineItems.FormattingEnabled = True
         Me.lstLineItems.Location = New System.Drawing.Point(42, 18)
-        Me.lstLineItems.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lstLineItems.Margin = New System.Windows.Forms.Padding(2)
         Me.lstLineItems.Name = "lstLineItems"
         Me.lstLineItems.Size = New System.Drawing.Size(153, 251)
         Me.lstLineItems.TabIndex = 0
@@ -40,7 +41,7 @@ Partial Class FormLineSelection
         '
         Me.btnSelect.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnSelect.Location = New System.Drawing.Point(75, 270)
-        Me.btnSelect.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnSelect.Margin = New System.Windows.Forms.Padding(2)
         Me.btnSelect.Name = "btnSelect"
         Me.btnSelect.Size = New System.Drawing.Size(84, 22)
         Me.btnSelect.TabIndex = 1
@@ -65,7 +66,8 @@ Partial Class FormLineSelection
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnSelect)
         Me.Controls.Add(Me.lstLineItems)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "FormLineSelection"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Select Line"

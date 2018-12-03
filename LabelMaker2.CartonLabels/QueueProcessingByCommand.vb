@@ -22,6 +22,7 @@ Public Class QueueProcessingByCommand
 
     End Sub
 
+
     Public Overrides Function PrintJob(_job As JobToProcess) As Boolean 'Implements IQueueProcessing.PrintJob
         Try
             ctx = Me.Context
@@ -317,6 +318,7 @@ Public Class QueueProcessingByCommand
 
 
     End Sub
+
 
     Private Property JobStepInfo As ViewCartonJobInfo
         Get

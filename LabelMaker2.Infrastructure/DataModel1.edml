@@ -118,6 +118,7 @@
           <Property Name="CustomerJobInfoId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="KNDY4__Customer__c" Type="nchar" Nullable="false" MaxLength="18" />
           <Property Name="JobTypeId" Type="int" Nullable="false" />
+          <Property Name="CustNo" Type="char" MaxLength="6" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="80" />
           <Property Name="CustomerPrintName" Type="nvarchar" MaxLength="80" />
           <Property Name="CustomerShortName" Type="nchar" MaxLength="8" />
@@ -416,7 +417,7 @@
           <Property Name="fcusrchr2" Type="nvarchar" MaxLength="80" />
           <Property Name="fcusrchr3" Type="nvarchar" MaxLength="64" />
           <Property Name="Pickup_Date__c" Type="datetime2" />
-          <Property Name="DeliveryNum" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DeliveryNum" Type="varchar" MaxLength="150" />
           <Property Name="ShipToCity" Type="nvarchar" MaxLength="40" />
           <Property Name="ShipToCountry" Type="nvarchar" MaxLength="40" />
           <Property Name="ShipToState" Type="nvarchar" MaxLength="20" />
@@ -440,8 +441,19 @@
           <Property Name="JobStepOrder" Type="int" Nullable="false" />
           <Property Name="CartonLabelCount" Type="decimal" Precision="29" Scale="0" />
           <Property Name="CartonCount" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="PalletCount" Type="decimal" Precision="20" Scale="2" />
-          <Property Name="PalletLabelCount" Type="decimal" Precision="31" Scale="2" />
+          <Property Name="CustomerPrintName" Type="nvarchar" MaxLength="80" />
+          <Property Name="LabelCount" Type="int" />
+          <Property Name="LabelPerLine" Type="bit" />
+          <Property Name="NextUniqueLabelNo" Type="int" />
+          <Property Name="CustomerJobInfoId" Type="int" Nullable="false" />
+          <Property Name="SOId" Type="nchar" Nullable="false" MaxLength="18" />
+          <Property Name="LineNo" Type="int" Nullable="false" />
+          <Property Name="LineCartonCount" Type="int" Nullable="false" />
+          <Property Name="CustomerStockNumber" Type="varchar" Nullable="false" MaxLength="1" />
+          <Property Name="VNDesc" Type="varchar" Nullable="false" MaxLength="1" />
+          <Property Name="SourceCountry" Type="varchar" Nullable="false" MaxLength="2" />
+          <Property Name="UCC_Code" Type="varchar" Nullable="false" MaxLength="1" />
+          <Property Name="CasesPerPallet" Type="int" Nullable="false" />
           <Property Name="JobTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VNA057VWA2_Carton_Job_Line_Info">
@@ -1005,6 +1017,7 @@
           <Property Name="CustomerJobInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="true" ed:Guid="3600e881-b23e-4230-9825-e50bec12445b" />
           <Property Name="KNDY4CustomerC1" Type="String" Nullable="false" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="true" ed:Guid="90c4f39d-bc4e-436b-b385-f5cbd7d9164e" />
           <Property Name="JobTypeId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="fddbb901-833a-4e11-a8c6-5a7b6229d457" />
+          <Property Name="CustNo" Type="String" MaxLength="6" FixedLength="true" ed:ValidateMaxLength="6" ed:ValidateRequired="false" ed:Guid="7ba89019-0b8c-4bbc-b9e8-8cc8f0bfa807" />
           <Property Name="CustomerName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="39b1d67f-9290-49e4-8a3d-bfa4510774ba" />
           <Property Name="CustomerPrintName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="6a74e808-879a-4299-b5f1-bc93ca4503cb" />
           <Property Name="CustomerShortName" Type="String" MaxLength="8" Unicode="true" FixedLength="true" ed:ValidateMaxLength="8" ed:ValidateRequired="false" ed:Guid="c6c3d144-139b-4c11-9bfd-113ef644899a" />
@@ -1320,7 +1333,7 @@
           <Property Name="Fcusrchr2" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="56fcd4f0-c35e-4274-a080-a3757caa06bf" />
           <Property Name="Fcusrchr3" Type="String" MaxLength="64" Unicode="true" ed:ValidateMaxLength="64" ed:ValidateRequired="false" ed:Guid="1159b2e5-c697-4d2f-a4d3-d6b6fa4a5d20" />
           <Property Name="PickupDateC" Type="DateTime" ed:ValidateRequired="false" ed:Guid="79e61d70-d92e-4716-8f7d-f8913ade6926" />
-          <Property Name="DeliveryNum" Type="String" MaxLength="4000" Unicode="true" ed:ValidateMaxLength="4000" ed:ValidateRequired="false" ed:Guid="8082b14b-554c-44ac-ad50-8c3fc9b39347" />
+          <Property Name="DeliveryNum" Type="String" MaxLength="150" ed:ValidateMaxLength="150" ed:ValidateRequired="false" ed:Guid="8082b14b-554c-44ac-ad50-8c3fc9b39347" />
           <Property Name="ShipToCity" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="false" ed:Guid="6dfef177-f7f2-41df-b952-f1d2a830e7b4" />
           <Property Name="ShipToCountry" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="false" ed:Guid="387857d7-0b02-432b-931d-dc6d85712d67" />
           <Property Name="ShipToState" Type="String" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="false" ed:Guid="2366c29b-43c6-4e2d-a203-421679491134" />
@@ -1344,8 +1357,19 @@
           <Property Name="JobStepOrder" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="a21c4797-c85c-4c19-8f50-398ced5e9ef1" />
           <Property Name="CartonLabelCount" Type="Decimal" Precision="29" Scale="0" ed:ValidateRequired="false" ed:Guid="4b9b0a42-b64f-4953-80a3-103cd7a2cd0e" />
           <Property Name="CartonCount" Type="Decimal" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="0b489520-991c-4874-8a35-463ca99496f5" />
-          <Property Name="PalletCount" Type="Decimal" Precision="20" Scale="2" ed:ValidateRequired="false" ed:Guid="a2d909f5-886f-4afc-bd22-98f2d790d92b" />
-          <Property Name="PalletLabelCount" Type="Decimal" Precision="31" Scale="2" ed:ValidateRequired="false" ed:Guid="ccbbe3d0-9c25-452e-9815-ad826a7c9a68" />
+          <Property Name="CustomerPrintName" Type="String" MaxLength="80" Unicode="true" ed:ValidateMaxLength="80" ed:ValidateRequired="false" ed:Guid="ae1e2c8a-554a-4b1f-99c0-72e3e0df6797" />
+          <Property Name="LabelCount" Type="Int32" ed:ValidateRequired="false" ed:Guid="17e5a44a-79fc-4e6b-b839-a299f3624cd6" />
+          <Property Name="LabelPerLine" Type="Boolean" ed:ValidateRequired="false" ed:Guid="053ea1f0-a4cf-422e-a6e0-d7c40abe5a1b" />
+          <Property Name="NextUniqueLabelNo" Type="Int32" ed:ValidateRequired="false" ed:Guid="b3c36253-5e99-40e8-b0ef-c6f3432052f7" />
+          <Property Name="CustomerJobInfoId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="68803381-a90e-4805-b9d3-98a1c4dbeef3" />
+          <Property Name="SOId" Type="String" Nullable="false" MaxLength="18" Unicode="true" FixedLength="true" ed:ValidateMaxLength="18" ed:ValidateRequired="true" ed:Guid="25860bad-7313-49f3-b6c7-72cfc9ccce9c" />
+          <Property Name="LineNo" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="859be3ad-bd5f-481e-b81e-18e5d6536d9e" />
+          <Property Name="LineCartonCount" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="8e8c7257-b21b-4a67-a1b7-93280df374ec" />
+          <Property Name="CustomerStockNumber" Type="String" Nullable="false" MaxLength="1" ed:ValidateMaxLength="1" ed:ValidateRequired="true" ed:Guid="0fb22767-0d9a-4694-8427-d5f0f1f45db4" />
+          <Property Name="VNDesc" Type="String" Nullable="false" MaxLength="1" ed:ValidateMaxLength="1" ed:ValidateRequired="true" ed:Guid="77c0da14-9b7a-4bbc-86e7-b48c537ce4a8" />
+          <Property Name="SourceCountry" Type="String" Nullable="false" MaxLength="2" ed:ValidateMaxLength="2" ed:ValidateRequired="true" ed:Guid="a94373cd-c3cc-4439-bbaf-f9ed2d7a373c" />
+          <Property Name="UCCCode" Type="String" Nullable="false" MaxLength="1" ed:ValidateMaxLength="1" ed:ValidateRequired="true" ed:Guid="92338665-a605-4537-ab29-ab9bb5f04a85" />
+          <Property Name="CasesPerPallet" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="b068d767-7c06-4357-b3df-fa7fb6281dcd" />
           <Property Name="JobTypeId" Type="Int32" Nullable="false" ed:ValidateRequired="true" ed:Guid="99c1aad1-d63e-4b5a-aab8-33aa1aca5f44" />
         </EntityType>
         <EntityType Name="ViewCartonJobLineInfo" ed:Guid="86ce2252-ba8a-4cd1-ac44-19cb1b246a57">
@@ -1808,6 +1832,7 @@
                 <ScalarProperty Name="LabelPerLine" ColumnName="LabelPerLine" />
                 <ScalarProperty Name="NextUniqueLabelNo" ColumnName="NextUniqueLabelNo" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CustNo" ColumnName="CustNo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2105,9 +2130,20 @@
                 <ScalarProperty Name="JobStepOrder" ColumnName="JobStepOrder" />
                 <ScalarProperty Name="CartonLabelCount" ColumnName="CartonLabelCount" />
                 <ScalarProperty Name="CartonCount" ColumnName="CartonCount" />
-                <ScalarProperty Name="PalletCount" ColumnName="PalletCount" />
-                <ScalarProperty Name="PalletLabelCount" ColumnName="PalletLabelCount" />
                 <ScalarProperty Name="JobTypeId" ColumnName="JobTypeId" />
+                <ScalarProperty Name="CustomerPrintName" ColumnName="CustomerPrintName" />
+                <ScalarProperty Name="LabelCount" ColumnName="LabelCount" />
+                <ScalarProperty Name="LabelPerLine" ColumnName="LabelPerLine" />
+                <ScalarProperty Name="NextUniqueLabelNo" ColumnName="NextUniqueLabelNo" />
+                <ScalarProperty Name="CustomerJobInfoId" ColumnName="CustomerJobInfoId" />
+                <ScalarProperty Name="SOId" ColumnName="SOId" />
+                <ScalarProperty Name="LineNo" ColumnName="LineNo" />
+                <ScalarProperty Name="LineCartonCount" ColumnName="LineCartonCount" />
+                <ScalarProperty Name="CustomerStockNumber" ColumnName="CustomerStockNumber" />
+                <ScalarProperty Name="VNDesc" ColumnName="VNDesc" />
+                <ScalarProperty Name="SourceCountry" ColumnName="SourceCountry" />
+                <ScalarProperty Name="UCCCode" ColumnName="UCC_Code" />
+                <ScalarProperty Name="CasesPerPallet" ColumnName="CasesPerPallet" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

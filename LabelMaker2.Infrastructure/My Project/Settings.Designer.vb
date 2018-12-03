@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -56,24 +56,6 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LabelMaker2\Formats")>  _
-        Public ReadOnly Property DocumentPath() As String
-            Get
-                Return CType(Me("DocumentPath"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LabelMaker2\Batches")>  _
-        Public ReadOnly Property BatchPath() As String
-            Get
-                Return CType(Me("BatchPath"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("C:\Program Files (x86)\Seagull\BarTender Suite\bartend.exe")>  _
         Public ReadOnly Property BartendExe() As String
             Get
@@ -98,6 +80,24 @@ Namespace My
         Public ReadOnly Property SQLConnString() As String
             Get
                 Return CType(Me("SQLConnString"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Formats")>  _
+        Public ReadOnly Property DocumentPath() As String
+            Get
+                Return CType(Me("DocumentPath"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Batches")>  _
+        Public ReadOnly Property BatchPath() As String
+            Get
+                Return CType(Me("BatchPath"),String)
             End Get
         End Property
     End Class

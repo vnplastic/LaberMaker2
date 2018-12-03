@@ -1,4 +1,6 @@
 ﻿Imports LabelMaker2.Main.Data.VNDataModel
+Imports LabelMaker2.Infrastructure
+
 
 Public Class FormSalesOrderNumber
     Private m_fsono As Long
@@ -136,7 +138,8 @@ Public Class FormSalesOrderNumber
     End Sub
 
     Private Sub FormSalesOrderNumber_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ctx = New VNDataEntities
+        Dim conn As String = Globals.GetEFConnectionString
+        ctx = New VNDataEntities(conn)
 
     End Sub
 End Class

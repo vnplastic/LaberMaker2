@@ -22,6 +22,7 @@ Partial Class FormSalesOrderNumber
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSalesOrderNumber))
         Me.txtFsono = New System.Windows.Forms.MaskedTextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnCancel = New System.Windows.Forms.Button()
@@ -130,6 +131,7 @@ Partial Class FormSalesOrderNumber
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.txtFsono)
         Me.Controls.Add(Me.Label1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FormSalesOrderNumber"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Enter Sales Order Number"

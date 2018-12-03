@@ -4,7 +4,7 @@ Imports LaberMaker2.Main
 
 Public Class QueueProcessingByCommand
     Inherits QueueProcessingByCommandBase
-    Dim ctx As VNDataEntities
+
     ' Private m_JobStepInfo As ViewLabelJobInfo
     'Private m_JobStepLineInfo As ViewLabelJobLineInfo
     Private m_UniqueLabelId As Integer

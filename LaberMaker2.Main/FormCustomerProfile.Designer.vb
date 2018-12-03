@@ -22,9 +22,18 @@ Partial Class FormCustomerProfile
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormCustomerProfile))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.grdCustomerProfiles = New System.Windows.Forms.DataGridView()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtNextLabel = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtCustNo = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.txtLabelName = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.chkPerLineLabel = New System.Windows.Forms.CheckBox()
+        Me.chkSerialized = New System.Windows.Forms.CheckBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.cboPrinter = New System.Windows.Forms.ComboBox()
         Me.txtCustName = New System.Windows.Forms.TextBox()
@@ -37,10 +46,6 @@ Partial Class FormCustomerProfile
         Me.cboCustomer = New System.Windows.Forms.ComboBox()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnAdd = New System.Windows.Forms.Button()
-        Me.chkSerialized = New System.Windows.Forms.CheckBox()
-        Me.chkPerLineLabel = New System.Windows.Forms.CheckBox()
-        Me.txtLabelName = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -67,7 +72,7 @@ Partial Class FormCustomerProfile
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
         Me.SplitContainer1.Size = New System.Drawing.Size(804, 531)
-        Me.SplitContainer1.SplitterDistance = 247
+        Me.SplitContainer1.SplitterDistance = 245
         Me.SplitContainer1.TabIndex = 0
         '
         'grdCustomerProfiles
@@ -75,9 +80,12 @@ Partial Class FormCustomerProfile
         Me.grdCustomerProfiles.AllowUserToAddRows = False
         Me.grdCustomerProfiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdCustomerProfiles.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.grdCustomerProfiles.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdCustomerProfiles.Location = New System.Drawing.Point(0, 0)
         Me.grdCustomerProfiles.Name = "grdCustomerProfiles"
-        Me.grdCustomerProfiles.Size = New System.Drawing.Size(804, 247)
+        Me.grdCustomerProfiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.grdCustomerProfiles.ShowEditingIcon = False
+        Me.grdCustomerProfiles.Size = New System.Drawing.Size(804, 245)
         Me.grdCustomerProfiles.TabIndex = 0
         '
         'SplitContainer2
@@ -89,6 +97,10 @@ Partial Class FormCustomerProfile
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtNextLabel)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label8)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label7)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLabelName)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label6)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkPerLineLabel)
@@ -108,14 +120,82 @@ Partial Class FormCustomerProfile
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnAdd)
-        Me.SplitContainer2.Size = New System.Drawing.Size(804, 280)
+        Me.SplitContainer2.Size = New System.Drawing.Size(804, 282)
         Me.SplitContainer2.SplitterDistance = 226
         Me.SplitContainer2.TabIndex = 0
+        '
+        'txtNextLabel
+        '
+        Me.txtNextLabel.Location = New System.Drawing.Point(635, 168)
+        Me.txtNextLabel.Name = "txtNextLabel"
+        Me.txtNextLabel.Size = New System.Drawing.Size(119, 20)
+        Me.txtNextLabel.TabIndex = 18
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(509, 175)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(95, 13)
+        Me.Label8.TabIndex = 17
+        Me.Label8.Text = "Next Unique Label"
+        '
+        'txtCustNo
+        '
+        Me.txtCustNo.Location = New System.Drawing.Point(635, 34)
+        Me.txtCustNo.Name = "txtCustNo"
+        Me.txtCustNo.Size = New System.Drawing.Size(119, 20)
+        Me.txtCustNo.TabIndex = 16
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(509, 37)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(68, 13)
+        Me.Label7.TabIndex = 15
+        Me.Label7.Text = "Customer No"
+        '
+        'txtLabelName
+        '
+        Me.txtLabelName.Location = New System.Drawing.Point(635, 133)
+        Me.txtLabelName.Name = "txtLabelName"
+        Me.txtLabelName.Size = New System.Drawing.Size(119, 20)
+        Me.txtLabelName.TabIndex = 14
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(509, 140)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(79, 13)
+        Me.Label6.TabIndex = 13
+        Me.Label6.Text = "Name on Label"
+        '
+        'chkPerLineLabel
+        '
+        Me.chkPerLineLabel.AutoSize = True
+        Me.chkPerLineLabel.Location = New System.Drawing.Point(512, 104)
+        Me.chkPerLineLabel.Name = "chkPerLineLabel"
+        Me.chkPerLineLabel.Size = New System.Drawing.Size(122, 17)
+        Me.chkPerLineLabel.TabIndex = 12
+        Me.chkPerLineLabel.Text = "Per Line Item Labels"
+        Me.chkPerLineLabel.UseVisualStyleBackColor = True
+        '
+        'chkSerialized
+        '
+        Me.chkSerialized.AutoSize = True
+        Me.chkSerialized.Location = New System.Drawing.Point(512, 70)
+        Me.chkSerialized.Name = "chkSerialized"
+        Me.chkSerialized.Size = New System.Drawing.Size(71, 17)
+        Me.chkSerialized.TabIndex = 11
+        Me.chkSerialized.Text = "Serialized"
+        Me.chkSerialized.UseVisualStyleBackColor = True
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(63, 176)
+        Me.Label5.Location = New System.Drawing.Point(63, 173)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(37, 13)
         Me.Label5.TabIndex = 10
@@ -124,14 +204,15 @@ Partial Class FormCustomerProfile
         'cboPrinter
         '
         Me.cboPrinter.FormattingEnabled = True
-        Me.cboPrinter.Location = New System.Drawing.Point(136, 176)
+        Me.cboPrinter.Location = New System.Drawing.Point(136, 167)
         Me.cboPrinter.Name = "cboPrinter"
         Me.cboPrinter.Size = New System.Drawing.Size(278, 21)
         Me.cboPrinter.TabIndex = 9
         '
         'txtCustName
         '
-        Me.txtCustName.Location = New System.Drawing.Point(136, 69)
+        Me.txtCustName.Enabled = False
+        Me.txtCustName.Location = New System.Drawing.Point(136, 67)
         Me.txtCustName.Name = "txtCustName"
         Me.txtCustName.Size = New System.Drawing.Size(278, 20)
         Me.txtCustName.TabIndex = 8
@@ -139,7 +220,7 @@ Partial Class FormCustomerProfile
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(38, 69)
+        Me.Label4.Location = New System.Drawing.Point(38, 74)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(82, 13)
         Me.Label4.TabIndex = 7
@@ -147,7 +228,7 @@ Partial Class FormCustomerProfile
         '
         'txtCustomerShortName
         '
-        Me.txtCustomerShortName.Location = New System.Drawing.Point(136, 138)
+        Me.txtCustomerShortName.Location = New System.Drawing.Point(136, 134)
         Me.txtCustomerShortName.Name = "txtCustomerShortName"
         Me.txtCustomerShortName.Size = New System.Drawing.Size(119, 20)
         Me.txtCustomerShortName.TabIndex = 6
@@ -155,7 +236,7 @@ Partial Class FormCustomerProfile
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(10, 138)
+        Me.Label3.Location = New System.Drawing.Point(10, 140)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(110, 13)
         Me.Label3.TabIndex = 5
@@ -164,7 +245,7 @@ Partial Class FormCustomerProfile
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(63, 102)
+        Me.Label2.Location = New System.Drawing.Point(63, 107)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(51, 13)
         Me.Label2.TabIndex = 3
@@ -173,7 +254,7 @@ Partial Class FormCustomerProfile
         'cboJobType
         '
         Me.cboJobType.FormattingEnabled = True
-        Me.cboJobType.Location = New System.Drawing.Point(136, 102)
+        Me.cboJobType.Location = New System.Drawing.Point(136, 100)
         Me.cboJobType.Name = "cboJobType"
         Me.cboJobType.Size = New System.Drawing.Size(121, 21)
         Me.cboJobType.TabIndex = 2
@@ -181,7 +262,7 @@ Partial Class FormCustomerProfile
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(63, 25)
+        Me.Label1.Location = New System.Drawing.Point(63, 41)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(51, 13)
         Me.Label1.TabIndex = 1
@@ -190,7 +271,7 @@ Partial Class FormCustomerProfile
         'cboCustomer
         '
         Me.cboCustomer.FormattingEnabled = True
-        Me.cboCustomer.Location = New System.Drawing.Point(136, 25)
+        Me.cboCustomer.Location = New System.Drawing.Point(136, 33)
         Me.cboCustomer.Name = "cboCustomer"
         Me.cboCustomer.Size = New System.Drawing.Size(278, 21)
         Me.cboCustomer.TabIndex = 0
@@ -201,7 +282,7 @@ Partial Class FormCustomerProfile
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Location = New System.Drawing.Point(532, 3)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 48)
+        Me.btnSave.Size = New System.Drawing.Size(75, 50)
         Me.btnSave.TabIndex = 1
         Me.btnSave.Text = "Save Profile"
         Me.btnSave.UseVisualStyleBackColor = True
@@ -212,46 +293,10 @@ Partial Class FormCustomerProfile
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAdd.Location = New System.Drawing.Point(147, 3)
         Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(75, 48)
+        Me.btnAdd.Size = New System.Drawing.Size(75, 50)
         Me.btnAdd.TabIndex = 0
         Me.btnAdd.Text = "Add Profile"
         Me.btnAdd.UseVisualStyleBackColor = True
-        '
-        'chkSerialized
-        '
-        Me.chkSerialized.AutoSize = True
-        Me.chkSerialized.Location = New System.Drawing.Point(512, 27)
-        Me.chkSerialized.Name = "chkSerialized"
-        Me.chkSerialized.Size = New System.Drawing.Size(71, 17)
-        Me.chkSerialized.TabIndex = 11
-        Me.chkSerialized.Text = "Serialized"
-        Me.chkSerialized.UseVisualStyleBackColor = True
-        '
-        'chkPerLineLabel
-        '
-        Me.chkPerLineLabel.AutoSize = True
-        Me.chkPerLineLabel.Location = New System.Drawing.Point(512, 69)
-        Me.chkPerLineLabel.Name = "chkPerLineLabel"
-        Me.chkPerLineLabel.Size = New System.Drawing.Size(122, 17)
-        Me.chkPerLineLabel.TabIndex = 12
-        Me.chkPerLineLabel.Text = "Per Line Item Labels"
-        Me.chkPerLineLabel.UseVisualStyleBackColor = True
-        '
-        'txtLabelName
-        '
-        Me.txtLabelName.Location = New System.Drawing.Point(635, 110)
-        Me.txtLabelName.Name = "txtLabelName"
-        Me.txtLabelName.Size = New System.Drawing.Size(119, 20)
-        Me.txtLabelName.TabIndex = 14
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(509, 110)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(79, 13)
-        Me.Label6.TabIndex = 13
-        Me.Label6.Text = "Name on Label"
         '
         'FormCustomerProfile
         '
@@ -259,6 +304,7 @@ Partial Class FormCustomerProfile
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(804, 531)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FormCustomerProfile"
         Me.Text = "Customer Profiles"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -294,4 +340,8 @@ Partial Class FormCustomerProfile
     Friend WithEvents Label6 As Label
     Friend WithEvents chkPerLineLabel As CheckBox
     Friend WithEvents chkSerialized As CheckBox
+    Friend WithEvents txtNextLabel As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtCustNo As TextBox
+    Friend WithEvents Label7 As Label
 End Class

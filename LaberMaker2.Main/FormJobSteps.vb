@@ -1,8 +1,9 @@
 ﻿Imports System.ComponentModel
+Imports LabelMaker2.Infrastructure
 Imports LabelMaker2.Main.Data.VNDataModel
 
 Public Class FormJobSteps
-    Dim ctx As New VNDataEntities
+    Dim ctx As VNDataEntities
     Dim lst As BindingList(Of TableCustomerJobInfo)
     Dim blstStepsIncluded As BindingList(Of TableJobStep)
     Dim blstStepsAvailable As BindingList(Of TableJobStep)
@@ -23,6 +24,8 @@ Public Class FormJobSteps
     Dim frmLoading As Boolean
 
     Private Sub FormJobSteps_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim conn As String = Globals.GetEFConnectionString
+        ctx = New VNDataEntities(conn)
         frmLoading = True
         lst = New BindingList(Of TableCustomerJobInfo)(ctx.TableCustomerJobInfos.Include("JobType").OrderBy(Function(c) c.CustomerName).ThenBy(Function(d) d.JobType.JobTypeName).ToList())
         grdCustomerJobInfo.AutoGenerateColumns = False

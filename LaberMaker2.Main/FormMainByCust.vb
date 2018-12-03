@@ -220,6 +220,9 @@ Public Class FormMainByCust
             End If
 
         Next
+
+
+
     End Sub
 
     Private Sub btnPrintLabels_Click(sender As Object, e As EventArgs) Handles btnPrintLabels.Click

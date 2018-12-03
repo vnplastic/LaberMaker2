@@ -836,6 +836,13 @@ Public MustInherit Class QueueProcessingByCommandBase
 
     Public MustOverride Sub RemoveJob(viewJobInfo As ViewJobInfo) Implements IQueueProcessing.RemoveJob
 
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+        If Not Context Is Nothing Then
+            Context.Dispose()
+        End If
+    End Sub
+
 
 
 #Region "Properties"

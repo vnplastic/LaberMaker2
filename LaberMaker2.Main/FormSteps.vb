@@ -1,11 +1,14 @@
 ﻿Imports LabelMaker2.Main.Data.VNDataModel
+Imports LabelMaker2.Infrastructure
 
 Public Class FormSteps
     Public jobSteps As List(Of LabelMaker2.Main.Data.VNDataModel.TableJobStep) = New List(Of LabelMaker2.Main.Data.VNDataModel.TableJobStep)
     Dim jobBindingSource As New BindingSource
-    Dim dbContext As New VNDataEntities
+    Dim dbContext As VNDataEntities
 
     Private Sub FormSteps_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim conn As String = Globals.GetEFConnectionString
+        dbContext = New VNDataEntities(conn)
         jobSteps = dbContext.TableJobSteps.Include("JobType").ToList()
 
         Dim var = From j In jobSteps Select j.JobType.JobTypeName, j.JobStepName, j.JobStepOrder, j.JobTypeId Order By JobTypeId, JobStepOrder

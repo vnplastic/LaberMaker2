@@ -15,6 +15,13 @@ Public Module Globals
         End Get
 
     End Property
+
+    Public ReadOnly Property FormatPath() As String
+        Get
+            Return GetConnString()
+        End Get
+
+    End Property
     Public ReadOnly Property Logger() As NLog.Logger
         Get
             If _logger Is Nothing Then

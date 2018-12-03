@@ -22,25 +22,26 @@ Partial Class FormJobSteps
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormJobSteps))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.grdCustomerJobInfo = New System.Windows.Forms.DataGridView()
+        Me.btnSave = New System.Windows.Forms.Button()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.cboLabelOrientation = New System.Windows.Forms.ComboBox()
+        Me.numLabelCount = New System.Windows.Forms.NumericUpDown()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.cboDeliveryType = New System.Windows.Forms.ComboBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cboSourceType = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cboLabelSize = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.cboPrinterCompatibility = New System.Windows.Forms.ComboBox()
         Me.btnMoveToAvailable = New System.Windows.Forms.Button()
         Me.btnMoveToCurrent = New System.Windows.Forms.Button()
         Me.lstCurrentSteps = New System.Windows.Forms.ListBox()
         Me.lstAvailableSteps = New System.Windows.Forms.ListBox()
-        Me.cboPrinterCompatibility = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.cboLabelSize = New System.Windows.Forms.ComboBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.cboSourceType = New System.Windows.Forms.ComboBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.cboDeliveryType = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.numLabelCount = New System.Windows.Forms.NumericUpDown()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.cboLabelOrientation = New System.Windows.Forms.ComboBox()
-        Me.btnSave = New System.Windows.Forms.Button()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -94,6 +95,117 @@ Partial Class FormJobSteps
         Me.grdCustomerJobInfo.Size = New System.Drawing.Size(896, 177)
         Me.grdCustomerJobInfo.TabIndex = 0
         '
+        'btnSave
+        '
+        Me.btnSave.Location = New System.Drawing.Point(499, 290)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(75, 23)
+        Me.btnSave.TabIndex = 17
+        Me.btnSave.Text = "Save"
+        Me.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
+        Me.btnSave.UseVisualStyleBackColor = True
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(619, 203)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(87, 13)
+        Me.Label6.TabIndex = 16
+        Me.Label6.Text = "Label Orientation"
+        '
+        'cboLabelOrientation
+        '
+        Me.cboLabelOrientation.FormattingEnabled = True
+        Me.cboLabelOrientation.Location = New System.Drawing.Point(719, 197)
+        Me.cboLabelOrientation.Name = "cboLabelOrientation"
+        Me.cboLabelOrientation.Size = New System.Drawing.Size(121, 21)
+        Me.cboLabelOrientation.TabIndex = 15
+        '
+        'numLabelCount
+        '
+        Me.numLabelCount.Location = New System.Drawing.Point(720, 238)
+        Me.numLabelCount.Name = "numLabelCount"
+        Me.numLabelCount.Size = New System.Drawing.Size(120, 20)
+        Me.numLabelCount.TabIndex = 14
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(643, 246)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(64, 13)
+        Me.Label5.TabIndex = 13
+        Me.Label5.Text = "Label Count"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(635, 159)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(72, 13)
+        Me.Label4.TabIndex = 11
+        Me.Label4.Text = "Delivery Type"
+        '
+        'cboDeliveryType
+        '
+        Me.cboDeliveryType.FormattingEnabled = True
+        Me.cboDeliveryType.Location = New System.Drawing.Point(720, 152)
+        Me.cboDeliveryType.Name = "cboDeliveryType"
+        Me.cboDeliveryType.Size = New System.Drawing.Size(121, 21)
+        Me.cboDeliveryType.TabIndex = 10
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(639, 117)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(68, 13)
+        Me.Label3.TabIndex = 9
+        Me.Label3.Text = "Source Type"
+        '
+        'cboSourceType
+        '
+        Me.cboSourceType.FormattingEnabled = True
+        Me.cboSourceType.Location = New System.Drawing.Point(720, 110)
+        Me.cboSourceType.Name = "cboSourceType"
+        Me.cboSourceType.Size = New System.Drawing.Size(121, 21)
+        Me.cboSourceType.TabIndex = 8
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(651, 72)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(56, 13)
+        Me.Label2.TabIndex = 7
+        Me.Label2.Text = "Label Size"
+        '
+        'cboLabelSize
+        '
+        Me.cboLabelSize.FormattingEnabled = True
+        Me.cboLabelSize.Location = New System.Drawing.Point(720, 65)
+        Me.cboLabelSize.Name = "cboLabelSize"
+        Me.cboLabelSize.Size = New System.Drawing.Size(121, 21)
+        Me.cboLabelSize.TabIndex = 6
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(609, 32)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(98, 13)
+        Me.Label1.TabIndex = 5
+        Me.Label1.Text = "Printer Compatibility"
+        '
+        'cboPrinterCompatibility
+        '
+        Me.cboPrinterCompatibility.FormattingEnabled = True
+        Me.cboPrinterCompatibility.Location = New System.Drawing.Point(720, 25)
+        Me.cboPrinterCompatibility.Name = "cboPrinterCompatibility"
+        Me.cboPrinterCompatibility.Size = New System.Drawing.Size(121, 21)
+        Me.cboPrinterCompatibility.TabIndex = 4
+        '
         'btnMoveToAvailable
         '
         Me.btnMoveToAvailable.Location = New System.Drawing.Point(201, 131)
@@ -129,123 +241,13 @@ Partial Class FormJobSteps
         Me.lstAvailableSteps.Size = New System.Drawing.Size(120, 238)
         Me.lstAvailableSteps.TabIndex = 0
         '
-        'cboPrinterCompatibility
-        '
-        Me.cboPrinterCompatibility.FormattingEnabled = True
-        Me.cboPrinterCompatibility.Location = New System.Drawing.Point(720, 25)
-        Me.cboPrinterCompatibility.Name = "cboPrinterCompatibility"
-        Me.cboPrinterCompatibility.Size = New System.Drawing.Size(121, 21)
-        Me.cboPrinterCompatibility.TabIndex = 4
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(609, 32)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(98, 13)
-        Me.Label1.TabIndex = 5
-        Me.Label1.Text = "Printer Compatibility"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(651, 72)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 13)
-        Me.Label2.TabIndex = 7
-        Me.Label2.Text = "Label Size"
-        '
-        'cboLabelSize
-        '
-        Me.cboLabelSize.FormattingEnabled = True
-        Me.cboLabelSize.Location = New System.Drawing.Point(720, 65)
-        Me.cboLabelSize.Name = "cboLabelSize"
-        Me.cboLabelSize.Size = New System.Drawing.Size(121, 21)
-        Me.cboLabelSize.TabIndex = 6
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(639, 117)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(68, 13)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "Source Type"
-        '
-        'cboSourceType
-        '
-        Me.cboSourceType.FormattingEnabled = True
-        Me.cboSourceType.Location = New System.Drawing.Point(720, 110)
-        Me.cboSourceType.Name = "cboSourceType"
-        Me.cboSourceType.Size = New System.Drawing.Size(121, 21)
-        Me.cboSourceType.TabIndex = 8
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(635, 159)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(72, 13)
-        Me.Label4.TabIndex = 11
-        Me.Label4.Text = "Delivery Type"
-        '
-        'cboDeliveryType
-        '
-        Me.cboDeliveryType.FormattingEnabled = True
-        Me.cboDeliveryType.Location = New System.Drawing.Point(720, 152)
-        Me.cboDeliveryType.Name = "cboDeliveryType"
-        Me.cboDeliveryType.Size = New System.Drawing.Size(121, 21)
-        Me.cboDeliveryType.TabIndex = 10
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(643, 246)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(64, 13)
-        Me.Label5.TabIndex = 13
-        Me.Label5.Text = "Label Count"
-        '
-        'numLabelCount
-        '
-        Me.numLabelCount.Location = New System.Drawing.Point(720, 238)
-        Me.numLabelCount.Name = "numLabelCount"
-        Me.numLabelCount.Size = New System.Drawing.Size(120, 20)
-        Me.numLabelCount.TabIndex = 14
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(619, 203)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(87, 13)
-        Me.Label6.TabIndex = 16
-        Me.Label6.Text = "Label Orientation"
-        '
-        'cboLabelOrientation
-        '
-        Me.cboLabelOrientation.FormattingEnabled = True
-        Me.cboLabelOrientation.Location = New System.Drawing.Point(719, 197)
-        Me.cboLabelOrientation.Name = "cboLabelOrientation"
-        Me.cboLabelOrientation.Size = New System.Drawing.Size(121, 21)
-        Me.cboLabelOrientation.TabIndex = 15
-        '
-        'btnSave
-        '
-        Me.btnSave.Location = New System.Drawing.Point(499, 290)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 23)
-        Me.btnSave.TabIndex = 17
-        Me.btnSave.Text = "Save"
-        Me.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
-        Me.btnSave.UseVisualStyleBackColor = True
-        '
         'FormJobSteps
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(896, 506)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FormJobSteps"
         Me.Text = "FormJobSteps"
         Me.SplitContainer1.Panel1.ResumeLayout(False)

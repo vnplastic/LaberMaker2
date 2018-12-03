@@ -22,6 +22,7 @@ Partial Class FormPrintSO
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormPrintSO))
         Me.btnNewJob = New System.Windows.Forms.Button()
         Me.btnRemove = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -79,6 +80,7 @@ Partial Class FormPrintSO
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnRemove)
         Me.Controls.Add(Me.btnNewJob)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FormPrintSO"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "More..."

@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="DocumentPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\projects\Clients\VanNess\LabelMaker2\Formats</Value>
-    </Setting>
-    <Setting Name="BatchPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\projects\Clients\VanNess\LabelMaker2\Batches</Value>
-    </Setting>
     <Setting Name="BartendExe" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\Program Files (x86)\Seagull\BarTender Suite\bartend.exe</Value>
     </Setting>
@@ -20,6 +14,12 @@
   &lt;ConnectionString&gt;Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400BrightonRoad;&lt;/ConnectionString&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400BrightonRoad;</Value>
+    </Setting>
+    <Setting Name="DocumentPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">v:\LabelMakerK\Formats</Value>
+    </Setting>
+    <Setting Name="BatchPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">v:\LabelMakerK\Batches</Value>
     </Setting>
   </Settings>
 </SettingsFile>

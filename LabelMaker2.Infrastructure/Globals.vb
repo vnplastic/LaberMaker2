@@ -18,9 +18,46 @@ Public Module Globals
 
     Public ReadOnly Property FormatPath() As String
         Get
+
             Return GetConnString()
         End Get
 
+    End Property
+    Private DB_ODBCValue As String
+    Public Property DB_ODBC() As String
+        Get
+            Return DB_ODBCValue
+        End Get
+        Set(ByVal value As String)
+            DB_ODBCValue = value
+        End Set
+    End Property
+    Private batendExeValue As String
+    Public Property BartendExe() As String
+        Get
+            Return batendExeValue
+        End Get
+        Set(ByVal value As String)
+            batendExeValue = value
+        End Set
+    End Property
+    Private templatePathValue As String
+    Public Property TemplatePath() As String
+        Get
+            Return templatePathValue
+        End Get
+        Set(ByVal value As String)
+            templatePathValue = value
+        End Set
+    End Property
+    Private batchPathValue As String
+    Public Property BatchPath() As String
+        Get
+            Return batchPathValue
+        End Get
+        Set(ByVal value As String)
+            batchPathValue = value
+        End Set
     End Property
     Public ReadOnly Property Logger() As NLog.Logger
         Get
@@ -57,7 +94,7 @@ Public Module Globals
         Dim dsnstring As String
         Dim pubFolder As String
         pubFolder = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments)
-        dsnstring = My.Settings.DB_ODBC
+        dsnstring = Globals.DB_ODBC 'My.Settings.DB_ODBC
 
         Dim Parser = New FileIniDataParser()
         Dim Data As IniData

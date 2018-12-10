@@ -13,14 +13,20 @@ Public Class FormMainByCust
     Dim log As Logger
     Dim currentCustomer As String
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Globals.BatchPath = My.Settings.BatchPath
+        Globals.TemplatePath = My.Settings.DocumentPath
+        Globals.BartendExe = My.Settings.BartendExe
+        Globals.DB_ODBC = My.Settings.DB_ODBC
         Dim conn As String = Globals.GetEFConnectionString
         log = NLog.LogManager.GetCurrentClassLogger
         log.Trace("LabelMaker2 starting up")
         Cursor.Current = Cursors.WaitCursor
         Try
+
             ctx = New VNDataEntities(conn)
             LoadLabelTypeModules()
             GetCustomersWithJobs()
+
         Catch ex As Exception
             MessageBox.Show("A serious error occurred when starting up Labelmaker2", "Error")
             log.Debug(ex.Message & vbCrLf & ex.StackTrace)

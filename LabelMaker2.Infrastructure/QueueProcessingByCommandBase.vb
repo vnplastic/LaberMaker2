@@ -67,7 +67,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         If m_BTCommandHandle = 0 Then
             m_BTCommandHandle = FreeFile()
-            m_BTCommandFile = My.Settings.BatchPath & "\Job" & Format(m_JobId, "000000")
+            m_BTCommandFile = Globals.BatchPath & "\Job" & Format(m_JobId, "000000")
+            'm_BTCommandFile = My.Settings.BatchPath & "\Job" & Format(m_JobId, "000000")
             'm_BTExe = """" & My.Settings.BartendExe & """"
             m_BTCommandFile &= ".cmd"
             FileOpen(m_BTCommandHandle, m_BTCommandFile, OpenMode.Output, OpenAccess.Default, OpenShare.Default)
@@ -543,7 +544,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
 
         ' Make sure BarTender is running before opening the queue.
-        m_BTExe = """" & My.Settings.BartendExe & """"
+        'm_BTExe = """" & My.Settings.BartendExe & """"
+        m_BTExe = """" & Globals.BartendExe & """"
         Shell(m_BTExe & " /MIN", AppWinStyle.MinimizedNoFocus, False, -1)
 
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -804,7 +806,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         If Len(m_BTExe) < 3 Then
-            m_BTExe = """" & My.Settings.BartendExe & """"
+            ' m_BTExe = """" & My.Settings.BartendExe & """"
+            m_BTExe = """" & Globals.BartendExe & """"
         End If
 
         CommandStr = m_BTExe & " /CLOSE /MIN"
@@ -819,7 +822,8 @@ Public MustInherit Class QueueProcessingByCommandBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         If Len(m_BTExe) < 3 Then
-            m_BTExe = """" & My.Settings.BartendExe & """"
+            'm_BTExe = """" & My.Settings.BartendExe & """"
+            m_BTExe = """" & Globals.BartendExe & """"
         End If
 
         CommandStr = m_BTExe & " /F=""" & GetFormatFileNameFromTemplateFile(pFormatName) & """ /MIN"

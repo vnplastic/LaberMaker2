@@ -521,7 +521,8 @@ Public MustInherit Class QueueProcessingInternalBase
 
 
         ' Make sure BarTender is running before opening the queue.
-        m_BTExe = """" & My.Settings.BartendExe & """"
+        'm_BTExe = """" & My.Settings.BartendExe & """"
+        m_BTExe = """" & Globals.BartendExe & """"
         Shell(m_BTExe & " /MIN", AppWinStyle.MinimizedNoFocus, False, -1)
 
         erc = QEnum.QueueConsumerErrorCodes.OK
@@ -785,7 +786,8 @@ Public MustInherit Class QueueProcessingInternalBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         If Len(m_BTExe) < 3 Then
-            m_BTExe = """" & My.Settings.BartendExe & """"
+            'm_BTExe = """" & My.Settings.BartendExe & """"
+            m_BTExe = """" & Globals.BartendExe & """"
         End If
 
         CommandStr = m_BTExe & " /CLOSE /MIN"
@@ -800,7 +802,8 @@ Public MustInherit Class QueueProcessingInternalBase
 
         erc = QEnum.QueueConsumerErrorCodes.OK
         If Len(m_BTExe) < 3 Then
-            m_BTExe = """" & My.Settings.BartendExe & """"
+            'm_BTExe = """" & My.Settings.BartendExe & """"
+            m_BTExe = """" & Globals.BartendExe & """"
         End If
 
         CommandStr = m_BTExe & " /F=""" & GetFormatFileNameFromTemplateFile(pFormatName) & """ /MIN"

@@ -165,19 +165,21 @@ Public Class FormMainByCust
                 ' chkListBox.Font = New Font(Me.Font, FontStyle.Regular)
                 Dim jobs2 = jobsNotPrinted _
                 .Where(Function(c) c.JobTypeId = jobType) _
-                        .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName}) _
+                        .Select(Function(m) New With {m.SalesOrder, m.SalesOrderName, m.LabelCount}) _
                         .GroupBy(Function(c) c.SalesOrder) _
                         .Select(Function(x) x.FirstOrDefault).ToList
 
                 For Each j In jobs2
                     Dim job As SalesOrdersToProcess = New SalesOrdersToProcess
                     job.SalesOrder = j.SalesOrderName
+                    job.DisplayMember = j.SalesOrderName + " (" + j.LabelCount.ToString + ")"
                     job.SOId = j.SalesOrder
+
                     Dim item = chkListBox.Items.Add(job)
 
                 Next
                 chkListBox.ValueMember = "SOId"
-                chkListBox.DisplayMember = "SalesOrder"
+                chkListBox.DisplayMember = "DisplayMember"
                 tabPage.Controls.Add(chkListBox)
                 AddHandler chkListBox.ItemCheck, AddressOf lstBoxes_ItemCheck
 

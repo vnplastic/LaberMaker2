@@ -837,6 +837,14 @@ Public MustInherit Class QueueProcessingInternalBase
     '        m_BatchId = value
     '    End Set
     'End Property
+    Public Property SalesOrder As String Implements IQueueProcessing.SalesOrder
+        Get
+            Return m_SalesOrderNo
+        End Get
+        Set(value As String)
+            m_SalesOrderNo = value
+        End Set
+    End Property
     Public Property BTExe As String Implements IQueueProcessing.BTExe
         Get
             Return m_BTExe

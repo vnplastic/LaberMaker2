@@ -246,9 +246,25 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.AddressLabels\LabelMaker2.AddressLabels.vbproj">
+      <Project>{a55472d8-c46a-45ee-8dee-f03eb2a97fbc}</Project>
+      <Name>LabelMaker2.AddressLabels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LabelMaker2.CartonLabels\LabelMaker2.CartonLabels.vbproj">
+      <Project>{e3cc480a-3bae-4986-a86e-36924a44f1bd}</Project>
+      <Name>LabelMaker2.CartonLabels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
       <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
       <Name>LabelMaker2.Main.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LabelMaker2.PalletLabels\LabelMaker2.PalletLabels.vbproj">
+      <Project>{208a806d-2f00-4378-a85a-96ababdaaa52}</Project>
+      <Name>LabelMaker2.PalletLabels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LabelMaker2.ProductLabels\LabelMaker2.ProductLabels.vbproj">
+      <Project>{0afebc3d-283a-4eab-9eee-d2b1b8fceb15}</Project>
+      <Name>LabelMaker2.ProductLabels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,7 @@ Public Class QueueProcessingByCommand
             'Dim jobId As Integer = _job.JobId
             Me.JobId = _job.JobId
 
+            Me.SalesOrder = _job.SalesOrder
             j = ctx.TableCartonJobs.AsNoTracking.Where(Function(c) c.JobId = JobId).FirstOrDefault
 
             Dim custInfo As TableCustomerJobInfo

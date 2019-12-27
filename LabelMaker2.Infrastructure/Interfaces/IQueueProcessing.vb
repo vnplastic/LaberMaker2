@@ -18,6 +18,7 @@ Public Interface IQueueProcessing
     Property BTExe() As String
     Property TestMode As Boolean
     Property LineJob As Integer
+    Property SalesOrder As String
     ' Property JobStepInfo As JobInfo
 #End Region
     Function PrintJob(_job As JobToProcess) As Boolean

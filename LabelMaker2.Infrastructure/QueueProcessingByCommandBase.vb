@@ -111,6 +111,7 @@ Public MustInherit Class QueueProcessingByCommandBase
             ''If args.Count > 1 AndAlso args(1).ToUpper = "TEST" Then
 
             'Else
+
             Shell(CommandStr, AppWinStyle.MinimizedNoFocus, False, -1)
         End If
         'End If
@@ -858,7 +859,14 @@ Public MustInherit Class QueueProcessingByCommandBase
     '        m_BatchId = value
     '    End Set
     'End Property
-
+    Public Property SalesOrder As String Implements IQueueProcessing.SalesOrder
+        Get
+            Return m_SalesOrderNo
+        End Get
+        Set(value As String)
+            m_SalesOrderNo = value
+        End Set
+    End Property
     Public Property CopiesPerLabel As Long Implements IQueueProcessing.CopiesPerLabel
         Get
             Return m_CopiesPerLabel

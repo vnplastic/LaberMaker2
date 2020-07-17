@@ -23,7 +23,7 @@ Public Class QueueProcessingByCommand
     End Sub
 
 
-    Public Overrides Function PrintJob(_job As JobToProcess) As Boolean 'Implements IQueueProcessing.PrintJob
+    Public Overrides Function PrintJob(_job As JobToProcess) As Boolean
         Try
             ctx = Me.Context
             Dim j As TableCartonJob
@@ -146,16 +146,26 @@ Public Class QueueProcessingByCommand
         erc = QEnum.QueueConsumerErrorCodes.OK
     PrintByLabel = IsBatchSerialized()
         'PrintByLabel = False
-        If PrintByLabel And LineJob Then
-            LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
+        If LineJob Then
+            If PrintByLabel Then
+                LabelBatch = "      <QueryPrompt Name=""qpLabelId"">" & vbCrLf _
                      & $"        <Value>{Format(LabelId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
-            CommandStr = BTExe &
+                CommandStr = BTExe &
                      $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
                          If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
                      vbCrLf
+            Else
+                LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
+                             & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
+                             & "      </QueryPrompt>" & vbCrLf
+                CommandStr = BTExe &
+                             $" /AF=""{GetFormatFileName()}"" /?qpJobId=""{Format(JobId, "0")}""  /?qpLineNo=""{Format(JobStepLineInfo.LineNo, "0")}"" /PRN=""{PrinterName}"" /MIN=Taskbar /NOSPLASH " &
+                             If(TestMode, "/PD ", "/P ") & If(ProdTestMode, Globals.BTLogin, "") &
+                             vbCrLf
+            End If
         Else
-            LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
+                LabelBatch = "      <QueryPrompt Name=""qpJobId"">" & vbCrLf _
                      & $"        <Value>{Format(JobId, "0")}</Value>" & vbCrLf _
                      & "      </QueryPrompt>" & vbCrLf
             CommandStr = BTExe &
@@ -187,6 +197,8 @@ Public Class QueueProcessingByCommand
 
 
             ctx.SaveChanges()
+            Return MyBase.JobEnd()
+
         Catch e As DbUpdateException
             '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
             Dim eInner = e.InnerException
@@ -200,7 +212,7 @@ Public Class QueueProcessingByCommand
             Throw New Exception("An Error occured trying to end the print job", e)
 
         End Try
-        Return MyBase.JobEnd()
+
 
     End Function
 

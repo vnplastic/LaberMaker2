@@ -38,6 +38,7 @@ Public Class FormMainByCust
 #Region "Job Control"
     Private Sub GetCustomersWithJobs()
         Try
+            'Throw New Exception("Testing")
             GroupBox1.Controls.Clear()
             Dim i As Integer = 1
             Dim openJobs = ctx.ViewJobNotPrinteds.AsNoTracking _

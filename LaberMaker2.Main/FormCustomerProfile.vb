@@ -152,6 +152,7 @@ Public Class FormCustomerProfile
         cust.LabelPerLine = chkPerLineLabel.Checked
         cust.Serialized = chkSerialized.Checked
         cust.CustomerPrintName = txtLabelName.Text
+        cust.CustNo = txtCustNo.Text
 
         'If bAddMode Then
         '    Dim custExists As Int16
@@ -222,4 +223,6 @@ Public Class FormCustomerProfile
             'cboCustomer.SelectedText = t.CustomerName
         End If
     End Sub
+
+
 End Class

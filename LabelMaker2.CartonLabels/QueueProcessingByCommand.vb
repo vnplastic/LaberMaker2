@@ -54,6 +54,8 @@ Public Class QueueProcessingByCommand
                     AddFormat(TemplateFile)
                     Debug.Print(TemplateFile)
                 Next
+                'Hack for Reprint with less than complete lines
+
                 For Each jInfo As ViewCartonJobLineInfo In cJob
                     currentCartonCount = jInfo.LineCartonCount
                     JobStepLineInfo = jInfo
@@ -62,18 +64,20 @@ Public Class QueueProcessingByCommand
                         'Todo: Can this all be changed to use table directly?
 
                         Dim curLine As TableCartonJob
-                        curLine = ctx.TableCartonJobs.Single(Function(c) c.JobId = jInfo.JobId _
+                        curLine = ctx.TableCartonJobs.SingleOrDefault(Function(c) c.JobId = jInfo.JobId _
                                                                          And c.JobStepOrder = jInfo.JobStepOrder _
                                                                          And c.LineNo = jInfo.LineNo)
+                        If curLine IsNot Nothing Then
+                            curLine.NextUniqueLabelNo = m_UniqueLabelId
 
-                        curLine.NextUniqueLabelNo = m_UniqueLabelId
+                            m_UniqueLabelId = m_UniqueLabelId + jInfo.LineCartonCount
+                            custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                            ctx.SaveChanges()
+                        End If
 
-                        m_UniqueLabelId = m_UniqueLabelId + jInfo.LineCartonCount
-                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
-                        ctx.SaveChanges()
                     End If
 
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+                        ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                     Debug.Print(jInfo.JobStepName)
 
 

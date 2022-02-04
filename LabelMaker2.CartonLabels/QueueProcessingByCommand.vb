@@ -108,17 +108,18 @@ Public Class QueueProcessingByCommand
                     If jInfo.JobStepName = "Label" And j.Serialized Then
 
                         Dim curLine As TableCartonJob
-                        curLine = ctx.TableCartonJobs.Single(Function(c) c.JobId = jInfo.JobId _
+                        curLine = ctx.TableCartonJobs.SingleOrDefault(Function(c) c.JobId = jInfo.JobId _
                                                                          And c.JobStepOrder = jInfo.JobStepOrder _
                                                                          And c.LineNo = jInfo.LineNo)
+                        If curLine IsNot Nothing Then
+                            curLine.NextUniqueLabelNo = m_UniqueLabelId
 
-                        curLine.NextUniqueLabelNo = m_UniqueLabelId
-
-                        m_UniqueLabelId = m_UniqueLabelId + jInfo.CartonCount
-                        custInfo.NextUniqueLabelNo = m_UniqueLabelId
-                        ctx.SaveChanges()
+                            m_UniqueLabelId = m_UniqueLabelId + jInfo.CartonCount
+                            custInfo.NextUniqueLabelNo = m_UniqueLabelId
+                            ctx.SaveChanges()
+                        End If
                     End If
-                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+                        ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Next
 
             End If

@@ -55,10 +55,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LabelMaker2.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LabelMaker2.Infrastructure\bin\Debug\LabelMaker2.Infrastructure.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.5.0.1\lib\net46\NLog.dll</HintPath>
@@ -151,6 +147,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LabelMaker2.Infrastructure\LabelMaker2.Infrastructure.vbproj">
+      <Project>{a97b1b75-df7c-46d9-bd65-7e98413256fd}</Project>
+      <Name>LabelMaker2.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LabelMaker2.Main.Data\LabelMaker2.Main.Data.vbproj">
       <Project>{393165c2-adeb-4d86-ba74-64edf9041cc5}</Project>
       <Name>LabelMaker2.Main.Data</Name>

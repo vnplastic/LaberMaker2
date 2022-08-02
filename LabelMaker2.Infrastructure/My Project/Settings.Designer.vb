@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -85,7 +85,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Formats")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LaberMaker2\Formats")>  _
         Public ReadOnly Property DocumentPath() As String
             Get
                 Return CType(Me("DocumentPath"),String)
@@ -94,7 +94,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Batches")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\Clients\VanNess\LaberMaker2\Batches")>  _
         Public ReadOnly Property BatchPath() As String
             Get
                 Return CType(Me("BatchPath"),String)

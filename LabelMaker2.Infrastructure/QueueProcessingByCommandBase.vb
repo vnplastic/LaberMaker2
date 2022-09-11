@@ -1,6 +1,4 @@
-﻿
-Imports System.Data.SqlClient
-Imports System.IO
+﻿Imports System.IO
 Imports LabelMaker2.Main.Data.VNDataModel
 
 Public MustInherit Class QueueProcessingByCommandBase

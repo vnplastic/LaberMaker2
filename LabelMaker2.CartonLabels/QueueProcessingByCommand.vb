@@ -77,7 +77,7 @@ Public Class QueueProcessingByCommand
 
                     End If
 
-                        ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                     Debug.Print(jInfo.JobStepName)
 
 
@@ -119,7 +119,7 @@ Public Class QueueProcessingByCommand
                             ctx.SaveChanges()
                         End If
                     End If
-                        ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
+                    ProcessQueueRecord(JobStepToQType(jInfo.JobStepName))
                 Next
 
             End If
@@ -127,12 +127,13 @@ Public Class QueueProcessingByCommand
         Catch e As DbUpdateException
             '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
             Dim eInner = e.InnerException
-            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + +If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
+            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
             Throw New Exception("An Error occured trying to print job", e)
         Catch e As Exception
+            Dim eInner = e.InnerException
             '  MsgBox("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace, MsgBoxStyle.OkOnly)
-            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + e.StackTrace)
+            log.Debug("Error occurred creating job" + vbCrLf + e.Message + vbCrLf + If(eInner Is Nothing, "", eInner.Message + vbCrLf) + e.StackTrace)
 
             Throw New Exception("An Error occured trying to print job", e)
 

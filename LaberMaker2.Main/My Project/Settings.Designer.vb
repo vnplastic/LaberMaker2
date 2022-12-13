@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -66,7 +66,7 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400"& _ 
+         Global.System.Configuration.DefaultSettingValueAttribute("Provider=SQLNCLI11;Server=10.0.0.209\prod;Database=VNData;User Id=sa;Password=400"& _ 
             "BrightonRoad;")>  _
         Public ReadOnly Property SQLConnString() As String
             Get
@@ -76,16 +76,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Program Files\Seagull\BarTender 2022\bartend.exe")>  _
-        Public ReadOnly Property BartendExe() As String
-            Get
-                Return CType(Me("BartendExe"),String)
-            End Get
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\clients\VanNEss\LabelMaker2\Formats")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Formats")>  _
         Public ReadOnly Property DocumentPath() As String
             Get
                 Return CType(Me("DocumentPath"),String)
@@ -94,10 +85,19 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("E:\projects\clients\VanNEss\LabelMaker2\Batches")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("v:\LabelMakerK\Batches")>  _
         Public ReadOnly Property BatchPath() As String
             Get
                 Return CType(Me("BatchPath"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Program Files\Seagull\BarTender 2022\bartend.exe")>  _
+        Public ReadOnly Property BartendExe() As String
+            Get
+                Return CType(Me("BartendExe"),String)
             End Get
         End Property
     End Class

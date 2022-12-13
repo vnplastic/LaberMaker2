@@ -7,19 +7,19 @@
     </Setting>
     <Setting Name="SQLConnString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionString&gt;Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400BrightonRoad;&lt;/ConnectionString&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=SQLNCLI11;Server=10.0.0.209\prod;Database=VNData;User Id=sa;Password=400BrightonRoad;&lt;/ConnectionString&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Provider=SQLNCLI11;Server=10.0.0.209\test;Database=VNData;User Id=sa;Password=400BrightonRoad;</Value>
+      <Value Profile="(Default)">Provider=SQLNCLI11;Server=10.0.0.209\prod;Database=VNData;User Id=sa;Password=400BrightonRoad;</Value>
+    </Setting>
+    <Setting Name="DocumentPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">v:\LabelMakerK\Formats</Value>
+    </Setting>
+    <Setting Name="BatchPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">v:\LabelMakerK\Batches</Value>
     </Setting>
     <Setting Name="BartendExe" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\Program Files\Seagull\BarTender 2022\bartend.exe</Value>
-    </Setting>
-    <Setting Name="DocumentPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\projects\clients\VanNEss\LabelMaker2\Formats</Value>
-    </Setting>
-    <Setting Name="BatchPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\projects\clients\VanNEss\LabelMaker2\Batches</Value>
     </Setting>
   </Settings>
 </SettingsFile>
